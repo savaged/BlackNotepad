@@ -1,18 +1,28 @@
-﻿using System.Windows;
+﻿using Savaged.BlackNotepad.ViewModels;
+using System.Windows;
 
 namespace Savaged.BlackNotepad.Views
 {
     public partial class MainWindow : Window
     {
+        private MainViewModel _viewModel;
+
         public MainWindow()
         {
             InitializeComponent();
         }
 
-        private void OnMenuExitClick(object sender, RoutedEventArgs e)
+        private void OnLoaded(object sender, RoutedEventArgs e)
         {
-            // TODO check with ViewModel for unsaved work
-            Application.Current.Shutdown();
+            _viewModel = DataContext as MainViewModel;
+        }
+
+        private void OnContentTextSelectionChanged(object sender, RoutedEventArgs e)
+        {
+            if (_viewModel != null)
+            {
+                _viewModel.SelectedText = ContentText.SelectedText;
+            }
         }
     }
 }

@@ -6,10 +6,11 @@ namespace Savaged.BlackNotepad.Services
     {
         public ViewStateModel Open()
         {
-            return null; // TODO load
+            var value = new ViewStateModel();
+            return value; // TODO load from disk
         }
 
-        public void Save()
+        public void Save(ViewStateModel viewState)
         {
 
         }

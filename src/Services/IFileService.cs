@@ -5,6 +5,6 @@ namespace Savaged.BlackNotepad.Services
     public interface IFileService
     {
         FileModel Open();
-        void Save();
+        void Save(FileModel file);
     }
 }

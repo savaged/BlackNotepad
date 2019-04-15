@@ -112,33 +112,41 @@
             </MenuItem>
         </Menu>
         <StatusBar DockPanel.Dock="Bottom"
-                   Visibility="{Binding IsStatusBarVisible, Converter={StaticResource BoolToVisibilityConverter}}">
-            <Grid>
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="3*"/>
-                    <ColumnDefinition Width="1*"/>
-                    <ColumnDefinition Width="1*"/>
-                    <ColumnDefinition Width="1*"/>
-                </Grid.ColumnDefinitions>
-                <TextBlock Grid.Column="0"
-                           Text="Busy..." 
-                           Visibility="{Binding ViewState.IsBusy, Converter={StaticResource BoolToVisibilityConverter}}"/>
-                <TextBlock Grid.Column="1"
-                           Text="{Binding SelectedItem.LineEnding}"/>
-                <TextBlock Grid.Column="2"
-                           Text="{Binding SelectedItem.Position}"/>
-                <StackPanel Grid.Column="3"
-                            Orientation="Horizontal">
+                   Visibility="{Binding ViewState.IsStatusBarVisible, Converter={StaticResource BoolToVisibilityConverter}}">
+            <StatusBar.ItemsPanel>
+                <ItemsPanelTemplate>
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="3*"/>
+                            <ColumnDefinition Width="1*"/>
+                            <ColumnDefinition Width="1*"/>
+                            <ColumnDefinition Width="1*"/>
+                        </Grid.ColumnDefinitions>
+                    </Grid>
+                </ItemsPanelTemplate>
+            </StatusBar.ItemsPanel>
+            <StatusBarItem Grid.Column="0">
+                <TextBlock Text="Busy..." 
+                           Visibility="{Binding IsBusy, Converter={StaticResource BoolToVisibilityConverter}}"/>
+            </StatusBarItem>
+            <StatusBarItem Grid.Column="1">
+                <TextBlock Text="{Binding SelectedItem.LineEnding}"/>
+            </StatusBarItem>
+            <StatusBarItem Grid.Column="2">
+                <TextBlock Text="{Binding SelectedItem.Position}"/>
+            </StatusBarItem>
+            <StatusBarItem Grid.Column="3">
+                <StackPanel Orientation="Horizontal">
                     <TextBlock Text="{Binding ViewState.Zoom}"/>
                     <TextBlock>%</TextBlock>
                 </StackPanel>
-            </Grid>
+            </StatusBarItem>
         </StatusBar>
         <TextBox Name="ContentText" 
                  Background="Black" Foreground="White"
                  AcceptsReturn="True" AcceptsTab="True"   
                  SelectionChanged="OnContentTextSelectionChanged"
-                 TextWrapping="{Binding IsWrapped, Converter={StaticResource BoolToWrappingConverter}}"
+                 TextWrapping="{Binding ViewState.IsWrapped, Converter={StaticResource BoolToWrappingConverter}}"
                  Text="{Binding Content, UpdateSourceTrigger=PropertyChanged}"/>
     </DockPanel>
 </Window>

@@ -5,6 +5,6 @@ namespace Savaged.BlackNotepad.Services
     public interface IViewStateService
     {
         ViewStateModel Open();
-        void Save();
+        void Save(ViewStateModel viewState);
     }
 }

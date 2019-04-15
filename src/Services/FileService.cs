@@ -6,10 +6,10 @@ namespace Savaged.BlackNotepad.Services
     {
         public FileModel Open()
         {
-            
+            return null;
         }
 
-        public void Save()
+        public void Save(FileModel file)
         {
             
         }

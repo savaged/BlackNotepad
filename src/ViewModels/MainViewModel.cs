@@ -1,6 +1,7 @@
 ﻿using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.CommandWpf;
 using Savaged.BlackNotepad.Models;
+using Savaged.BlackNotepad.Services;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Runtime.CompilerServices;
@@ -11,14 +12,20 @@ namespace Savaged.BlackNotepad.ViewModels
     public class MainViewModel : ViewModelBase
     {
         private readonly IList<string> _busyRegister;
+        private readonly IFileService _fileService;
+        private readonly IViewStateService _viewStateService;
         private FileModel _selectedItem;
         private string _selectedText;
         private string _findText;
 
-        public MainViewModel()
+        public MainViewModel(
+            IFileService fileService,
+            IViewStateService viewStateService)
         {
+            _fileService = fileService;
+            _viewStateService = viewStateService;
+            ViewState = _viewStateService.Open();
             _busyRegister = new List<string>();
-            ViewState = new ViewStateModel();
             _selectedItem = new FileModel();
 
             NewCmd = new RelayCommand(OnNew, () => CanExecute);
@@ -123,11 +130,13 @@ namespace Savaged.BlackNotepad.ViewModels
         private void StartLongOperation([CallerMemberName]string caller = "")
         {
             _busyRegister.Add(caller);
+            RaisePropertyChanged(nameof(IsBusy));
         }
 
         private void EndLongOpertation([CallerMemberName]string caller = "")
         {
             _busyRegister.Remove(caller);
+            RaisePropertyChanged(nameof(IsBusy));
         }
 
         private void OnNew()
@@ -152,7 +161,7 @@ namespace Savaged.BlackNotepad.ViewModels
 
         private void OnExit()
         {
-
+            _viewStateService.Save(ViewState);
             Application.Current.Shutdown();
         }
 
@@ -208,7 +217,7 @@ namespace Savaged.BlackNotepad.ViewModels
 
         private void OnWordWrap()
         {
-
+            ViewState.IsWrapped = !ViewState.IsWrapped;
         }
 
         private void OnZoomIn()

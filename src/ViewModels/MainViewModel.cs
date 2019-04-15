@@ -13,14 +13,12 @@ namespace Savaged.BlackNotepad.ViewModels
         private readonly IList<string> _busyRegister;
         private FileModel _selectedItem;
         private string _selectedText;
-        private bool _isWrapped;
         private string _findText;
-        private bool _isStatusBarVisible;
-        private int _zoom;
 
         public MainViewModel()
         {
             _busyRegister = new List<string>();
+            ViewState = new ViewStateModel();
             _selectedItem = new FileModel();
 
             NewCmd = new RelayCommand(OnNew, () => CanExecute);
@@ -51,22 +49,12 @@ namespace Savaged.BlackNotepad.ViewModels
 
         public bool IsBusy => _busyRegister.Count > 0;
 
+        public ViewStateModel ViewState { get; }
+
         public FileModel SelectedItem
         {
             get => _selectedItem;
             set => Set(ref _selectedItem, value);
-        }
-
-        public string SelectedText
-        {
-            get => _selectedText;
-            set => Set(ref _selectedText, value);
-        }
-
-        public bool IsWrapped
-        {
-            get => _isWrapped;
-            set => Set(ref _isWrapped, value);
         }
 
         public string FindText
@@ -75,16 +63,10 @@ namespace Savaged.BlackNotepad.ViewModels
             set => Set(ref _findText, value);
         }
 
-        public bool IsStatusBarVisible
+        public string SelectedText
         {
-            get => _isStatusBarVisible;
-            set => Set(ref _isStatusBarVisible, value);
-        }
-
-        public int Zoom
-        {
-            get => _zoom;
-            set => Set(ref _zoom, value);
+            get => _selectedText;
+            set => Set(ref _selectedText, value);
         }
 
         public RelayCommand NewCmd { get; }
@@ -133,7 +115,7 @@ namespace Savaged.BlackNotepad.ViewModels
         public bool CanExecuteReplace => CanExecute;
 
         public bool CanExecuteGoTo => CanExecute &&
-            SelectedItem.HasContent && !IsWrapped;
+            SelectedItem.HasContent && !ViewState.IsWrapped;
 
         public bool CanExecuteSelectAll => CanExecute &&
             SelectedItem.HasContent;
@@ -245,7 +227,7 @@ namespace Savaged.BlackNotepad.ViewModels
 
         private void OnStatusBar()
         {
-            IsStatusBarVisible = !IsStatusBarVisible;
+            ViewState.IsStatusBarVisible = !ViewState.IsStatusBarVisible;
         }
 
         private void OnHelp()

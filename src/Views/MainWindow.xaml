@@ -87,7 +87,7 @@
             <MenuItem Header="F_ormat">
                 <MenuItem Header="_Word Wrap" 
                           Command="{Binding WordWrapCmd}" 
-                          IsChecked="{Binding IsWrapped}"/>
+                          IsChecked="{Binding ViewState.IsWrapped}"/>
             </MenuItem>
             <MenuItem Header="_View">
                 <MenuItem Header="_Zoom">
@@ -103,7 +103,7 @@
                 </MenuItem>
                 <MenuItem Header="_Status Bar" 
                           Command="{Binding StatusBarCmd}" 
-                          IsChecked="{Binding IsStatusBarVisible}"/>
+                          IsChecked="{Binding ViewState.IsStatusBarVisible}"/>
             </MenuItem>
             <MenuItem Header="_Help">
                 <MenuItem Header="_Help" Command="{Binding HelpCmd}"/>
@@ -112,7 +112,6 @@
             </MenuItem>
         </Menu>
         <StatusBar DockPanel.Dock="Bottom"
-                   Width="Auto"
                    Visibility="{Binding IsStatusBarVisible, Converter={StaticResource BoolToVisibilityConverter}}">
             <Grid>
                 <Grid.ColumnDefinitions>
@@ -123,14 +122,14 @@
                 </Grid.ColumnDefinitions>
                 <TextBlock Grid.Column="0"
                            Text="Busy..." 
-                           Visibility="{Binding IsBusy, Converter={StaticResource BoolToVisibilityConverter}}"/>
+                           Visibility="{Binding ViewState.IsBusy, Converter={StaticResource BoolToVisibilityConverter}}"/>
                 <TextBlock Grid.Column="1"
                            Text="{Binding SelectedItem.LineEnding}"/>
                 <TextBlock Grid.Column="2"
                            Text="{Binding SelectedItem.Position}"/>
                 <StackPanel Grid.Column="3"
                             Orientation="Horizontal">
-                    <TextBlock Text="{Binding Zoom}"/>
+                    <TextBlock Text="{Binding ViewState.Zoom}"/>
                     <TextBlock>%</TextBlock>
                 </StackPanel>
             </Grid>

@@ -1,12 +1,17 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using Savaged.BlackNotepad.Models;
 
 namespace Savaged.BlackNotepad.Services
 {
-    class FileService
+    public class FileService : IFileService
     {
+        public FileModel Open()
+        {
+            
+        }
+
+        public void Save()
+        {
+            
+        }
     }
 }

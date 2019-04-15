@@ -152,6 +152,7 @@ namespace Savaged.BlackNotepad.ViewModels
 
         private void OnExit()
         {
+
             Application.Current.Shutdown();
         }
 

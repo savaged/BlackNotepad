@@ -1,12 +1,17 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using Savaged.BlackNotepad.Models;
 
 namespace Savaged.BlackNotepad.Services
 {
-    class ViewStateService
+    public class ViewStateService : IViewStateService
     {
+        public ViewStateModel Open()
+        {
+            return null; // TODO load
+        }
+
+        public void Save()
+        {
+
+        }
     }
 }

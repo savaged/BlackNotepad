@@ -1,0 +1,46 @@
+﻿<Page
+    x:Class="Savaged.BlackNotepad.Views.MainPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:controls="using:Microsoft.Toolkit.Uwp.UI.Controls"
+    mc:Ignorable="d"
+    Background="Black">
+    <controls:DockPanel Background="Black">
+        <controls:Menu Background="Black" controls:DockPanel.Dock="Top" Margin="0">
+            <controls:MenuItem Name="FileMenu" 
+                               Header="File" 
+                               controls:Menu.InputGestureText="Alt+F">
+                <MenuFlyoutItem controls:Menu.InputGestureText="Ctrl+N"
+                                Command="{x:Bind ViewModel.NewCmd}"
+                                Text="New" />
+                <MenuFlyoutItem controls:Menu.InputGestureText="Ctrl+O"
+                                Command="{x:Bind ViewModel.OpenCmd}"
+                                Text="Open..." />
+                <MenuFlyoutItem controls:Menu.InputGestureText="Ctrl+S"
+                                Command="{x:Bind ViewModel.SaveCmd}"
+                                Text="Save" />
+                <MenuFlyoutItem Command="{x:Bind ViewModel.SaveAsCmd}"
+                                Text="Save As..." />
+            </controls:MenuItem>
+            
+            <controls:MenuItem Name="ViewMenu" Header="View">
+                <MenuFlyoutSubItem Text="Zoom">
+                    <MenuFlyoutItem Command="{x:Bind ViewModel.ZoomCmd}"
+                                Text="Zoom" />
+                </MenuFlyoutSubItem>
+                <MenuFlyoutItem Command="{x:Bind ViewModel.StatusBarCmd}"
+                                Text="Status Bar" />
+            </controls:MenuItem>
+        </controls:Menu>
+        <TextBox Name="ContentText" 
+                 Background="Black"
+                 Foreground="White"
+                 GotFocus="OnContentTextGotFocus"
+                 Tapped="OnContentTextTapped"
+                 AcceptsReturn="True"
+                 IsSpellCheckEnabled="True"
+                 Text="{x:Bind ViewModel.SelectedItem.Content}" />
+    </controls:DockPanel>
+</Page>

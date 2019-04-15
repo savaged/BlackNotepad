@@ -1,7 +1,6 @@
 ﻿using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.CommandWpf;
 using Savaged.BlackNotepad.Models;
-using System.Windows;
 
 namespace Savaged.BlackNotepad.ViewModels
 {
@@ -22,8 +21,7 @@ namespace Savaged.BlackNotepad.ViewModels
             StatusBarCmd = new RelayCommand(OnStatusBar, () => CanExecute);
         }
 
-        public string Title => 
-            $"{SelectedItem?.Name} - {GetType().Assembly.FullName}";
+        public string Title => $"{SelectedItem?.Name} - Black Notepad";
 
         public FileModel SelectedItem
         {

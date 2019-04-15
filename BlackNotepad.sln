@@ -5,7 +5,7 @@ VisualStudioVersion = 16.0.28803.156
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BlackNotepad", "src\BlackNotepad.csproj", "{13552780-24AC-414F-99FB-BD2E3C368446}"
 EndProject
-Project("{C7167F0D-BC9F-4E6E-AFE1-012C56B48DB5}") = "BlackNotepad.WAP", "BlackNotepad.WAP\BlackNotepad.WAP.wapproj", "{F77B9AAA-70EF-4800-8761-04A59F67D30E}"
+Project("{C7167F0D-BC9F-4E6E-AFE1-012C56B48DB5}") = "BlackNotepad.WAP", "WAP\BlackNotepad.WAP.wapproj", "{F77B9AAA-70EF-4800-8761-04A59F67D30E}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

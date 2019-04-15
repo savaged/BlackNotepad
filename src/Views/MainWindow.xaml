@@ -9,13 +9,61 @@
         Height="600" Width="800">
     <Window.InputBindings>
         <KeyBinding Gesture="Ctrl+N" Command="{Binding NewCmd}"/>
+        <KeyBinding Gesture="Ctrl+O" Command="{Binding OpenCmd}"/>
+        <KeyBinding Gesture="Ctrl+S" Command="{Binding SaveCmd}"/>
+        <KeyBinding Gesture="Ctrl+Z" Command="{Binding UndoCmd}"/>
+        <KeyBinding Gesture="Ctrl+X" Command="{Binding CutCmd}"/>
+        <KeyBinding Gesture="Ctrl+C" Command="{Binding CopyCmd}"/>
+        <KeyBinding Gesture="Ctrl+V" Command="{Binding PasteCmd}"/>
+        <KeyBinding Gesture="Ctrl+F" Command="{Binding FindCmd}"/>
+        <KeyBinding Key="F3" Command="{Binding FindNextCmd}"/>
+        <KeyBinding Gesture="Ctrl+H" Command="{Binding ReplaceCmd}"/>
+        <KeyBinding Gesture="Ctrl+A" Command="{Binding SelectAllCmd}"/>
+        <KeyBinding Key="F5" Command="{Binding TimeDateCmd}"/>
+        <KeyBinding Gesture="Ctrl+Plus" Command="{Binding ZoomInCmd}"/>
+        <KeyBinding Gesture="Ctrl+Minus" Command="{Binding ZoomOutCmd}"/>
+        <KeyBinding Gesture="Ctrl+0" Command="{Binding RestoreCmd}"/>
     </Window.InputBindings>
     <DockPanel LastChildFill="True">
         <Menu DockPanel.Dock="Top" Margin="0,0,0.4,0">
             <MenuItem Header="_File">
-                <MenuItem Header="_New" Command="{Binding NewCmd}"/>
+                <MenuItem Header="_New" Command="{Binding NewCmd}" InputGestureText="Ctrl+N"/>
+                <MenuItem Header="_Open..." Command="{Binding OpenCmd}" InputGestureText="Ctrl+O"/>
+                <MenuItem Header="_Save" Command="{Binding SaveCmd}" InputGestureText="Ctrl+S"/>
+                <MenuItem Header="Save _As..." Command="{Binding SaveAsCmd}"/>
                 <Separator/>
                 <MenuItem Header="E_xit" Click="OnMenuExitClick"/>
+            </MenuItem>
+            <MenuItem Header="_Edit">
+                <MenuItem Header="Undo" Command="{Binding UndoCmd}" InputGestureText="Ctrl+Z"/>
+                <Separator/>
+                <MenuItem Header="Cu_t" Command="{Binding CutCmd}" InputGestureText="Ctrl+X"/>
+                <MenuItem Header="_Copy" Command="{Binding CutCmd}" InputGestureText="Ctrl+C"/>
+                <MenuItem Header="_Paste" Command="{Binding CutCmd}" InputGestureText="Ctrl+V"/>
+                <Separator/>
+                <MenuItem Header="_Find..." Command="{Binding CutCmd}" InputGestureText="Ctrl+F"/>
+                <MenuItem Header="Find _Next" Command="{Binding CutCmd}" InputGestureText="F3"/>
+                <MenuItem Header="_Replace..." Command="{Binding CutCmd}" InputGestureText="Ctrl+H"/>
+                <MenuItem Header="_Go to..." Command="{Binding CutCmd}" InputGestureText="Ctrl+H"/>
+                <Separator/>
+                <MenuItem Header="Select _All..." Command="{Binding CutCmd}" InputGestureText="Ctrl+A"/>
+                <MenuItem Header="Time/_Date" Command="{Binding CutCmd}" InputGestureText="F5"/>
+            </MenuItem>
+            <MenuItem Header="F_ormat">
+                <MenuItem Header="_Word Wrap" Command="{Binding WordWrapCmd}" IsChecked="{Binding IsWrapped}"/>                
+            </MenuItem>
+            <MenuItem Header="_View">
+                <MenuItem Header="_Zoom">
+                    <MenuItem Header="Zoom _In" Command="{Binding ZoomInCmd}" InputGestureText="Ctrl+Plus"/>
+                    <MenuItem Header="Zoom _Out" Command="{Binding ZoomOutCmd}" InputGestureText="Ctrl+Minus"/>
+                    <MenuItem Header="_Restore" Command="{Binding RestoreCmd}" InputGestureText="Ctrl+0"/>
+                </MenuItem>
+                <MenuItem Header="_Status Bar" Command="{Binding StatusBarCmd}"/>
+            </MenuItem>
+            <MenuItem Header="_Help">
+                <MenuItem Header="_Help" Command="{Binding HelpCmd}"/>
+                <Separator/>
+                <MenuItem Header="_About" Command="{Binding AboutCmd}"/>
             </MenuItem>
         </Menu>
         <Grid FocusManager.FocusedElement="{Binding ElementName=ContentText}">

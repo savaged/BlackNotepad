@@ -319,14 +319,16 @@ namespace Savaged.BlackNotepad.ViewModels
             StartLongOperation();
 
             Process.Start(
-                "https://www.bing.com/search?q=get+help+with+notepad+in+windows+10");
+                "https://www.microsoft.com/en-gb/search?q=BlackNotepad");
 
             EndLongOpertation();
         }
 
         private void OnAbout()
         {
-
+            MessageBox.Show(
+                "A black 'version' of the classic Microsoft Windows Notepad application", 
+                "About");
         }
 
         private void OnFontColour(FontColour selected)

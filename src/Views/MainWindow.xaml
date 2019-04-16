@@ -32,8 +32,8 @@
         <KeyBinding Key="F1" Command="{Binding HelpCmd}"/>
     </Window.InputBindings>
     <DockPanel FocusManager.FocusedElement="{Binding ElementName=ContentText}">
-        <Menu DockPanel.Dock="Top" Margin="0,0,0.4,0">
-            <MenuItem Header="_File">
+        <Menu DockPanel.Dock="Top" Margin="0,0,0.4,0" Background="DarkGray">
+            <MenuItem Header="_File" Background="DarkGray">
                 <MenuItem Header="_New" 
                           Command="{Binding NewCmd}" 
                           InputGestureText="Ctrl+N"/>
@@ -111,8 +111,10 @@
                 <MenuItem Header="_About" Command="{Binding AboutCmd}"/>
             </MenuItem>
         </Menu>
-        <StatusBar DockPanel.Dock="Bottom"
-                   Visibility="{Binding ViewState.IsStatusBarVisible, Converter={StaticResource BoolToVisibilityConverter}}">
+        <StatusBar Name="FeedbackStatus" 
+                   DockPanel.Dock="Bottom"
+                   Background="DarkGray"
+                   Visibility="{Binding ViewState.IsStatusBarVisible, Converter={StaticResource BoolToVisibilityConverter}}" >
             <StatusBar.ItemsPanel>
                 <ItemsPanelTemplate>
                     <Grid>
@@ -147,6 +149,6 @@
                  AcceptsReturn="True" AcceptsTab="True"   
                  SelectionChanged="OnContentTextSelectionChanged"
                  TextWrapping="{Binding ViewState.IsWrapped, Converter={StaticResource BoolToWrappingConverter}}"
-                 Text="{Binding Content, UpdateSourceTrigger=PropertyChanged}"/>
+                 Text="{Binding Content, UpdateSourceTrigger=PropertyChanged}" FontFamily="Arial Unicode MS"/>
     </DockPanel>
 </Window>

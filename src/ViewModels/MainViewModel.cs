@@ -1,9 +1,14 @@
 ﻿using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.CommandWpf;
+using Microsoft.Win32;
 using Savaged.BlackNotepad.Models;
 using Savaged.BlackNotepad.Services;
+using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Diagnostics;
+using System.IO;
+using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Windows;
 
@@ -13,6 +18,7 @@ namespace Savaged.BlackNotepad.ViewModels
     {
         private readonly IList<string> _busyRegister;
         private readonly IFileService _fileService;
+        private readonly OpenFileDialog _fileDialog;
         private readonly IViewStateService _viewStateService;
         private FileModel _selectedItem;
         private string _selectedText;
@@ -22,14 +28,26 @@ namespace Savaged.BlackNotepad.ViewModels
             IFileService fileService,
             IViewStateService viewStateService)
         {
+            _fileDialog = new OpenFileDialog
+            {
+                Filter = "Text Documents|*.txt"
+            };
             _fileService = fileService;
             _viewStateService = viewStateService;
             ViewState = _viewStateService.Open();
+
+            FontColours = new List<FontColour>
+            {
+                new FontColour("LightGreen", "Light Green"),
+                new FontColour("White", "White")
+            };
+            ViewState.SelectedFontColour = FontColours.First();
+
             _busyRegister = new List<string>();
             _selectedItem = new FileModel();
 
             NewCmd = new RelayCommand(OnNew, () => CanExecute);
-            OpenCmd = new RelayCommand(OnOpen, () => CanExecute);
+            OpenCmd = new RelayCommand(OnOpen, () => CanExecuteOpen);
             SaveCmd = new RelayCommand(OnSave, () => CanExecute);
             SaveAsCmd = new RelayCommand(OnSaveAs, () => CanExecute);
             ExitCmd = new RelayCommand(OnExit, () => CanExecuteExit);
@@ -44,12 +62,14 @@ namespace Savaged.BlackNotepad.ViewModels
             SelectAllCmd = new RelayCommand(OnSelectAll, () => CanExecuteSelectAll);
             TimeDateCmd = new RelayCommand(OnTimeDate, () => CanExecute);
             WordWrapCmd = new RelayCommand(OnWordWrap, () => CanExecute);
+            FontCmd = new RelayCommand(OnFont, () => CanExecuteFont);
             ZoomInCmd = new RelayCommand(OnZoomIn, () => CanExecute);
             ZoomOutCmd = new RelayCommand(OnZoomOut, () => CanExecute);
             RestoreCmd = new RelayCommand(OnRestore, () => CanExecute);
             StatusBarCmd = new RelayCommand(OnStatusBar, () => CanExecute);
             HelpCmd = new RelayCommand(OnHelp, () => CanExecute);
             AboutCmd = new RelayCommand(OnAbout, () => CanExecute);
+            FontColourCmd = new RelayCommand<FontColour>(OnFontColour, (b) => CanExecute);
         }
 
         public void OnClosing()
@@ -63,10 +83,16 @@ namespace Savaged.BlackNotepad.ViewModels
 
         public ViewStateModel ViewState { get; }
 
+        public IList<FontColour> FontColours { get; }
+
         public FileModel SelectedItem
         {
             get => _selectedItem;
-            set => Set(ref _selectedItem, value);
+            set
+            {
+                Set(ref _selectedItem, value);
+                RaisePropertyChanged(nameof(Title));
+            }
         }
 
         public string FindText
@@ -97,14 +123,19 @@ namespace Savaged.BlackNotepad.ViewModels
         public RelayCommand SelectAllCmd { get; }
         public RelayCommand TimeDateCmd { get; }
         public RelayCommand WordWrapCmd { get; }
+        public RelayCommand FontCmd { get; }
         public RelayCommand ZoomInCmd { get; }
         public RelayCommand ZoomOutCmd { get; }
         public RelayCommand RestoreCmd { get; }
         public RelayCommand StatusBarCmd { get; }
         public RelayCommand HelpCmd { get; }
         public RelayCommand AboutCmd { get; }
+        public RelayCommand<FontColour> FontColourCmd { get; }
 
         public bool CanExecute => !IsBusy;
+
+        public bool CanExecuteOpen => CanExecute &&
+            !SelectedItem.IsDirty;
 
         public bool CanExecuteExit => CanExecute && 
             !SelectedItem.IsDirty;
@@ -132,6 +163,8 @@ namespace Savaged.BlackNotepad.ViewModels
         public bool CanExecuteSelectAll => CanExecute &&
             SelectedItem.HasContent;
 
+        public bool CanExecuteFont => false; // TODO see OnFont
+
         private void StartLongOperation([CallerMemberName]string caller = "")
         {
             _busyRegister.Add(caller);
@@ -151,7 +184,15 @@ namespace Savaged.BlackNotepad.ViewModels
 
         private void OnOpen()
         {
+            var result = _fileDialog.ShowDialog();
+            if (result == true)
+            {
+                StartLongOperation();
 
+                SelectedItem = new FileModel(_fileDialog.FileName);
+
+                EndLongOpertation();
+            }
         }
 
         private void OnSave()
@@ -225,6 +266,11 @@ namespace Savaged.BlackNotepad.ViewModels
             ViewState.IsWrapped = !ViewState.IsWrapped;
         }
 
+        private void OnFont()
+        {
+            // TODO use windows forms fontdialog
+        }
+
         private void OnZoomIn()
         {
 
@@ -258,6 +304,19 @@ namespace Savaged.BlackNotepad.ViewModels
         private void OnAbout()
         {
 
+        }
+
+        private void OnFontColour(FontColour selected)
+        {
+            ViewState.SelectedFontColour = selected;
+            foreach (var fontColour in FontColours)
+            {
+                if (fontColour.Name != ViewState.SelectedFontColour.Name)
+                {
+                    fontColour.IsSelected = false;
+                }
+            }
+            RaisePropertyChanged(nameof(FontColours));
         }
     }
 }

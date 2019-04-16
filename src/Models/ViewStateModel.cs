@@ -7,6 +7,7 @@ namespace Savaged.BlackNotepad.Models
         private bool _isWrapped;
         private bool _isStatusBarVisible;
         private int _zoom;
+        private FontColour _selectedFontColour;
 
         public bool IsWrapped
         {
@@ -24,6 +25,16 @@ namespace Savaged.BlackNotepad.Models
         {
             get => _zoom;
             set => Set(ref _zoom, value);
+        }
+
+        public FontColour SelectedFontColour
+        {
+            get => _selectedFontColour;
+            set
+            {
+                value.IsSelected = true;
+                Set(ref _selectedFontColour, value);
+            }
         }
     }
 }

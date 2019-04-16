@@ -1,13 +1,15 @@
 ﻿using Savaged.BlackNotepad.ViewModels;
+using System.Collections.Generic;
 using System.ComponentModel;
 using System.Windows;
+using System.Drawing;
 
 namespace Savaged.BlackNotepad.Views
 {
     public partial class MainWindow : Window
     {
         private MainViewModel _viewModel;
-
+        
         public MainWindow()
         {
             InitializeComponent();

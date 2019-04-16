@@ -34,6 +34,15 @@
     </Window.InputBindings>
     <DockPanel FocusManager.FocusedElement="{Binding ElementName=ContentText}">
         <Menu DockPanel.Dock="Top" Margin="0,0,0.4,0" Background="DarkGray">
+            <Menu.Resources>
+                <Style TargetType="MenuItem" x:Key="FontColourMenu">
+                    <Setter Property="Header" Value="{Binding DisplayName}"/>
+                    <Setter Property="Command" 
+                            Value="{Binding DataContext.FontColourCmd, RelativeSource={RelativeSource AncestorType={x:Type Menu}}}"/>
+                    <Setter Property="CommandParameter" Value="{Binding}"/>
+                    <Setter Property="IsChecked" Value="{Binding IsSelected}"/>
+                </Style>
+            </Menu.Resources>
             <MenuItem Header="_File">
                 <MenuItem Header="_New" 
                           Command="{Binding NewCmd}" 
@@ -89,6 +98,11 @@
                 <MenuItem Header="_Word Wrap" 
                           Command="{Binding WordWrapCmd}" 
                           IsChecked="{Binding ViewState.IsWrapped}"/>
+                <MenuItem Header="_Font..."
+                          Command="{Binding FontCmd}"/>
+                <MenuItem Header="Font _Colour"
+                          ItemsSource="{Binding FontColours}"
+                          ItemContainerStyle="{StaticResource FontColourMenu}"/>
             </MenuItem>
             <MenuItem Header="_View">
                 <MenuItem Header="_Zoom">
@@ -146,10 +160,12 @@
             </StatusBarItem>
         </StatusBar>
         <TextBox Name="ContentText" 
-                 Background="Black" Foreground="White"
+                 Background="Black" 
+                 FontFamily="Arial Unicode MS"
                  AcceptsReturn="True" AcceptsTab="True"   
-                 SelectionChanged="OnContentTextSelectionChanged"
+                 SelectionChanged="OnContentTextSelectionChanged"                 
+                 Foreground="{Binding ViewState.SelectedFontColour.Name}"
                  TextWrapping="{Binding ViewState.IsWrapped, Converter={StaticResource BoolToWrappingConverter}}"
-                 Text="{Binding Content, UpdateSourceTrigger=PropertyChanged}" FontFamily="Arial Unicode MS"/>
+                 Text="{Binding SelectedItem.Content, UpdateSourceTrigger=PropertyChanged}"/>
     </DockPanel>
 </Window>

@@ -297,13 +297,13 @@ namespace Savaged.BlackNotepad.ViewModels
         private void OnZoomIn()
         {
             // TODO increment in step
-            ViewState.Zoom++;
+            ViewState.ZoomIn();
         }
 
         private void OnZoomOut()
         {
             // TODO increment in step
-            ViewState.Zoom--;
+            ViewState.ZoomOut();
         }
 
         private void OnRestore()

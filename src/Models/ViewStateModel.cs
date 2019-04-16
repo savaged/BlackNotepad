@@ -5,10 +5,11 @@ namespace Savaged.BlackNotepad.Models
 {
     public class ViewStateModel : ObservableObject
     {
+        private const int _defaultFontSize = 12;
         private readonly IDictionary<int, int> _fontZoom;
+
         private bool _isWrapped;
         private bool _isStatusBarVisible;
-        private int _zoom;
         private FontColour _selectedFontColour;
 
         public ViewStateModel()
@@ -19,7 +20,7 @@ namespace Savaged.BlackNotepad.Models
                 { 75, 9 },
                 { 80, 10 },
                 { 90, 11 },
-                { 100, 12 },
+                { 100, _defaultFontSize },
                 { 120, 14 },
                 { 130, 16 },
                 { 150, 18 },
@@ -33,6 +34,7 @@ namespace Savaged.BlackNotepad.Models
                 { 400, 48 },
                 { 600, 72 }
             };
+
         }
 
         public bool IsWrapped
@@ -47,16 +49,22 @@ namespace Savaged.BlackNotepad.Models
             set => Set(ref _isStatusBarVisible, value);
         }
 
-        public int Zoom
+        public int Zoom { get; private set; }
+
+        public int FontSize => 
+            _fontZoom.ContainsKey(Zoom) ?
+            _fontZoom[Zoom] : 
+            _defaultFontSize;
+
+        public void ZoomIn()
         {
-            get => _zoom;
-            set
-            {
-                Set(ref _zoom, value);
-                RaisePropertyChanged(nameof(FontSize));
-            }
-        } //TODO fix this
-        public int FontSize => _fontZoom.ContainsKey(Zoom) ? _fontZoom[Zoom] : 12;
+
+        }
+
+        public void ZoomOut()
+        {
+
+        }
 
         public FontColour SelectedFontColour
         {

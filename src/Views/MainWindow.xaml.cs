@@ -44,20 +44,15 @@ namespace Savaged.BlackNotepad.Views
         private void OnContentTextPreviewDragOver(object sender, DragEventArgs e)
         {
             if (_viewModel != null && _viewModel.CanExecuteDragDrop
-                && (e.Data.GetDataPresent(DataFormats.FileDrop)
-                    || e.Data.GetDataPresent(DataFormats.Text)
-                    || e.Data.GetDataPresent(DataFormats.Rtf)
-                    || e.Data.GetDataPresent(DataFormats.Html)
-                    || e.Data.GetDataPresent(DataFormats.UnicodeText)
-                    || e.Data.GetDataPresent(DataFormats.Xaml)))
+                && e.Data.GetDataPresent(DataFormats.FileDrop))
             {
-                e.Effects = DragDropEffects.Copy;
+                e.Effects = DragDropEffects.All;
+                e.Handled = true;
             }
             else
             {
-                e.Effects = DragDropEffects.None;
+                e.Handled = false;
             }
-            e.Handled = true;
         }
 
         private void OnContentTextPreviewDrop(object sender, DragEventArgs e)

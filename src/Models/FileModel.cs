@@ -6,6 +6,12 @@ namespace Savaged.BlackNotepad.Models
 {
     public class FileModel : ObservableObject
     {
+        private const string _NEW = "Untitled";
+
+        private const string _CRLF = "Windows (CRLF)";
+        private const string _LF = "Mac (LF)";
+        private const string _CR = "Unix (CR)";
+
         private string _name;
         private string _location;
         private string _content;
@@ -16,9 +22,10 @@ namespace Savaged.BlackNotepad.Models
 
         public FileModel()
         {
-            Name = "Untitled";
+            Name = _NEW;
             _previousContent = Content = string.Empty;
-            LineEnding = "Windows (CRLF)"; // TODO Set this properly
+            IsDirty = false;
+            LineEnding = _CRLF;
         }
 
         public FileModel(string location) 
@@ -28,10 +35,16 @@ namespace Savaged.BlackNotepad.Models
             ReadFile();
         }
 
+        public bool IsNew => Name == _NEW;
+
         public string Name
         {
             get => _name;
-            set => Set(ref _name, value);
+            set
+            {
+                Set(ref _name, value);
+                RaisePropertyChanged(nameof(IsNew));
+            }
         }
 
         public string Location
@@ -53,6 +66,10 @@ namespace Savaged.BlackNotepad.Models
                 {
                     _previousContent = _content;
                     Set(ref _content, value);
+                    if (_previousContent != _content)
+                    {
+                        IsDirty = true;
+                    }
                 }
             }
         }
@@ -100,15 +117,15 @@ namespace Savaged.BlackNotepad.Models
                     {
                         if (i == '\r' && p == '\n')
                         {
-                            lineEnding = "CRLF";
+                            lineEnding = _CRLF;
                         }
                         else if (i == '\n' && p == -1)
                         {
-                            lineEnding = "LF";
+                            lineEnding = _LF;
                         }
                         else if (i == '\r' && p == -1)
                         {
-                            lineEnding = "CR";
+                            lineEnding = _CR;
                         }
                     }
                 }

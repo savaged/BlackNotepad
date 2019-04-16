@@ -10,7 +10,6 @@ namespace Savaged.BlackNotepad
     {
         private void OnApplicationStartup(object sender, StartupEventArgs e)
         {
-            SimpleIoc.Default.Register<IFileService, FileService>();
             SimpleIoc.Default.Register<IViewStateService, ViewStateService>();
             SimpleIoc.Default.Register<MainViewModel>();
 

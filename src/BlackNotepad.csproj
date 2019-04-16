@@ -80,8 +80,6 @@
     <Compile Include="Models\FileModel.cs" />
     <Compile Include="Models\FontColour.cs" />
     <Compile Include="Models\ViewStateModel.cs" />
-    <Compile Include="Services\FileService.cs" />
-    <Compile Include="Services\IFileService.cs" />
     <Compile Include="Services\IViewStateService.cs" />
     <Compile Include="Services\ViewStateService.cs" />
     <Compile Include="ViewModels\MainViewModel.cs" />

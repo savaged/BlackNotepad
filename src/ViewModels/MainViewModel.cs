@@ -3,9 +3,7 @@ using GalaSoft.MvvmLight.CommandWpf;
 using Microsoft.Win32;
 using Savaged.BlackNotepad.Models;
 using Savaged.BlackNotepad.Services;
-using System;
 using System.Collections.Generic;
-using System.ComponentModel;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
@@ -17,22 +15,24 @@ namespace Savaged.BlackNotepad.ViewModels
     public class MainViewModel : ViewModelBase
     {
         private readonly IList<string> _busyRegister;
-        private readonly IFileService _fileService;
-        private readonly OpenFileDialog _fileDialog;
+        private readonly OpenFileDialog _openFileDialog;
+        private readonly SaveFileDialog _saveFileDialog;
         private readonly IViewStateService _viewStateService;
         private FileModel _selectedItem;
         private string _selectedText;
         private string _findText;
 
-        public MainViewModel(
-            IFileService fileService,
-            IViewStateService viewStateService)
+        public MainViewModel(IViewStateService viewStateService)
         {
-            _fileDialog = new OpenFileDialog
+            const string filter = "Text Documents|*.txt";
+            _openFileDialog = new OpenFileDialog
             {
-                Filter = "Text Documents|*.txt"
+                Filter = filter
             };
-            _fileService = fileService;
+            _saveFileDialog = new SaveFileDialog
+            {
+                Filter = filter
+            };
             _viewStateService = viewStateService;
             ViewState = _viewStateService.Open();
 
@@ -46,7 +46,7 @@ namespace Savaged.BlackNotepad.ViewModels
             _busyRegister = new List<string>();
             _selectedItem = new FileModel();
 
-            NewCmd = new RelayCommand(OnNew, () => CanExecute);
+            NewCmd = new RelayCommand(OnNew, () => CanExecuteNew);
             OpenCmd = new RelayCommand(OnOpen, () => CanExecuteOpen);
             SaveCmd = new RelayCommand(OnSave, () => CanExecute);
             SaveAsCmd = new RelayCommand(OnSaveAs, () => CanExecute);
@@ -134,6 +134,9 @@ namespace Savaged.BlackNotepad.ViewModels
 
         public bool CanExecute => !IsBusy;
 
+        public bool CanExecuteNew => CanExecute &&
+            !SelectedItem.IsDirty;
+
         public bool CanExecuteOpen => CanExecute &&
             !SelectedItem.IsDirty;
 
@@ -179,17 +182,17 @@ namespace Savaged.BlackNotepad.ViewModels
 
         private void OnNew()
         {
-
+            SelectedItem = new FileModel();
         }
 
         private void OnOpen()
         {
-            var result = _fileDialog.ShowDialog();
+            var result = _openFileDialog.ShowDialog();
             if (result == true)
             {
                 StartLongOperation();
 
-                SelectedItem = new FileModel(_fileDialog.FileName);
+                SelectedItem = new FileModel(_openFileDialog.FileName);
 
                 EndLongOpertation();
             }
@@ -197,12 +200,30 @@ namespace Savaged.BlackNotepad.ViewModels
 
         private void OnSave()
         {
-            
+            if (!SelectedItem.IsNew)
+            {
+                StartLongOperation();
+
+                File.WriteAllText(SelectedItem.Location, SelectedItem.Content);                
+
+                SelectedItem.IsDirty = false;
+
+                EndLongOpertation();
+            }
+            else
+            {
+                OnSaveAs();
+            }
         }
 
         private void OnSaveAs()
         {
-
+            var result = _saveFileDialog.ShowDialog();
+            if (result == true)
+            {
+                SelectedItem.Location = _saveFileDialog.FileName;
+                OnSave();
+            }
         }
 
         private void OnExit()

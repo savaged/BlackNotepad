@@ -101,6 +101,10 @@ namespace Savaged.BlackNotepad.Models
 
         private void ReadFile()
         {
+            if (string.IsNullOrEmpty(Location) || string.IsNullOrWhiteSpace(Location))
+            {
+                return;
+            }
             var contentBuilder = new StringBuilder();
             var lineEnding = string.Empty;
             using (var sr = new StreamReader(Location))

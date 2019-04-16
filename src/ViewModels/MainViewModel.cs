@@ -46,11 +46,11 @@ namespace Savaged.BlackNotepad.ViewModels
             _busyRegister = new List<string>();
             _selectedItem = new FileModel();
 
-            NewCmd = new RelayCommand(OnNew, () => CanExecuteNew);
+            NewCmd = new RelayCommand(OnNew, () => CanExecute);
             OpenCmd = new RelayCommand(OnOpen, () => CanExecuteOpen);
             SaveCmd = new RelayCommand(OnSave, () => CanExecute);
             SaveAsCmd = new RelayCommand(OnSaveAs, () => CanExecute);
-            ExitCmd = new RelayCommand(OnExit, () => CanExecuteExit);
+            ExitCmd = new RelayCommand(OnExit, () => CanExecute);
             UndoCmd = new RelayCommand(OnUndo, () => CanExecuteUndo);
             CutCmd = new RelayCommand(OnCut, () => CanExecuteCutOrCopy);
             CopyCmd = new RelayCommand(OnCopy, () => CanExecuteCutOrCopy);
@@ -72,9 +72,25 @@ namespace Savaged.BlackNotepad.ViewModels
             FontColourCmd = new RelayCommand<FontColour>(OnFontColour, (b) => CanExecute);
         }
 
-        public void OnClosing()
+        public bool OnClosing()
         {
+            var hasChangesToSave = SaveChangesConfirmation();
+            if (hasChangesToSave)
+            {
+                Save();
+            }
             _viewStateService.Save(ViewState);
+            return true;
+        }
+
+        public void New(string location = null)
+        {
+            var hasChangesToSave = SaveChangesConfirmation();
+            if (hasChangesToSave)
+            {
+                Save();
+            }
+            SelectedItem = new FileModel(location);
         }
 
         public string Title => $"{SelectedItem?.Name} - Black Notepad";
@@ -134,13 +150,7 @@ namespace Savaged.BlackNotepad.ViewModels
 
         public bool CanExecute => !IsBusy;
 
-        public bool CanExecuteNew => CanExecute &&
-            !SelectedItem.IsDirty;
-
         public bool CanExecuteOpen => CanExecute &&
-            !SelectedItem.IsDirty;
-
-        public bool CanExecuteExit => CanExecute && 
             !SelectedItem.IsDirty;
 
         public bool CanExecuteSave => CanExecute &&
@@ -168,6 +178,9 @@ namespace Savaged.BlackNotepad.ViewModels
 
         public bool CanExecuteFont => false; // TODO see OnFont
 
+        public bool CanExecuteDragDrop => CanExecute &&
+            !SelectedItem.IsDirty;
+
         private void StartLongOperation([CallerMemberName]string caller = "")
         {
             _busyRegister.Add(caller);
@@ -182,7 +195,7 @@ namespace Savaged.BlackNotepad.ViewModels
 
         private void OnNew()
         {
-            SelectedItem = new FileModel();
+            New();
         }
 
         private void OnOpen()
@@ -200,11 +213,15 @@ namespace Savaged.BlackNotepad.ViewModels
 
         private void OnSave()
         {
+            Save();
+        }
+        private void Save()
+        {
             if (!SelectedItem.IsNew)
             {
                 StartLongOperation();
 
-                File.WriteAllText(SelectedItem.Location, SelectedItem.Content);                
+                File.WriteAllText(SelectedItem.Location, SelectedItem.Content);
 
                 SelectedItem.IsDirty = false;
 
@@ -212,11 +229,15 @@ namespace Savaged.BlackNotepad.ViewModels
             }
             else
             {
-                OnSaveAs();
+                SaveAs();
             }
         }
 
         private void OnSaveAs()
+        {
+            SaveAs();
+        }
+        private void SaveAs()
         {
             var result = _saveFileDialog.ShowDialog();
             if (result == true)
@@ -338,6 +359,20 @@ namespace Savaged.BlackNotepad.ViewModels
                 }
             }
             RaisePropertyChanged(nameof(FontColours));
+        }
+
+        private bool SaveChangesConfirmation()
+        {
+            var value = false;
+            if (SelectedItem.IsDirty)
+            {
+                var result = MessageBox.Show(
+                    $"Do you want to save changes to {SelectedItem.Name}?",
+                    "Black Notepad",
+                    MessageBoxButton.YesNoCancel);
+                value = result == MessageBoxResult.Yes;
+            }
+            return value;
         }
     }
 }

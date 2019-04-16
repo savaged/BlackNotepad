@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Windows;
 using System.Drawing;
+using System;
 
 namespace Savaged.BlackNotepad.Views
 {
@@ -32,8 +33,46 @@ namespace Savaged.BlackNotepad.Views
         {
             if (_viewModel != null)
             {
-                _viewModel.OnClosing();
+                var result = _viewModel.OnClosing();
+                if (!result)
+                {
+                    e.Cancel = true;
+                }
             }
+        }
+
+        private void OnContentTextPreviewDragOver(object sender, DragEventArgs e)
+        {
+            if (_viewModel != null && _viewModel.CanExecuteDragDrop
+                && (e.Data.GetDataPresent(DataFormats.FileDrop)
+                    || e.Data.GetDataPresent(DataFormats.Text)
+                    || e.Data.GetDataPresent(DataFormats.Rtf)
+                    || e.Data.GetDataPresent(DataFormats.Html)
+                    || e.Data.GetDataPresent(DataFormats.UnicodeText)
+                    || e.Data.GetDataPresent(DataFormats.Xaml)))
+            {
+                e.Effects = DragDropEffects.Copy;
+            }
+            else
+            {
+                e.Effects = DragDropEffects.None;
+            }
+            e.Handled = true;
+        }
+
+        private void OnContentTextPreviewDrop(object sender, DragEventArgs e)
+        {
+            if (_viewModel != null && _viewModel.CanExecuteDragDrop)
+            {
+                if (e.Data.GetDataPresent(DataFormats.FileDrop))
+                {
+                    var fileLocation = (string[])e.Data.GetData(DataFormats.FileDrop);
+                    _viewModel.New(fileLocation[0]);
+                    e.Handled = true;
+                    return;
+                }
+            }
+            e.Handled = false;
         }
     }
 }

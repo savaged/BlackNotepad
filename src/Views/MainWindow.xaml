@@ -163,7 +163,10 @@
                  Background="Black" 
                  FontFamily="Arial Unicode MS"
                  AcceptsReturn="True" AcceptsTab="True"   
-                 SelectionChanged="OnContentTextSelectionChanged"                 
+                 SelectionChanged="OnContentTextSelectionChanged"        
+                 AllowDrop="True" 
+                 PreviewDragOver="OnContentTextPreviewDragOver"
+                 PreviewDrop="OnContentTextPreviewDrop"
                  Foreground="{Binding ViewState.SelectedFontColour.Name}"
                  TextWrapping="{Binding ViewState.IsWrapped, Converter={StaticResource BoolToWrappingConverter}}"
                  Text="{Binding SelectedItem.Content, UpdateSourceTrigger=PropertyChanged}"/>

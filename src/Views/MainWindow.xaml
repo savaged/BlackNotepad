@@ -33,7 +33,7 @@
     </Window.InputBindings>
     <DockPanel FocusManager.FocusedElement="{Binding ElementName=ContentText}">
         <Menu DockPanel.Dock="Top" Margin="0,0,0.4,0" Background="DarkGray">
-            <MenuItem Header="_File" Background="DarkGray">
+            <MenuItem Header="_File">
                 <MenuItem Header="_New" 
                           Command="{Binding NewCmd}" 
                           InputGestureText="Ctrl+N"/>

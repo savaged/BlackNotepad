@@ -1,10 +1,24 @@
 ﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
 
-    <Style TargetType="Grid">
-        <Setter Property="Background" Value="Transparent"/>
+    <ItemsPanelTemplate x:Key="MenuItemPanelTemplate">
+        <StackPanel Background="DarkGray"/>
+    </ItemsPanelTemplate>
+    <Style TargetType="{x:Type MenuItem}">
+        <Setter Property="ItemsPanel" Value="{StaticResource MenuItemPanelTemplate}"/>
     </Style>
-
-    <!-- TODO Full black style for MenuItem -->
+    <Style TargetType="{x:Type ContextMenu}">
+        <Setter Property="ItemsPanel" Value="{StaticResource MenuItemPanelTemplate}"/>
+    </Style>
+    
+    <!-- Couldn't find a way to algin menus like Notepad except for this Windows hack:
+Press the Windows key + R to bring up the Run dialog box. In the Open line, copy/paste the following line of text.
+shell:::{80F3F1D5-FECA-45F3-BC32-752C152E456E}
+Press OK.
+This will start the Tablet PC Settings configuration dialog (Even if you do not have a Tablet PC).
+Select the Other Tab.
+In the Handedness section, place a check mark in the Left Handed option.
+Click OK.
+    -->
 
 </ResourceDictionary>

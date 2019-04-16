@@ -94,11 +94,6 @@ namespace Savaged.BlackNotepad.Models
             set => Set(ref _isDirty, value);
         }
 
-        public void UndoLastChangeToContent()
-        {
-            Content = _previousContent;
-        }
-
         private void ReadFile()
         {
             if (string.IsNullOrEmpty(Location) || string.IsNullOrWhiteSpace(Location))

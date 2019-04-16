@@ -69,5 +69,30 @@ namespace Savaged.BlackNotepad.Views
             }
             e.Handled = false;
         }
+
+        private void OnUndoMenuItemClick(object sender, RoutedEventArgs e)
+        {
+            ContentText.Undo(); 
+        }
+
+        private void OnCutMenuItemClick(object sender, RoutedEventArgs e)
+        {
+            ContentText.Cut();
+        }
+
+        private void OnCopyMenuItemClick(object sender, RoutedEventArgs e)
+        {
+            ContentText.Copy();
+        }
+
+        private void OnPasteMenuItemClick(object sender, RoutedEventArgs e)
+        {
+            ContentText.Paste();
+        }
+
+        private void OnSelectAllMenuItemClick(object sender, RoutedEventArgs e)
+        {
+            ContentText.SelectAll();
+        }
     }
 }

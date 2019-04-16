@@ -18,14 +18,9 @@
         <KeyBinding Gesture="Ctrl+N" Command="{Binding NewCmd}"/>
         <KeyBinding Gesture="Ctrl+O" Command="{Binding OpenCmd}"/>
         <KeyBinding Gesture="Ctrl+S" Command="{Binding SaveCmd}"/>
-        <KeyBinding Gesture="Ctrl+Z" Command="{Binding UndoCmd}"/>
-        <KeyBinding Gesture="Ctrl+X" Command="{Binding CutCmd}"/>
-        <KeyBinding Gesture="Ctrl+C" Command="{Binding CopyCmd}"/>
-        <KeyBinding Gesture="Ctrl+V" Command="{Binding PasteCmd}"/>
         <KeyBinding Gesture="Ctrl+F" Command="{Binding FindCmd}"/>
         <KeyBinding Key="F3" Command="{Binding FindNextCmd}"/>
         <KeyBinding Gesture="Ctrl+H" Command="{Binding ReplaceCmd}"/>
-        <KeyBinding Gesture="Ctrl+A" Command="{Binding SelectAllCmd}"/>
         <KeyBinding Key="F5" Command="{Binding TimeDateCmd}"/>
         <KeyBinding Gesture="Ctrl+Plus" Command="{Binding ZoomInCmd}"/>
         <KeyBinding Gesture="Ctrl+Minus" Command="{Binding ZoomOutCmd}"/>
@@ -61,37 +56,42 @@
             </MenuItem>
             <MenuItem Header="_Edit">
                 <MenuItem Header="Undo" 
-                          Command="{Binding UndoCmd}" 
-                          InputGestureText="Ctrl+Z"/>
+                          Click="OnUndoMenuItemClick" 
+                          InputGestureText="Ctrl+Z"
+                          IsEnabled="{Binding IsUndoEnabled}"/>
                 <Separator/>
                 <MenuItem Header="Cu_t" 
-                          Command="{Binding CutCmd}" 
-                          InputGestureText="Ctrl+X"/>
+                          Click="OnCutMenuItemClick" 
+                          InputGestureText="Ctrl+X"
+                          IsEnabled="{Binding IsCutOrCopyEnabled}"/>
                 <MenuItem Header="_Copy" 
-                          Command="{Binding CutCmd}" 
-                          InputGestureText="Ctrl+C"/>
+                          Click="OnCopyMenuItemClick" 
+                          InputGestureText="Ctrl+C"
+                          IsEnabled="{Binding IsCutOrCopyEnabled}"/>
                 <MenuItem Header="_Paste" 
-                          Command="{Binding CutCmd}" 
-                          InputGestureText="Ctrl+V"/>
+                          Click="OnPasteMenuItemClick"
+                          InputGestureText="Ctrl+V"
+                          IsEnabled="{Binding IsPasteEnabled}"/>
                 <Separator/>
                 <MenuItem Header="_Find..." 
-                          Command="{Binding CutCmd}" 
+                          Command="{Binding FindCmd}" 
                           InputGestureText="Ctrl+F"/>
                 <MenuItem Header="Find _Next" 
-                          Command="{Binding CutCmd}" 
+                          Command="{Binding FindNextCmd}" 
                           InputGestureText="F3"/>
                 <MenuItem Header="_Replace..." 
-                          Command="{Binding CutCmd}" 
+                          Command="{Binding ReplaceCmd}" 
                           InputGestureText="Ctrl+H"/>
                 <MenuItem Header="_Go To..." 
-                          Command="{Binding CutCmd}" 
+                          Command="{Binding GoToCmd}" 
                           InputGestureText="Ctrl+H"/>
                 <Separator/>
                 <MenuItem Header="Select _All..." 
-                          Command="{Binding CutCmd}" 
-                          InputGestureText="Ctrl+A"/>
+                          Click="OnSelectAllMenuItemClick"
+                          InputGestureText="Ctrl+A"
+                          IsEnabled="{Binding IsSelectAllEnabled}"/>
                 <MenuItem Header="Time/_Date" 
-                          Command="{Binding CutCmd}" 
+                          Command="{Binding TimeDateCmd}" 
                           InputGestureText="F5"/>
             </MenuItem>
             <MenuItem Header="F_ormat">

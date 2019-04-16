@@ -4,6 +4,7 @@ using Microsoft.Win32;
 using Savaged.BlackNotepad.Models;
 using Savaged.BlackNotepad.Services;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
@@ -51,15 +52,10 @@ namespace Savaged.BlackNotepad.ViewModels
             SaveCmd = new RelayCommand(OnSave, () => CanExecute);
             SaveAsCmd = new RelayCommand(OnSaveAs, () => CanExecute);
             ExitCmd = new RelayCommand(OnExit, () => CanExecute);
-            UndoCmd = new RelayCommand(OnUndo, () => CanExecuteUndo);
-            CutCmd = new RelayCommand(OnCut, () => CanExecuteCutOrCopy);
-            CopyCmd = new RelayCommand(OnCopy, () => CanExecuteCutOrCopy);
-            PasteCmd = new RelayCommand(OnPaste, () => CanExecutePaste);
             FindCmd = new RelayCommand(OnFind, () => CanExecute);
             FindNextCmd = new RelayCommand(OnFindNext, () => CanExecuteFindNext);
             ReplaceCmd = new RelayCommand(OnReplace, () => CanExecuteReplace);
             GoToCmd = new RelayCommand(OnGoTo, () => CanExecute);
-            SelectAllCmd = new RelayCommand(OnSelectAll, () => CanExecuteSelectAll);
             TimeDateCmd = new RelayCommand(OnTimeDate, () => CanExecute);
             WordWrapCmd = new RelayCommand(OnWordWrap, () => CanExecute);
             FontCmd = new RelayCommand(OnFont, () => CanExecuteFont);
@@ -70,6 +66,14 @@ namespace Savaged.BlackNotepad.ViewModels
             HelpCmd = new RelayCommand(OnHelp, () => CanExecute);
             AboutCmd = new RelayCommand(OnAbout, () => CanExecute);
             FontColourCmd = new RelayCommand<FontColour>(OnFontColour, (b) => CanExecute);
+
+            SelectedItem.PropertyChanged += OnSelectedItemPropertyChanged;
+        }
+
+        public override void Cleanup()
+        {
+            SelectedItem.PropertyChanged -= OnSelectedItemPropertyChanged;
+            base.Cleanup();
         }
 
         public bool OnClosing()
@@ -120,7 +124,12 @@ namespace Savaged.BlackNotepad.ViewModels
         public string SelectedText
         {
             get => _selectedText;
-            set => Set(ref _selectedText, value);
+            set
+            {
+                Set(ref _selectedText, value);
+                RaisePropertyChanged(nameof(IsCutOrCopyEnabled));
+                RaisePropertyChanged(nameof(IsPasteEnabled));
+            }
         }
 
         public RelayCommand NewCmd { get; }
@@ -128,15 +137,10 @@ namespace Savaged.BlackNotepad.ViewModels
         public RelayCommand SaveCmd { get; }
         public RelayCommand SaveAsCmd { get; }
         public RelayCommand ExitCmd { get; }
-        public RelayCommand UndoCmd { get; }
-        public RelayCommand CutCmd { get; }
-        public RelayCommand CopyCmd { get; }
-        public RelayCommand PasteCmd { get; }
         public RelayCommand FindCmd { get; }
         public RelayCommand FindNextCmd { get; }
         public RelayCommand ReplaceCmd { get; }
         public RelayCommand GoToCmd { get; }
-        public RelayCommand SelectAllCmd { get; }
         public RelayCommand TimeDateCmd { get; }
         public RelayCommand WordWrapCmd { get; }
         public RelayCommand FontCmd { get; }
@@ -156,15 +160,6 @@ namespace Savaged.BlackNotepad.ViewModels
         public bool CanExecuteSave => CanExecute &&
             SelectedItem.IsDirty;
 
-        public bool CanExecuteUndo => CanExecute &&
-            SelectedItem.IsDirty;
-
-        public bool CanExecuteCutOrCopy => CanExecute &&
-            !string.IsNullOrEmpty(SelectedText);
-
-        public bool CanExecutePaste => CanExecute && 
-            Clipboard.ContainsText();
-
         public bool CanExecuteFindNext => CanExecute &&
             !string.IsNullOrEmpty(FindText);
 
@@ -173,13 +168,24 @@ namespace Savaged.BlackNotepad.ViewModels
         public bool CanExecuteGoTo => CanExecute &&
             SelectedItem.HasContent && !ViewState.IsWrapped;
 
-        public bool CanExecuteSelectAll => CanExecute &&
-            SelectedItem.HasContent;
-
         public bool CanExecuteFont => false; // TODO see OnFont
 
         public bool CanExecuteDragDrop => CanExecute &&
             !SelectedItem.IsDirty;
+
+
+        public bool IsUndoEnabled => !IsBusy &&
+            SelectedItem.IsDirty;
+
+        public bool IsCutOrCopyEnabled => !IsBusy &&
+            !string.IsNullOrEmpty(SelectedText);
+
+        public bool IsPasteEnabled => !IsBusy &&
+            Clipboard.ContainsText();
+
+        public bool IsSelectAllEnabled => !IsBusy &&
+            SelectedItem.HasContent;
+
 
         private void StartLongOperation([CallerMemberName]string caller = "")
         {
@@ -253,26 +259,6 @@ namespace Savaged.BlackNotepad.ViewModels
             Application.Current.Shutdown();
         }
 
-        private void OnUndo()
-        {
-
-        }
-
-        private void OnCut()
-        {
-
-        }
-
-        private void OnCopy()
-        {
-
-        }
-
-        private void OnPaste()
-        {
-
-        }
-
         private void OnFind()
         {
 
@@ -289,11 +275,6 @@ namespace Savaged.BlackNotepad.ViewModels
         }
 
         private void OnGoTo()
-        {
-
-        }
-
-        private void OnSelectAll()
         {
 
         }
@@ -373,6 +354,17 @@ namespace Savaged.BlackNotepad.ViewModels
                 value = result == MessageBoxResult.Yes;
             }
             return value;
+        }
+
+        private void OnSelectedItemPropertyChanged(object sender, PropertyChangedEventArgs e)
+        {
+            switch (e.PropertyName)
+            {
+                case nameof(SelectedItem.Content):
+                    RaisePropertyChanged(nameof(IsUndoEnabled));
+                    RaisePropertyChanged(nameof(IsSelectAllEnabled));
+                    break;
+            }
         }
     }
 }

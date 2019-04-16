@@ -52,6 +52,11 @@ namespace Savaged.BlackNotepad.ViewModels
             AboutCmd = new RelayCommand(OnAbout, () => CanExecute);
         }
 
+        public void OnClosing()
+        {
+            _viewStateService.Save(ViewState);
+        }
+
         public string Title => $"{SelectedItem?.Name} - Black Notepad";
 
         public bool IsBusy => _busyRegister.Count > 0;
@@ -161,7 +166,7 @@ namespace Savaged.BlackNotepad.ViewModels
 
         private void OnExit()
         {
-            _viewStateService.Save(ViewState);
+            OnClosing();
             Application.Current.Shutdown();
         }
 

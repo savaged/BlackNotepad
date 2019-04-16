@@ -1,4 +1,5 @@
 ﻿using Savaged.BlackNotepad.ViewModels;
+using System.ComponentModel;
 using System.Windows;
 
 namespace Savaged.BlackNotepad.Views
@@ -22,6 +23,14 @@ namespace Savaged.BlackNotepad.Views
             if (_viewModel != null)
             {
                 _viewModel.SelectedText = ContentText.SelectedText;
+            }
+        }
+
+        private void OnClosing(object sender, CancelEventArgs e)
+        {
+            if (_viewModel != null)
+            {
+                _viewModel.OnClosing();
             }
         }
     }

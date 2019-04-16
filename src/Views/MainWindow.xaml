@@ -8,7 +8,8 @@
         Title="{Binding Title}" 
         Background="Black"
         Height="600" Width="800"
-        Loaded="OnLoaded">
+        Loaded="OnLoaded"
+        Closing="OnClosing">
     <Window.Resources>
         <converters:TrueFalseToWrapNoWrapConverter x:Key="BoolToWrappingConverter"/>
         <BooleanToVisibilityConverter x:Key="BoolToVisibilityConverter"/>

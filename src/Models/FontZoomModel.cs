@@ -3,7 +3,7 @@
     public class FontZoomModel : SelectionModelBase<int, int>
     {
         public FontZoomModel(int key = 100, int value = 12)
-        : base(key, value) { }
+            : base(key, value) { }
 
         public int Zoom => Key;
 

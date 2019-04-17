@@ -84,7 +84,9 @@
     <Compile Include="Models\FontFamilyModel.cs" />
     <Compile Include="Models\FontColourModel.cs" />
     <Compile Include="Models\ViewStateModel.cs" />
+    <Compile Include="Services\DialogService.cs" />
     <Compile Include="Services\FontZoomLookupService.cs" />
+    <Compile Include="Services\IDialogService.cs" />
     <Compile Include="Services\IFontColourLookupService.cs" />
     <Compile Include="Services\IFontFamilyLookupService.cs" />
     <Compile Include="Services\IFontZoomLookupService.cs" />
@@ -95,6 +97,9 @@
     <Compile Include="Services\FontColourLookupService.cs" />
     <Compile Include="Services\IViewStateService.cs" />
     <Compile Include="Services\ViewStateService.cs" />
+    <Compile Include="ViewModels\DialogViewModelBase.cs" />
+    <Compile Include="ViewModels\GoToDialogViewModel.cs" />
+    <Compile Include="ViewModels\IDialogViewModel.cs" />
     <Compile Include="ViewModels\MainViewModel.cs" />
     <Page Include="Views\GoToDialog.xaml">
       <SubType>Designer</SubType>

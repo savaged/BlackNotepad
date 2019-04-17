@@ -1,5 +1,6 @@
 ﻿using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.CommandWpf;
+using GalaSoft.MvvmLight.Ioc;
 using Microsoft.Win32;
 using Savaged.BlackNotepad.Models;
 using Savaged.BlackNotepad.Services;
@@ -16,6 +17,7 @@ namespace Savaged.BlackNotepad.ViewModels
 {
     public class MainViewModel : ViewModelBase
     {
+        private readonly IDialogService _dialogService;
         private readonly IList<string> _busyRegister;
         private readonly OpenFileDialog _openFileDialog;
         private readonly SaveFileDialog _saveFileDialog;
@@ -31,11 +33,16 @@ namespace Savaged.BlackNotepad.ViewModels
         private int _caretColumn;
 
         public MainViewModel(
+            IDialogService dialogService,
             IViewStateService viewStateService,
             IFontColourLookupService fontColourLookupService,
             IFontFamilyLookupService fontFamilyLookupService,
             IFontZoomLookupService fontZoomLookupService)
         {
+            if (dialogService is null)
+            {
+                throw new ArgumentNullException(nameof(dialogService));
+            }
             if (viewStateService is null)
             {
                 throw new ArgumentNullException(nameof(viewStateService));
@@ -52,6 +59,8 @@ namespace Savaged.BlackNotepad.ViewModels
             {
                 throw new ArgumentNullException(nameof(fontZoomLookupService));
             }
+
+            _dialogService = dialogService;
 
             const string filter = "Text Documents|*.txt";
             _openFileDialog = new OpenFileDialog
@@ -173,7 +182,7 @@ namespace Savaged.BlackNotepad.ViewModels
             get => _caretLine;
             set
             {
-                Set(ref _caretLine, value);
+                Set(ref _caretLine, value + 1);
                 RaisePropertyChanged(nameof(CaretPosition));
             }
         }
@@ -183,12 +192,12 @@ namespace Savaged.BlackNotepad.ViewModels
             get => _caretColumn;
             set
             {
-                Set(ref _caretColumn, value);
+                Set(ref _caretColumn, value + 1);
                 RaisePropertyChanged(nameof(CaretPosition));
             }
         }
 
-        public string CaretPosition => $"Ln {CaretLine + 1}, Col {CaretColumn + 1}";
+        public string CaretPosition => $"Ln {CaretLine}, Col {CaretColumn}";
 
         public RelayCommand NewCmd { get; }
         public RelayCommand OpenCmd { get; }
@@ -199,6 +208,7 @@ namespace Savaged.BlackNotepad.ViewModels
         public RelayCommand FindNextCmd { get; }
         public RelayCommand ReplaceCmd { get; }
         public RelayCommand GoToCmd { get; }
+        public RelayCommand<int> GoToLineCmd { get; }
         public RelayCommand TimeDateCmd { get; }
         public RelayCommand WordWrapCmd { get; }
         public RelayCommand ZoomInCmd { get; }
@@ -335,7 +345,13 @@ namespace Savaged.BlackNotepad.ViewModels
 
         private void OnGoTo()
         {
-            // TODO dialog with line number populated and editable with go button
+            var vm = _dialogService.GetDialogViewModel<GoToDialogViewModel>();
+            vm.LineNumber = CaretLine;
+            var result = _dialogService.ShowDialog(vm);
+            if (result == true)
+            {
+                // got to vm.LineNumber
+            }
         }
 
         private void OnTimeDate()

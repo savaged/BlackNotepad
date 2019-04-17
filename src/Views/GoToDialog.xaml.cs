@@ -11,7 +11,12 @@ namespace Savaged.BlackNotepad.Views
 
         private void OnCancelButtonClick(object sender, RoutedEventArgs e)
         {
-            Close();
+            DialogResult = false;
+        }
+
+        private void OnGoToButtonClick(object sender, RoutedEventArgs e)
+        {
+            DialogResult = true;
         }
     }
 }

@@ -19,11 +19,18 @@ namespace Savaged.BlackNotepad
 
             SimpleIoc.Default.Register<IViewStateService, ViewStateService>();
 
+
+            SimpleIoc.Default
+                .Register<IDialogService, DialogService>();
+
             SimpleIoc.Default.Register<MainViewModel>();
+            var mainVm = SimpleIoc.Default.GetInstance<MainViewModel>();
+
+            SimpleIoc.Default.Register<GoToDialogViewModel>();
 
             var mainView = new MainWindow
             {
-                DataContext = SimpleIoc.Default.GetInstance<MainViewModel>()
+                DataContext = mainVm
             };
             mainView.Show();
         }

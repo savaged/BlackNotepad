@@ -18,6 +18,7 @@
         <KeyBinding Gesture="Ctrl+N" Command="{Binding NewCmd}"/>
         <KeyBinding Gesture="Ctrl+O" Command="{Binding OpenCmd}"/>
         <KeyBinding Gesture="Ctrl+S" Command="{Binding SaveCmd}"/>
+        <KeyBinding Gesture="Ctrl+G" Command="{Binding GoToCmd}"/>
         <KeyBinding Gesture="Ctrl+F" Command="{Binding FindCmd}"/>
         <KeyBinding Key="F3" Command="{Binding FindNextCmd}"/>
         <KeyBinding Gesture="Ctrl+H" Command="{Binding ReplaceCmd}"/>
@@ -91,7 +92,7 @@
                           InputGestureText="Ctrl+H"/>
                 <MenuItem Header="_Go To..." 
                           Command="{Binding GoToCmd}" 
-                          InputGestureText="Ctrl+H"/>
+                          InputGestureText="Ctrl+G"/>
                 <Separator/>
                 <MenuItem Header="Select _All..." 
                           Click="OnSelectAllMenuItemClick"

@@ -1,8 +1,8 @@
 ﻿namespace Savaged.BlackNotepad.Views
 {
-    public partial class GoToDialog : ActionDialog
+    public partial class FindDialog : ActionDialog
     {
-        public GoToDialog()
+        public FindDialog()
         {
             InitializeComponent();
         }

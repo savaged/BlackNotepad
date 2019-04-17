@@ -22,6 +22,7 @@ namespace Savaged.BlackNotepad
 
 
             SimpleIoc.Default.Register<GoToDialogViewModel>();
+            SimpleIoc.Default.Register<FindDialogViewModel>();
             SimpleIoc.Default.Register<OpenFileDialog>();
             SimpleIoc.Default.Register<SaveFileDialog>();
 

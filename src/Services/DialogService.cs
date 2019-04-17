@@ -1,6 +1,7 @@
 ﻿using GalaSoft.MvvmLight.Ioc;
 using Microsoft.Win32;
 using Savaged.BlackNotepad.ViewModels;
+using Savaged.BlackNotepad.Views;
 using System;
 using System.Reflection;
 using System.Windows;
@@ -55,17 +56,17 @@ namespace Savaged.BlackNotepad.Services
             return value;
         }
 
-        private Window GetDialog(string dialogName)
+        private Dialog GetDialog(string dialogName)
         {
-            Window value = null;
+            Dialog value = null;
             foreach (var t in Assembly.GetEntryAssembly().GetTypes())
             {
-                if (t.BaseType == typeof(Window)
-                   || t.BaseType?.BaseType == typeof(Window))
+                if (t.BaseType == typeof(Dialog)
+                   || t.BaseType?.BaseType == typeof(Dialog))
                 {
                     if (t.Name == dialogName)
                     {
-                        value = (Window)Activator.CreateInstance(t);
+                        value = (Dialog)Activator.CreateInstance(t);
                         break;
                     }
                 }

@@ -278,8 +278,10 @@ namespace Savaged.BlackNotepad.ViewModels
             {
                 StartLongOperation();
 
-                SelectedItem = new FileModel(_openFileDialog.FileName);
-                SelectedItem.IsDirty = false;
+                SelectedItem = new FileModel(_openFileDialog.FileName)
+                {
+                    IsDirty = false
+                };
 
                 EndLongOpertation();
             }
@@ -329,7 +331,13 @@ namespace Savaged.BlackNotepad.ViewModels
 
         private void OnFind()
         {
-
+            var vm = _dialogService
+                .GetDialogViewModel<FindDialogViewModel>();
+            var result = _dialogService.ShowDialog(vm);
+            if (result == true)
+            {
+                // TODO code the find
+            }
         }
 
         private void OnFindNext()

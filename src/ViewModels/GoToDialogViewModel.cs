@@ -1,6 +1,6 @@
 ﻿namespace Savaged.BlackNotepad.ViewModels
 {
-    public class GoToDialogViewModel : DialogViewModelBase
+    public class GoToDialogViewModel : ActionDialogViewModelBase
     {
         private int _lineNumber;
 
@@ -10,10 +10,10 @@
             set
             {
                 Set(ref _lineNumber, value);
-                RaisePropertyChanged(nameof(IsGoToEnabled));
+                RaisePropertyChanged(nameof(IsActionEnabled));
             }
         }
 
-        public bool IsGoToEnabled => LineNumber > 0;
+        public override bool IsActionEnabled => LineNumber > 0;
     }
 }

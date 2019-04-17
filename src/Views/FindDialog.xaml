@@ -1,0 +1,88 @@
+﻿<local:ActionDialog x:Class="Savaged.BlackNotepad.Views.FindDialog"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Savaged.BlackNotepad.Views"
+        mc:Ignorable="d"
+        Title="Find" 
+        Height="150" Width="370"
+        WindowStyle="ToolWindow"
+        ResizeMode="NoResize"
+        Background="DarkGray">
+    <Window.CommandBindings>
+        <CommandBinding Command="Close" 
+                        Executed="OnCloseCommandExecuted" />
+    </Window.CommandBindings>
+    <local:Dialog.InputBindings>
+        <KeyBinding Command="Close" Key="Esc" />
+    </local:Dialog.InputBindings>
+    <Grid Margin="10">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="260"/>
+            <ColumnDefinition/>
+        </Grid.ColumnDefinitions>
+
+        <Grid Grid.Column="0">
+            <Grid.RowDefinitions>
+                <RowDefinition/>
+                <RowDefinition/>
+            </Grid.RowDefinitions>
+            <StackPanel Grid.Row="0" 
+                        Orientation="Horizontal"
+                        Height="20"
+                        VerticalAlignment="Top">
+                <TextBlock Width="70">
+                <AccessText>Fi_nd what:</AccessText>
+                </TextBlock>
+                <TextBox Name="FindText"
+                         Width="190"
+                         Text="{Binding TextSought, UpdateSourceTrigger=PropertyChanged}"/>
+            </StackPanel>
+            <Grid Grid.Row="1">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition/>
+                    <ColumnDefinition/>
+                </Grid.ColumnDefinitions>
+                <StackPanel Grid.Column="0">
+                    <CheckBox Name="MatchCaseCheckBox"
+                              Margin="0,0,0,10">
+                        <AccessText>Match _case</AccessText>
+                    </CheckBox>
+                    <CheckBox Name="WrapAroundCheckBox">
+                        <AccessText>W_rap around</AccessText>
+                    </CheckBox>
+                </StackPanel>
+                <StackPanel Grid.Column="1">
+                    <TextBlock Margin="10,0,0,-5">Direction</TextBlock>
+                    <Border Height="35" 
+                            BorderThickness="1"
+                            BorderBrush="Silver">
+                        <StackPanel Orientation="Horizontal">
+                            <RadioButton Margin="10">
+                                <AccessText>_Up</AccessText>
+                            </RadioButton>
+                            <RadioButton Margin="10">
+                                <AccessText>_Down</AccessText>
+                            </RadioButton>
+                        </StackPanel>
+                    </Border>
+                </StackPanel>
+            </Grid>
+        </Grid>
+
+        <StackPanel Grid.Column="1"
+                    HorizontalAlignment="Right">
+            <Button Name="FindButton"
+                    Margin="10,0,0,0"
+                    IsDefault="True" 
+                    Click="OnActionButtonClick"
+                    IsEnabled="{Binding IsActionEnabled}">
+                <AccessText>_Find Next</AccessText>
+            </Button>
+            <Button Name="CancelButton"
+                    Content="Cancel" 
+                    Click="OnCancelButtonClick"/>
+        </StackPanel>
+    </Grid>
+</local:ActionDialog>

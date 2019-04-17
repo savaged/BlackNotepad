@@ -10,6 +10,13 @@
     <Style TargetType="{x:Type ContextMenu}">
         <Setter Property="ItemsPanel" Value="{StaticResource MenuItemPanelTemplate}"/>
     </Style>
+
+    <Style TargetType="Button">
+        <Setter Property="Background" Value="DarkGray"/>
+        <Setter Property="Margin" Value="10,10,0,0"/>
+        <Setter Property="Height" Value="24"/>
+        <Setter Property="Width" Value="70"/>
+    </Style>
     
     <!-- Couldn't find a way to algin menus like Notepad except for this Windows hack:
 Press the Windows key + R to bring up the Run dialog box. In the Open line, copy/paste the following line of text.

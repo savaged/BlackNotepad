@@ -26,6 +26,13 @@ namespace Savaged.BlackNotepad.Views
             if (_viewModel != null)
             {
                 _viewModel.SelectedText = ContentText.SelectedText;
+
+                var selectionStart = ContentText.SelectionStart;
+                var line = ContentText.GetLineIndexFromCharacterIndex(selectionStart);
+                var column = selectionStart - 
+                    ContentText.GetCharacterIndexFromLineIndex(line);
+                _viewModel.CaretLine = line;
+                _viewModel.CaretColumn = column;
             }
         }
 

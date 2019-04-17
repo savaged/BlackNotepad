@@ -159,7 +159,7 @@
                 <TextBlock Text="{Binding SelectedItem.LineEnding}"/>
             </StatusBarItem>
             <StatusBarItem Grid.Column="2">
-                <TextBlock Text="{Binding SelectedItem.Position}"/>
+                <TextBlock Text="{Binding CaretPosition}"/>
             </StatusBarItem>
             <StatusBarItem Grid.Column="3">
                 <StackPanel Orientation="Horizontal">

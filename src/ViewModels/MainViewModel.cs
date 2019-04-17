@@ -27,6 +27,8 @@ namespace Savaged.BlackNotepad.ViewModels
         private string _findText;
         private bool _isFontZoomMin;
         private bool _isFontZoomMax;
+        private int _caretLine;
+        private int _caretColumn;
 
         public MainViewModel(
             IViewStateService viewStateService,
@@ -165,6 +167,28 @@ namespace Savaged.BlackNotepad.ViewModels
                 RaisePropertyChanged(nameof(IsPasteEnabled));
             }
         }
+
+        public int CaretLine
+        {
+            get => _caretLine;
+            set
+            {
+                Set(ref _caretLine, value);
+                RaisePropertyChanged(nameof(CaretPosition));
+            }
+        }
+
+        public int CaretColumn
+        {
+            get => _caretColumn;
+            set
+            {
+                Set(ref _caretColumn, value);
+                RaisePropertyChanged(nameof(CaretPosition));
+            }
+        }
+
+        public string CaretPosition => $"Ln {CaretLine + 1}, Col {CaretColumn + 1}";
 
         public RelayCommand NewCmd { get; }
         public RelayCommand OpenCmd { get; }

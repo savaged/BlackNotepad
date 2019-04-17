@@ -2,11 +2,11 @@
 
 namespace Savaged.BlackNotepad.Models
 {
-    public class FontColour : ObservableObject
+    public abstract class SelectionModelBase : ObservableObject
     {
         private bool _isSelected;
 
-        public FontColour(string name, string displayName)
+        public SelectionModelBase(string name, string displayName)
         {
             Name = name;
             DisplayName = displayName;

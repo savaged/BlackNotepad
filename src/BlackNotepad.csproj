@@ -78,7 +78,9 @@
     </ApplicationDefinition>
     <Compile Include="Converters\TrueFalseToWrapNoWrapConverter.cs" />
     <Compile Include="Models\FileModel.cs" />
-    <Compile Include="Models\FontColour.cs" />
+    <Compile Include="Models\SelectionModelBase.cs" />
+    <Compile Include="Models\FontFamilyModel.cs" />
+    <Compile Include="Models\FontColourModel.cs" />
     <Compile Include="Models\ViewStateModel.cs" />
     <Compile Include="Services\IViewStateService.cs" />
     <Compile Include="Services\ViewStateService.cs" />

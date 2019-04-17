@@ -37,6 +37,13 @@
                     <Setter Property="CommandParameter" Value="{Binding}"/>
                     <Setter Property="IsChecked" Value="{Binding IsSelected}"/>
                 </Style>
+                <Style TargetType="MenuItem" x:Key="FontFamilyMenu">
+                    <Setter Property="Header" Value="{Binding DisplayName}"/>
+                    <Setter Property="Command" 
+                            Value="{Binding DataContext.FontFamilyCmd, RelativeSource={RelativeSource AncestorType={x:Type Menu}}}"/>
+                    <Setter Property="CommandParameter" Value="{Binding}"/>
+                    <Setter Property="IsChecked" Value="{Binding IsSelected}"/>
+                </Style>
             </Menu.Resources>
             <MenuItem Header="_File">
                 <MenuItem Header="_New" 
@@ -98,8 +105,9 @@
                 <MenuItem Header="_Word Wrap" 
                           Command="{Binding WordWrapCmd}" 
                           IsChecked="{Binding ViewState.IsWrapped}"/>
-                <MenuItem Header="_Font..."
-                          Command="{Binding FontCmd}"/>
+                <MenuItem Header="_Font"
+                          ItemsSource="{Binding FontFamilyNames}"
+                          ItemContainerStyle="{StaticResource FontFamilyMenu}"/>
                 <MenuItem Header="Font _Colour"
                           ItemsSource="{Binding FontColours}"
                           ItemContainerStyle="{StaticResource FontColourMenu}"/>
@@ -112,7 +120,7 @@
                     <MenuItem Header="Zoom _Out" 
                               Command="{Binding ZoomOutCmd}" 
                               InputGestureText="Ctrl+Minus"/>
-                    <MenuItem Header="_Restore" 
+                    <MenuItem Header="_Restore Default Zoom" 
                               Command="{Binding RestoreCmd}" 
                               InputGestureText="Ctrl+0"/>
                 </MenuItem>
@@ -126,6 +134,7 @@
                 <MenuItem Header="_About" Command="{Binding AboutCmd}"/>
             </MenuItem>
         </Menu>
+        
         <StatusBar Name="FeedbackStatus" 
                    DockPanel.Dock="Bottom"
                    Background="DarkGray"
@@ -159,14 +168,15 @@
                 </StackPanel>
             </StatusBarItem>
         </StatusBar>
+        
         <TextBox Name="ContentText" 
                  Background="Black" 
-                 FontFamily="Arial Unicode MS"
                  AcceptsReturn="True" AcceptsTab="True"   
                  SelectionChanged="OnContentTextSelectionChanged"        
                  AllowDrop="True" 
                  PreviewDragOver="OnContentTextPreviewDragOver"
                  PreviewDrop="OnContentTextPreviewDrop"
+                 FontFamily="{Binding ViewState.SelectedFontFamily.Name}"
                  Foreground="{Binding ViewState.SelectedFontColour.Name}"
                  FontSize="{Binding ViewState.FontSize}"
                  TextWrapping="{Binding ViewState.IsWrapped, Converter={StaticResource BoolToWrappingConverter}}"

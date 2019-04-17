@@ -12,12 +12,30 @@ namespace Savaged.BlackNotepad.Models
         private int _zoom;
         private bool _isWrapped;
         private bool _isStatusBarVisible;
-        private FontColour _selectedFontColour;
+        private FontColourModel _selectedFontColour;
+        private FontFamilyModel _selectedFontFamily;
 
         public ViewStateModel()
         {
             _fontZoom = new Dictionary<int, int>
             {
+                //{ 60, 8 },
+                //{ 65, 9 },
+                //{ 70, 10 },
+                //{ 80, 11 },
+                //{ 90, 12 },
+                //{ _defaultZoom, 14 },
+                //{ 115, 16 },
+                //{ 130, 18 },
+                //{ 145, 20 },
+                //{ 160, 22 },
+                //{ 170, 24 },
+                //{ 190, 26 },
+                //{ 200, 28 },
+                //{ 260, 36 },
+                //{ 300, 42 },
+                //{ 345, 48 },
+                //{ 515, 72 }
                 { 1, 8 },
                 { 75, 9 },
                 { 80, 10 },
@@ -61,10 +79,16 @@ namespace Savaged.BlackNotepad.Models
             }
         }
 
-        public int FontSize => 
-            _fontZoom.ContainsKey(Zoom) ?
-            _fontZoom[Zoom] :
-            _fontZoom[_defaultZoom];
+        public int FontSize
+        {
+            get
+            {
+                var value = _fontZoom.ContainsKey(Zoom) ?
+                    _fontZoom[Zoom] :
+                    _fontZoom[_defaultZoom];
+                return value;
+            }
+        }            
 
         public void ZoomIn()
         {
@@ -96,16 +120,26 @@ namespace Savaged.BlackNotepad.Models
 
         public void ZoomDefault()
         {
-            Zoom = _fontZoom[_defaultZoom];
+            Zoom = _defaultZoom;
         }
 
-        public FontColour SelectedFontColour
+        public FontColourModel SelectedFontColour
         {
             get => _selectedFontColour;
             set
             {
                 value.IsSelected = true;
                 Set(ref _selectedFontColour, value);
+            }
+        }
+
+        public FontFamilyModel SelectedFontFamily
+        {
+            get => _selectedFontFamily;
+            set
+            {
+                value.IsSelected = true;
+                Set(ref _selectedFontFamily, value);
             }
         }
     }

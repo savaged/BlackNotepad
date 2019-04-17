@@ -1,13 +1,15 @@
 ﻿using GalaSoft.MvvmLight;
+using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace Savaged.BlackNotepad.Models
 {
     public class ViewStateModel : ObservableObject
     {
-        private const int _defaultFontSize = 12;
+        private const int _defaultZoom = 100;
         private readonly IDictionary<int, int> _fontZoom;
-
+        private int _zoom;
         private bool _isWrapped;
         private bool _isStatusBarVisible;
         private FontColour _selectedFontColour;
@@ -20,7 +22,7 @@ namespace Savaged.BlackNotepad.Models
                 { 75, 9 },
                 { 80, 10 },
                 { 90, 11 },
-                { 100, _defaultFontSize },
+                { _defaultZoom, 12 },
                 { 120, 14 },
                 { 130, 16 },
                 { 150, 18 },
@@ -34,7 +36,7 @@ namespace Savaged.BlackNotepad.Models
                 { 400, 48 },
                 { 600, 72 }
             };
-
+            Zoom = _defaultZoom;
         }
 
         public bool IsWrapped
@@ -49,21 +51,52 @@ namespace Savaged.BlackNotepad.Models
             set => Set(ref _isStatusBarVisible, value);
         }
 
-        public int Zoom { get; private set; }
+        public int Zoom
+        {
+            get => _zoom;
+            private set
+            {
+                Set(ref _zoom, value);
+                RaisePropertyChanged(nameof(FontSize));
+            }
+        }
 
         public int FontSize => 
             _fontZoom.ContainsKey(Zoom) ?
-            _fontZoom[Zoom] : 
-            _defaultFontSize;
+            _fontZoom[Zoom] :
+            _fontZoom[_defaultZoom];
 
         public void ZoomIn()
         {
-
+            int value = _defaultZoom;
+            try
+            {
+                value = _fontZoom.Keys.SkipWhile(i => !i.Equals(Zoom)).Skip(1).First();
+            }
+            catch (InvalidOperationException)
+            {
+                value = Zoom;
+            }
+            Zoom = value;
         }
 
         public void ZoomOut()
         {
+            int value = _defaultZoom;
+            try
+            {
+                value = _fontZoom.Keys.TakeWhile(i => !i.Equals(Zoom)).Last();
+            }
+            catch (InvalidOperationException)
+            {
+                value = Zoom;
+            }
+            Zoom = value;
+        }
 
+        public void ZoomDefault()
+        {
+            Zoom = _fontZoom[_defaultZoom];
         }
 
         public FontColour SelectedFontColour

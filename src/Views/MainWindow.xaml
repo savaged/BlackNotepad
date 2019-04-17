@@ -168,6 +168,7 @@
                  PreviewDragOver="OnContentTextPreviewDragOver"
                  PreviewDrop="OnContentTextPreviewDrop"
                  Foreground="{Binding ViewState.SelectedFontColour.Name}"
+                 FontSize="{Binding ViewState.FontSize}"
                  TextWrapping="{Binding ViewState.IsWrapped, Converter={StaticResource BoolToWrappingConverter}}"
                  Text="{Binding SelectedItem.Content, UpdateSourceTrigger=PropertyChanged}"/>
     </DockPanel>

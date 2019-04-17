@@ -63,14 +63,12 @@ namespace Savaged.BlackNotepad.ViewModels
             _dialogService = dialogService;
 
             const string filter = "Text Documents|*.txt";
-            _openFileDialog = new OpenFileDialog
-            {
-                Filter = filter
-            };
-            _saveFileDialog = new SaveFileDialog
-            {
-                Filter = filter
-            };
+            _openFileDialog = _dialogService.GetDialog<OpenFileDialog>();
+            _openFileDialog.Filter = filter;
+
+            _saveFileDialog = _dialogService.GetDialog<SaveFileDialog>();
+            _saveFileDialog.Filter = filter;
+
             _viewStateService = viewStateService;
             ViewState = _viewStateService.Open();
 
@@ -281,6 +279,7 @@ namespace Savaged.BlackNotepad.ViewModels
                 StartLongOperation();
 
                 SelectedItem = new FileModel(_openFileDialog.FileName);
+                SelectedItem.IsDirty = false;
 
                 EndLongOpertation();
             }
@@ -345,7 +344,8 @@ namespace Savaged.BlackNotepad.ViewModels
 
         private void OnGoTo()
         {
-            var vm = _dialogService.GetDialogViewModel<GoToDialogViewModel>();
+            var vm = _dialogService
+                .GetDialogViewModel<GoToDialogViewModel>();
             vm.LineNumber = CaretLine;
             var result = _dialogService.ShowDialog(vm);
             if (result == true)
@@ -466,7 +466,7 @@ namespace Savaged.BlackNotepad.ViewModels
 
         private void OnAbout()
         {
-            MessageBox.Show(
+            _dialogService.ShowDialog(
                 "A black 'version' of the classic Microsoft Windows Notepad application", 
                 "About");
         }
@@ -502,11 +502,11 @@ namespace Savaged.BlackNotepad.ViewModels
             var value = false;
             if (SelectedItem.IsDirty)
             {
-                var result = MessageBox.Show(
+                var result = _dialogService.ShowDialog(
                     $"Do you want to save changes to {SelectedItem.Name}?",
                     "Black Notepad",
-                    MessageBoxButton.YesNoCancel);
-                value = result == MessageBoxResult.Yes;
+                    yesNoCancelButtons: true);
+                value = result == true;
             }
             return value;
         }

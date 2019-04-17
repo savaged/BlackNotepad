@@ -316,7 +316,7 @@ namespace Savaged.BlackNotepad.ViewModels
 
         private void OnTimeDate()
         {
-
+            SelectedItem.Content += DateTime.Now.ToString("HH:mm yyyy-MM-dd");
         }
 
         private void OnWordWrap()

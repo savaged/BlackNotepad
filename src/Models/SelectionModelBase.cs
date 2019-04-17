@@ -2,20 +2,31 @@
 
 namespace Savaged.BlackNotepad.Models
 {
-    public abstract class SelectionModelBase : ObservableObject
+    public abstract class SelectionModelBase<TKey, TValue>
+        : ObservableObject, ISelectionModel
     {
         private bool _isSelected;
+        private TKey _key;
+        private TValue _value;
 
-        public SelectionModelBase(string name, string displayName)
+        public SelectionModelBase(TKey key, TValue value)
         {
-            Name = name;
-            DisplayName = displayName;
+            Key = key;
+            Value = value;
             IsSelected = false;
         }
 
-        public string Name { get; }
+        public TKey Key
+        {
+            get => _key;
+            set => Set(ref _key, value);
+        }
 
-        public string DisplayName { get; }
+        public TValue Value
+        {
+            get => _value;
+            set => Set(ref _value, value);
+        }
 
         public bool IsSelected
         {

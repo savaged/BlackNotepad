@@ -8,9 +8,31 @@ namespace Savaged.BlackNotepad.Services
     public class ViewStateService : IViewStateService
     {
         private readonly string _fileLocation;
+        private readonly IFontColourLookupService _fontColourLookupService;
+        private readonly IFontFamilyLookupService _fontFamilyLookupService;
+        private readonly IFontZoomLookupService _fontZoomLookupService;
 
-        public ViewStateService()
+        public ViewStateService(
+            IFontColourLookupService fontColourLookupService,
+            IFontFamilyLookupService fontFamilyLookupService,
+            IFontZoomLookupService fontZoomLookupService)
         {
+            if (fontColourLookupService is null)
+            {
+                throw new ArgumentNullException(nameof(fontColourLookupService));
+            }
+            if (fontFamilyLookupService is null)
+            {
+                throw new ArgumentNullException(nameof(fontFamilyLookupService));
+            }
+            if (fontZoomLookupService is null)
+            {
+                throw new ArgumentNullException(nameof(fontZoomLookupService));
+            }
+            _fontColourLookupService = fontColourLookupService;
+            _fontFamilyLookupService = fontFamilyLookupService;
+            _fontZoomLookupService = fontZoomLookupService;
+
             var localAppData = Environment.GetFolderPath(
                 Environment.SpecialFolder.LocalApplicationData);
             _fileLocation = 
@@ -28,7 +50,10 @@ namespace Savaged.BlackNotepad.Services
             }
             else
             {
-                value = new ViewStateModel();
+                value = new ViewStateModel(
+                    _fontColourLookupService.GetDefault(),
+                    _fontFamilyLookupService.GetDefault(),
+                    _fontZoomLookupService.GetDefault());
             }
             return value;
         }

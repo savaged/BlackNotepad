@@ -10,7 +10,15 @@ namespace Savaged.BlackNotepad
     {
         private void OnApplicationStartup(object sender, StartupEventArgs e)
         {
+            SimpleIoc.Default
+                .Register<IFontColourLookupService, FontColourLookupService>();
+            SimpleIoc.Default
+                .Register<IFontFamilyLookupService, FontFamilyLookupService>();
+            SimpleIoc.Default
+                .Register<IFontZoomLookupService, FontZoomLookupService>();
+
             SimpleIoc.Default.Register<IViewStateService, ViewStateService>();
+
             SimpleIoc.Default.Register<MainViewModel>();
 
             var mainView = new MainWindow

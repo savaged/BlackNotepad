@@ -3,6 +3,7 @@ using GalaSoft.MvvmLight.CommandWpf;
 using Microsoft.Win32;
 using Savaged.BlackNotepad.Models;
 using Savaged.BlackNotepad.Services;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Diagnostics;
@@ -10,23 +11,46 @@ using System.IO;
 using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Windows;
-using System.Windows.Media;
 
 namespace Savaged.BlackNotepad.ViewModels
 {
     public class MainViewModel : ViewModelBase
     {
-        private const string _defaultFontFamily = "Arial Unicode MS";
         private readonly IList<string> _busyRegister;
         private readonly OpenFileDialog _openFileDialog;
         private readonly SaveFileDialog _saveFileDialog;
         private readonly IViewStateService _viewStateService;
+        private readonly IList<FontZoomModel> _fontZoomIndex;
+        private readonly int _defaultZoom;
         private FileModel _selectedItem;
         private string _selectedText;
         private string _findText;
+        private bool _isFontZoomMin;
+        private bool _isFontZoomMax;
 
-        public MainViewModel(IViewStateService viewStateService)
+        public MainViewModel(
+            IViewStateService viewStateService,
+            IFontColourLookupService fontColourLookupService,
+            IFontFamilyLookupService fontFamilyLookupService,
+            IFontZoomLookupService fontZoomLookupService)
         {
+            if (viewStateService is null)
+            {
+                throw new ArgumentNullException(nameof(viewStateService));
+            }
+            if (fontColourLookupService is null)
+            {
+                throw new ArgumentNullException(nameof(fontColourLookupService));
+            }
+            if (fontFamilyLookupService is null)
+            {
+                throw new ArgumentNullException(nameof(fontFamilyLookupService));
+            }
+            if (fontZoomLookupService is null)
+            {
+                throw new ArgumentNullException(nameof(fontZoomLookupService));
+            }
+
             const string filter = "Text Documents|*.txt";
             _openFileDialog = new OpenFileDialog
             {
@@ -39,21 +63,16 @@ namespace Savaged.BlackNotepad.ViewModels
             _viewStateService = viewStateService;
             ViewState = _viewStateService.Open();
 
-            FontColours = new List<FontColourModel>
-            {
-                new FontColourModel("LightGreen", "Light Green"),
-                new FontColourModel("White", "White")
-            };
-            ViewState.SelectedFontColour = FontColours.First();
+            FontColours = fontColourLookupService.GetIndex();
 
-            FontFamilyNames = new List<FontFamilyModel>();
-            foreach (var fontFamily in Fonts.SystemFontFamilies)
-            {
-                var name = fontFamily.ToString();
-                FontFamilyNames.Add(new FontFamilyModel(name, name));
-            }
-            ViewState.SelectedFontFamily =
-                FontFamilyNames.Where(f => f.Name == _defaultFontFamily).FirstOrDefault();
+            FontFamilyNames = fontFamilyLookupService.GetIndex();
+
+            _fontZoomIndex = fontZoomLookupService.GetIndex();
+            _defaultZoom = fontZoomLookupService.GetDefault().Zoom;
+            _isFontZoomMin =
+                ViewState.SelectedFontZoom.Key == _fontZoomIndex.First().Key;
+            _isFontZoomMax =
+                ViewState.SelectedFontZoom.Key == _fontZoomIndex.Last().Key;
 
             _busyRegister = new List<string>();
             _selectedItem = new FileModel();
@@ -69,9 +88,9 @@ namespace Savaged.BlackNotepad.ViewModels
             GoToCmd = new RelayCommand(OnGoTo, () => CanExecute);
             TimeDateCmd = new RelayCommand(OnTimeDate, () => CanExecute);
             WordWrapCmd = new RelayCommand(OnWordWrap, () => CanExecute);
-            ZoomInCmd = new RelayCommand(OnZoomIn, () => CanExecute);
-            ZoomOutCmd = new RelayCommand(OnZoomOut, () => CanExecute);
-            RestoreCmd = new RelayCommand(OnRestore, () => CanExecute);
+            ZoomInCmd = new RelayCommand(OnZoomIn, () => CanExecuteZoomIn);
+            ZoomOutCmd = new RelayCommand(OnZoomOut, () => CanExecuteZoomOut);
+            RestoreDefaultZoomCmd = new RelayCommand(OnRestoreDefaultZoom, () => CanExecute);
             StatusBarCmd = new RelayCommand(OnStatusBar, () => CanExecute);
             HelpCmd = new RelayCommand(OnHelp, () => CanExecute);
             AboutCmd = new RelayCommand(OnAbout, () => CanExecute);
@@ -160,7 +179,7 @@ namespace Savaged.BlackNotepad.ViewModels
         public RelayCommand WordWrapCmd { get; }
         public RelayCommand ZoomInCmd { get; }
         public RelayCommand ZoomOutCmd { get; }
-        public RelayCommand RestoreCmd { get; }
+        public RelayCommand RestoreDefaultZoomCmd { get; }
         public RelayCommand StatusBarCmd { get; }
         public RelayCommand HelpCmd { get; }
         public RelayCommand AboutCmd { get; }
@@ -174,6 +193,10 @@ namespace Savaged.BlackNotepad.ViewModels
 
         public bool CanExecuteSave => CanExecute &&
             SelectedItem.IsDirty;
+
+        public bool CanExecuteZoomIn => CanExecute && !_isFontZoomMax;
+
+        public bool CanExecuteZoomOut => CanExecute && !_isFontZoomMin;
 
         public bool CanExecuteFindNext => CanExecute &&
             !string.IsNullOrEmpty(FindText);
@@ -198,7 +221,6 @@ namespace Savaged.BlackNotepad.ViewModels
 
         public bool IsSelectAllEnabled => !IsBusy &&
             SelectedItem.HasContent;
-
 
         private void StartLongOperation([CallerMemberName]string caller = "")
         {
@@ -302,24 +324,89 @@ namespace Savaged.BlackNotepad.ViewModels
             ViewState.IsWrapped = !ViewState.IsWrapped;
         }
 
-        private void OnFont()
-        {
-            // TODO use windows forms fontdialog
-        }
-
+        /// <summary>
+        /// Ctrl+Plus
+        /// </summary>
         private void OnZoomIn()
         {
-            ViewState.ZoomIn();
+            var current = ViewState.SelectedFontZoom;
+            if (current is null)
+            {
+                RestoreDefaultZoom();
+            }
+            FontZoomModel value = null;
+            var isCurrentFound = false;
+            foreach (var fontZoom in _fontZoomIndex)
+            {
+                if (isCurrentFound)
+                {
+                    value = fontZoom;
+                    current.IsSelected = false;
+                    value.IsSelected = true;
+                    break;
+                }
+                isCurrentFound = fontZoom.Key == current.Key;
+            }
+            if (value is null)
+            {
+                value = current;
+                _isFontZoomMax = true;
+            }
+            _isFontZoomMin = false;
+            ViewState.SelectedFontZoom = value;
         }
 
+        /// <summary>
+        /// Ctrl+Minus
+        /// </summary>
         private void OnZoomOut()
         {
-            ViewState.ZoomOut();
+            var current = ViewState.SelectedFontZoom;
+            if (current is null)
+            {
+                RestoreDefaultZoom();
+            }
+            FontZoomModel value = null;
+            foreach (var fontZoom in _fontZoomIndex)
+            {
+                if (fontZoom.Key == current.Key)
+                {
+                    current.IsSelected = false;
+                    break;
+                }
+                value = fontZoom;
+            }
+            if (value is null)
+            {
+                value = current;
+                _isFontZoomMin = true;
+            }
+            _isFontZoomMax = false;
+            value.IsSelected = true;
+            ViewState.SelectedFontZoom = value;
         }
 
-        private void OnRestore()
+        private void OnRestoreDefaultZoom()
         {
-            ViewState.ZoomDefault();
+            RestoreDefaultZoom();
+        }
+        private void RestoreDefaultZoom()
+        {
+            FontZoomModel @default = null;
+            foreach (var fontZoom in _fontZoomIndex)
+            {
+                if (fontZoom.Key == _defaultZoom)
+                {
+                    @default = fontZoom;
+                    @default.IsSelected = true;
+                }
+                else
+                {
+                    fontZoom.IsSelected = false;
+                }
+            }
+            ViewState.SelectedFontZoom = @default;
+            _isFontZoomMax = _isFontZoomMin = false;
         }
 
         private void OnStatusBar()
@@ -349,7 +436,7 @@ namespace Savaged.BlackNotepad.ViewModels
             ViewState.SelectedFontColour = selected;
             foreach (var fontColour in FontColours)
             {
-                if (fontColour.Name != ViewState.SelectedFontColour.Name)
+                if (fontColour.Key != ViewState.SelectedFontColour.Key)
                 {
                     fontColour.IsSelected = false;
                 }
@@ -362,7 +449,7 @@ namespace Savaged.BlackNotepad.ViewModels
             ViewState.SelectedFontFamily = selected;
             foreach (var fontFamily in FontFamilyNames)
             {
-                if (fontFamily.Name != ViewState.SelectedFontFamily.Name)
+                if (fontFamily.Key != ViewState.SelectedFontFamily.Key)
                 {
                     fontFamily.IsSelected = false;
                 }

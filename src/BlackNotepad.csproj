@@ -78,10 +78,21 @@
     </ApplicationDefinition>
     <Compile Include="Converters\TrueFalseToWrapNoWrapConverter.cs" />
     <Compile Include="Models\FileModel.cs" />
+    <Compile Include="Models\FontZoomModel.cs" />
+    <Compile Include="Models\ISelectionModel.cs" />
     <Compile Include="Models\SelectionModelBase.cs" />
     <Compile Include="Models\FontFamilyModel.cs" />
     <Compile Include="Models\FontColourModel.cs" />
     <Compile Include="Models\ViewStateModel.cs" />
+    <Compile Include="Services\FontZoomLookupService.cs" />
+    <Compile Include="Services\IFontColourLookupService.cs" />
+    <Compile Include="Services\IFontFamilyLookupService.cs" />
+    <Compile Include="Services\IFontZoomLookupService.cs" />
+    <Compile Include="Services\ILookupService.cs" />
+    <Compile Include="Services\LookupSelectionModelServiceBase.cs" />
+    <Compile Include="Services\LookupServiceBase.cs" />
+    <Compile Include="Services\FontFamilyLookupService.cs" />
+    <Compile Include="Services\FontColourLookupService.cs" />
     <Compile Include="Services\IViewStateService.cs" />
     <Compile Include="Services\ViewStateService.cs" />
     <Compile Include="ViewModels\MainViewModel.cs" />

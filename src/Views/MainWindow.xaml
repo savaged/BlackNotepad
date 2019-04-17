@@ -24,21 +24,21 @@
         <KeyBinding Key="F5" Command="{Binding TimeDateCmd}"/>
         <KeyBinding Gesture="Ctrl+Plus" Command="{Binding ZoomInCmd}"/>
         <KeyBinding Gesture="Ctrl+Minus" Command="{Binding ZoomOutCmd}"/>
-        <KeyBinding Gesture="Ctrl+0" Command="{Binding RestoreCmd}"/>
+        <KeyBinding Gesture="Ctrl+0" Command="{Binding RestoreDefaultZoomCmd}"/>
         <KeyBinding Key="F1" Command="{Binding HelpCmd}"/>
     </Window.InputBindings>
     <DockPanel FocusManager.FocusedElement="{Binding ElementName=ContentText}">
         <Menu DockPanel.Dock="Top" Margin="0,0,0.4,0" Background="DarkGray">
             <Menu.Resources>
                 <Style TargetType="MenuItem" x:Key="FontColourMenu">
-                    <Setter Property="Header" Value="{Binding DisplayName}"/>
+                    <Setter Property="Header" Value="{Binding Value}"/>
                     <Setter Property="Command" 
                             Value="{Binding DataContext.FontColourCmd, RelativeSource={RelativeSource AncestorType={x:Type Menu}}}"/>
                     <Setter Property="CommandParameter" Value="{Binding}"/>
                     <Setter Property="IsChecked" Value="{Binding IsSelected}"/>
                 </Style>
                 <Style TargetType="MenuItem" x:Key="FontFamilyMenu">
-                    <Setter Property="Header" Value="{Binding DisplayName}"/>
+                    <Setter Property="Header" Value="{Binding Value}"/>
                     <Setter Property="Command" 
                             Value="{Binding DataContext.FontFamilyCmd, RelativeSource={RelativeSource AncestorType={x:Type Menu}}}"/>
                     <Setter Property="CommandParameter" Value="{Binding}"/>
@@ -121,7 +121,7 @@
                               Command="{Binding ZoomOutCmd}" 
                               InputGestureText="Ctrl+Minus"/>
                     <MenuItem Header="_Restore Default Zoom" 
-                              Command="{Binding RestoreCmd}" 
+                              Command="{Binding RestoreDefaultZoomCmd}" 
                               InputGestureText="Ctrl+0"/>
                 </MenuItem>
                 <MenuItem Header="_Status Bar" 
@@ -163,7 +163,7 @@
             </StatusBarItem>
             <StatusBarItem Grid.Column="3">
                 <StackPanel Orientation="Horizontal">
-                    <TextBlock Text="{Binding ViewState.Zoom}"/>
+                    <TextBlock Text="{Binding ViewState.SelectedFontZoom.Zoom}"/>
                     <TextBlock>%</TextBlock>
                 </StackPanel>
             </StatusBarItem>
@@ -176,9 +176,9 @@
                  AllowDrop="True" 
                  PreviewDragOver="OnContentTextPreviewDragOver"
                  PreviewDrop="OnContentTextPreviewDrop"
-                 FontFamily="{Binding ViewState.SelectedFontFamily.Name}"
-                 Foreground="{Binding ViewState.SelectedFontColour.Name}"
-                 FontSize="{Binding ViewState.FontSize}"
+                 FontFamily="{Binding ViewState.SelectedFontFamily.Key}"
+                 Foreground="{Binding ViewState.SelectedFontColour.Key}"
+                 FontSize="{Binding ViewState.SelectedFontZoom.FontSize}"
                  TextWrapping="{Binding ViewState.IsWrapped, Converter={StaticResource BoolToWrappingConverter}}"
                  Text="{Binding SelectedItem.Content, UpdateSourceTrigger=PropertyChanged}"/>
     </DockPanel>

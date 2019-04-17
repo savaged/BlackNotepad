@@ -335,7 +335,7 @@ namespace Savaged.BlackNotepad.ViewModels
 
         private void OnGoTo()
         {
-
+            // TODO dialog with line number populated and editable with go button
         }
 
         private void OnTimeDate()

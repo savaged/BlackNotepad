@@ -1,0 +1,41 @@
+﻿<Window x:Class="Savaged.BlackNotepad.Views.GoToDialog"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Savaged.BlackNotepad.Views"
+        mc:Ignorable="d"
+        Title="Go To Line" 
+        Height="130" Width="300"
+        WindowStyle="ToolWindow"
+        ResizeMode="NoResize"
+        Background="Black">
+    <StackPanel Margin="10">
+        <TextBlock Foreground="White"
+                   Margin="0,0,0,5" 
+                   Text="Line number:"/>
+        <TextBox Name="LineNumberText" 
+                 Margin="0"
+                 Text="{Binding LineNumber}"/>
+        <StackPanel Orientation="Horizontal"
+                    HorizontalAlignment="Right">
+            <Button Name="GoToButton"
+                    Background="Black"
+                    Foreground="White"
+                    Margin="0,10,0,0"
+                    Width="70"
+                    Height="25"
+                    Content="Go To" 
+                    IsDefault="True" 
+                    Command="{Binding GoToCmd}"/>
+            <Button Name="CancelButton"
+                    Background="Black"
+                    Foreground="White"
+                    Margin="10,10,0,0"
+                    Width="70"
+                    Height="25"
+                    Content="Cancel" 
+                    Click="OnCancelButtonClick"/>
+        </StackPanel>
+    </StackPanel>
+</Window>

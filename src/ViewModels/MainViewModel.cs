@@ -117,12 +117,16 @@ namespace Savaged.BlackNotepad.ViewModels
             _replaceDialog = _dialogService
                 .GetDialogViewModel<ReplaceDialogViewModel>();
             _replaceDialog.FindNextRaisedByDialog += OnFindNextRaisedByDialog;
+            _replaceDialog.ReplaceRaisedByDialog += OnReplaceRaisedByDialog;
+            _replaceDialog.ReplaceAllRaisedByDialog += OnReplaceAllRaisedByDialog;
 
             SelectedItem.PropertyChanged += OnSelectedItemPropertyChanged;
         }
 
         public override void Cleanup()
         {
+            _replaceDialog.ReplaceAllRaisedByDialog -= OnReplaceAllRaisedByDialog;
+            _replaceDialog.ReplaceRaisedByDialog -= OnReplaceRaisedByDialog;
             _replaceDialog.FindNextRaisedByDialog -= OnFindNextRaisedByDialog;
             _findDialog.FindNextRaisedByDialog -= OnFindNextRaisedByDialog;
             SelectedItem.PropertyChanged -= OnSelectedItemPropertyChanged;
@@ -368,7 +372,31 @@ namespace Savaged.BlackNotepad.ViewModels
 
         private void OnReplace()
         {
+            var result = _dialogService.ShowDialog(_replaceDialog);
+            if (result == true)
+            {
+                Replace();
+            }
+        }
 
+        private void OnReplaceRaisedByDialog()
+        {
+            Replace();
+        }
+
+        private void OnReplaceAllRaisedByDialog()
+        {
+            ReplaceAll();
+        }
+
+        private void Replace()
+        {
+            var replacementText = _replaceDialog.ReplacementText;
+        }
+
+        private void ReplaceAll()
+        {
+            var replacementText = _replaceDialog.ReplacementText;
         }
 
         private void OnGoTo()

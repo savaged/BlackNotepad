@@ -28,12 +28,12 @@ namespace Savaged.BlackNotepad.Views
 
         private void OnReplaceButtonClick(object sender, RoutedEventArgs e)
         {
-            _viewModel?.RaiseFindNext();
+            _viewModel?.RaiseReplace();
         }
 
         private void OnReplaceAllButtonClick(object sender, RoutedEventArgs e)
         {
-            
+            _viewModel?.RaiseReplaceAll();
         }
     }
 }

@@ -1,8 +1,25 @@
-﻿namespace Savaged.BlackNotepad.ViewModels
+﻿using System;
+
+namespace Savaged.BlackNotepad.ViewModels
 {
     public class ReplaceDialogViewModel : FindDialogViewModel
     {
         private string _replacementText;
+
+        public Action ReplaceRaisedByDialog = delegate { };
+        public Action ReplaceAllRaisedByDialog = delegate { };
+
+        public void RaiseReplace()
+        {
+            var handler = ReplaceRaisedByDialog;
+            handler?.Invoke();
+        }
+
+        public void RaiseReplaceAll()
+        {
+            var handler = ReplaceAllRaisedByDialog;
+            handler?.Invoke();
+        }
 
         public string ReplacementText
         {

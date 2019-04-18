@@ -1,6 +1,7 @@
 ﻿using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.CommandWpf;
 using Microsoft.Win32;
+using Savaged.BlackNotepad.Lookups;
 using Savaged.BlackNotepad.Models;
 using Savaged.BlackNotepad.Services;
 using System;
@@ -403,7 +404,12 @@ namespace Savaged.BlackNotepad.ViewModels
             var result = _dialogService.ShowDialog(vm);
             if (result == true)
             {
-                // TODO Need to write this: got to vm.LineNumber
+                switch (SelectedItem.LineEnding)
+                {
+                    case LineEndings.CRLF:
+                        // TODO find the vm.LineNumber times LineEnding is found
+                        break;
+                }
             }
         }
 

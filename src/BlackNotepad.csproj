@@ -77,7 +77,9 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="Converters\InverseBoolConverter.cs" />
+    <Compile Include="Converters\LineEndingEnumToDisplayNameConverter.cs" />
     <Compile Include="Converters\TrueFalseToWrapNoWrapConverter.cs" />
+    <Compile Include="Lookups\LineEndings.cs" />
     <Compile Include="Models\FileModel.cs" />
     <Compile Include="Models\FontZoomModel.cs" />
     <Compile Include="Models\ISelectionModel.cs" />

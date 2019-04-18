@@ -11,6 +11,7 @@
         Loaded="OnLoaded"
         Closing="OnClosing">
     <Window.Resources>
+        <converters:LineEndingEnumToDisplayNameConverter x:Key="LineEndingConverter"/>
         <converters:TrueFalseToWrapNoWrapConverter x:Key="BoolToWrappingConverter"/>
         <BooleanToVisibilityConverter x:Key="BoolToVisibilityConverter"/>
     </Window.Resources>
@@ -157,7 +158,7 @@
                            Visibility="{Binding IsBusy, Converter={StaticResource BoolToVisibilityConverter}}"/>
             </StatusBarItem>
             <StatusBarItem Grid.Column="1">
-                <TextBlock Text="{Binding SelectedItem.LineEnding}"/>
+                <TextBlock Text="{Binding SelectedItem.LineEnding, Converter={StaticResource LineEndingConverter}}"/>
             </StatusBarItem>
             <StatusBarItem Grid.Column="2">
                 <TextBlock Text="{Binding CaretPosition}"/>

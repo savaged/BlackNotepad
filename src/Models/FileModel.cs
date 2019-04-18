@@ -1,4 +1,5 @@
 ﻿using GalaSoft.MvvmLight;
+using Savaged.BlackNotepad.Lookups;
 using System.IO;
 using System.Text;
 
@@ -8,14 +9,10 @@ namespace Savaged.BlackNotepad.Models
     {
         private const string _NEW = "Untitled";
 
-        private const string _CRLF = "Windows (CRLF)";
-        private const string _LF = "Mac (LF)";
-        private const string _CR = "Unix (CR)";
-
         private string _name;
         private string _location;
         private string _content;
-        private string _lineEnding;
+        private LineEndings _lineEnding;
         private string _previousContent;
         private int _position;
         private bool _isDirty;
@@ -25,7 +22,7 @@ namespace Savaged.BlackNotepad.Models
             Name = _NEW;
             _previousContent = Content = string.Empty;
             IsDirty = false;
-            LineEnding = _CRLF;
+            LineEnding = LineEndings.CRLF;
         }
 
         public FileModel(string location) 
@@ -80,7 +77,7 @@ namespace Savaged.BlackNotepad.Models
             set => Set(ref _position, value);
         }
 
-        public string LineEnding
+        public LineEndings LineEnding
         {
             get => _lineEnding;
             set => Set(ref _lineEnding, value);
@@ -101,7 +98,7 @@ namespace Savaged.BlackNotepad.Models
                 return;
             }
             var contentBuilder = new StringBuilder();
-            var lineEnding = string.Empty;
+            var lineEnding = LineEndings._;
             using (var sr = new StreamReader(Location))
             {
                 var p = 0;
@@ -112,19 +109,19 @@ namespace Savaged.BlackNotepad.Models
                     contentBuilder.Append(c);
                     p = sr.Peek();
 
-                    if (string.IsNullOrEmpty(lineEnding))
+                    if (lineEnding == LineEndings._)
                     {
                         if (i == '\r' && p == '\n')
                         {
-                            lineEnding = _CRLF;
+                            lineEnding = LineEndings.CRLF;
                         }
                         else if (i == '\n' && p == -1)
                         {
-                            lineEnding = _LF;
+                            lineEnding = LineEndings.LF;
                         }
                         else if (i == '\r' && p == -1)
                         {
-                            lineEnding = _CR;
+                            lineEnding = LineEndings.CR;
                         }
                     }
                 }

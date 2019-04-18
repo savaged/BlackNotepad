@@ -1,4 +1,6 @@
-﻿namespace Savaged.BlackNotepad.ViewModels
+﻿using System;
+
+namespace Savaged.BlackNotepad.ViewModels
 {
     public class FindDialogViewModel : ActionDialogViewModelBase
     {
@@ -6,6 +8,14 @@
         private bool _isFindDirectionUp;
         private bool _isFindMatchCase;
         private bool _isFindWrapAround;
+
+        public Action FindNextRaisedByDialog = delegate { };
+
+        public void RaiseFindNext()
+        {
+            var handler = FindNextRaisedByDialog;
+            handler?.Invoke();
+        }
 
         public string TextSought
         {

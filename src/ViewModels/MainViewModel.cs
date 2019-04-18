@@ -1,6 +1,5 @@
 ﻿using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.CommandWpf;
-using GalaSoft.MvvmLight.Ioc;
 using Microsoft.Win32;
 using Savaged.BlackNotepad.Models;
 using Savaged.BlackNotepad.Services;
@@ -24,6 +23,7 @@ namespace Savaged.BlackNotepad.ViewModels
         private readonly IViewStateService _viewStateService;
         private readonly IList<FontZoomModel> _fontZoomIndex;
         private readonly int _defaultZoom;
+        private readonly FindDialogViewModel _findDialog;
         private FileModel _selectedItem;
         private string _selectedText;
         private string _findText;
@@ -99,7 +99,8 @@ namespace Savaged.BlackNotepad.ViewModels
             WordWrapCmd = new RelayCommand(OnWordWrap, () => CanExecute);
             ZoomInCmd = new RelayCommand(OnZoomIn, () => CanExecuteZoomIn);
             ZoomOutCmd = new RelayCommand(OnZoomOut, () => CanExecuteZoomOut);
-            RestoreDefaultZoomCmd = new RelayCommand(OnRestoreDefaultZoom, () => CanExecute);
+            RestoreDefaultZoomCmd = new RelayCommand(
+                OnRestoreDefaultZoom, () => CanExecute);
             StatusBarCmd = new RelayCommand(OnStatusBar, () => CanExecute);
             HelpCmd = new RelayCommand(OnHelp, () => CanExecute);
             AboutCmd = new RelayCommand(OnAbout, () => CanExecute);
@@ -108,11 +109,16 @@ namespace Savaged.BlackNotepad.ViewModels
             FontFamilyCmd = new RelayCommand<FontFamilyModel>(
                 OnFontFamily, (b) => CanExecute);
 
+            _findDialog = _dialogService
+                .GetDialogViewModel<FindDialogViewModel>();
+            _findDialog.FindNextRaisedByDialog += OnFindNextRaisedByDialog;
+
             SelectedItem.PropertyChanged += OnSelectedItemPropertyChanged;
         }
 
         public override void Cleanup()
         {
+            _findDialog.FindNextRaisedByDialog -= OnFindNextRaisedByDialog;
             SelectedItem.PropertyChanged -= OnSelectedItemPropertyChanged;
             base.Cleanup();
         }
@@ -331,18 +337,27 @@ namespace Savaged.BlackNotepad.ViewModels
 
         private void OnFind()
         {
-            var vm = _dialogService
-                .GetDialogViewModel<FindDialogViewModel>();
-            var result = _dialogService.ShowDialog(vm);
+            var result = _dialogService.ShowDialog(_findDialog);
             if (result == true)
             {
-                // TODO code the find
+                FindText = _findDialog.TextSought;
+                FindNext();
             }
         }
 
         private void OnFindNext()
         {
+            FindNext();
+        }
 
+        private void OnFindNextRaisedByDialog()
+        {
+            FindNext();
+        }
+
+        private void FindNext()
+        {
+            // TODO Need to write this
         }
 
         private void OnReplace()

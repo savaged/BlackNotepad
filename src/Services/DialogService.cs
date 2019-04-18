@@ -3,6 +3,7 @@ using Microsoft.Win32;
 using Savaged.BlackNotepad.ViewModels;
 using Savaged.BlackNotepad.Views;
 using System;
+using System.Collections.Generic;
 using System.Reflection;
 using System.Windows;
 
@@ -10,6 +11,8 @@ namespace Savaged.BlackNotepad.Services
 {
     public class DialogService : IDialogService
     {
+        private Dialog _visibleExclusiveDialog;
+
         public T GetDialogViewModel<T>() 
             where T : IDialogViewModel
         {
@@ -32,7 +35,20 @@ namespace Savaged.BlackNotepad.Services
             var dialog = GetDialog(dialogName);
             dialog.DataContext = vm;
 
-            var result = dialog.ShowDialog();
+            if (vm is IExclusiveDialogViewModel)
+            {   
+                if (_visibleExclusiveDialog is null)
+                {
+                    _visibleExclusiveDialog = dialog;
+                }
+                else if (_visibleExclusiveDialog != dialog)
+                {
+                    _visibleExclusiveDialog.Hide();
+                    _visibleExclusiveDialog = dialog;
+                }
+            }
+            bool? result;
+            result = dialog.ShowDialog();
             return result;
         }
 

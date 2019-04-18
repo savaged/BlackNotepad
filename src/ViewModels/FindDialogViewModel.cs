@@ -2,7 +2,8 @@
 
 namespace Savaged.BlackNotepad.ViewModels
 {
-    public class FindDialogViewModel : ActionDialogViewModelBase
+    public class FindDialogViewModel 
+        : ActionDialogViewModelBase, IExclusiveDialogViewModel
     {
         private string _textSought;
         private bool _isFindDirectionUp;

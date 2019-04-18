@@ -103,6 +103,7 @@
     <Compile Include="ViewModels\FindDialogViewModel.cs" />
     <Compile Include="ViewModels\GoToDialogViewModel.cs" />
     <Compile Include="ViewModels\IDialogViewModel.cs" />
+    <Compile Include="ViewModels\IExclusiveDialogViewModel.cs" />
     <Compile Include="ViewModels\MainViewModel.cs" />
     <Page Include="Views\ReplaceDialog.xaml">
       <Generator>MSBuild:Compile</Generator>

@@ -414,29 +414,33 @@ namespace Savaged.BlackNotepad.ViewModels
             if (result == true)
             {
                 var lineEndingChar = '\r';
-                var skipsToNewLine = 1;
-                switch (SelectedItem.LineEnding)
+                if (SelectedItem.LineEnding == LineEndings.LF)
                 {
-                    case LineEndings.CRLF:
-                        skipsToNewLine++;
-                        break;
-                    case LineEndings.LF:
-                        lineEndingChar = '\n';
-                        break;
+                    lineEndingChar = '\n';
+                }
+                var lineCharToInclude = 0;
+                if (SelectedItem.LineEnding == LineEndings.CRLF)
+                {
+                    lineCharToInclude = 1;
                 }
                 var text = SelectedItem.Content;
-                var linesCount = 0;
+                var linesCounted = 0;
+                var charsInLine = 0;
                 for (int i = 0; i < text.Length; i++)
                 {
+                    charsInLine++;
                     if (text[i] == lineEndingChar)
                     {
-                        linesCount++;
-                        if (vm.LineNumber == linesCount)
-                        {
-                            var lineStartPosition = i + skipsToNewLine;
+                        linesCounted++;
+                        if (vm.LineNumber == linesCounted)
+                        {;
+                            var lineStartPosition = 
+                                i + lineCharToInclude - charsInLine;
+
                             RaiseGoToRequested(lineStartPosition);
                             break;
                         }
+                        charsInLine = 0;
                     }
                 }
             }

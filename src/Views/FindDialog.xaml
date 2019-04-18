@@ -4,9 +4,10 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Savaged.BlackNotepad.Views"
+        xmlns:converters="clr-namespace:Savaged.BlackNotepad.Converters"
         mc:Ignorable="d"
         Title="Find" 
-        Height="150" Width="370"
+        Height="155" Width="375"
         WindowStyle="ToolWindow"
         ResizeMode="NoResize"
         Background="DarkGray">
@@ -14,12 +15,16 @@
         <CommandBinding Command="Close" 
                         Executed="OnCloseCommandExecuted" />
     </Window.CommandBindings>
-    <local:Dialog.InputBindings>
+    <Window.InputBindings>
         <KeyBinding Command="Close" Key="Esc" />
-    </local:Dialog.InputBindings>
+    </Window.InputBindings>
+    <Window.Resources>
+        <converters:InverseBoolConverter x:Key="InverseBoolConverter"/>
+    </Window.Resources>
+    
     <Grid Margin="10">
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="260"/>
+            <ColumnDefinition Width="255"/>
             <ColumnDefinition/>
         </Grid.ColumnDefinitions>
 
@@ -30,14 +35,17 @@
             </Grid.RowDefinitions>
             <StackPanel Grid.Row="0" 
                         Orientation="Horizontal"
-                        Height="20"
+                        Height="22"
                         VerticalAlignment="Top">
-                <TextBlock Width="70">
+                <TextBlock Width="60">
                 <AccessText>Fi_nd what:</AccessText>
                 </TextBlock>
-                <TextBox Name="FindText"
-                         Width="190"
-                         Text="{Binding TextSought, UpdateSourceTrigger=PropertyChanged}"/>
+                <Border BorderThickness="1"
+                        BorderBrush="SlateGray">
+                    <TextBox Name="FindText"
+                             Width="193"
+                             Text="{Binding TextSought, UpdateSourceTrigger=PropertyChanged}"/>
+                </Border>
             </StackPanel>
             <Grid Grid.Row="1">
                 <Grid.ColumnDefinitions>
@@ -46,23 +54,30 @@
                 </Grid.ColumnDefinitions>
                 <StackPanel Grid.Column="0">
                     <CheckBox Name="MatchCaseCheckBox"
-                              Margin="0,0,0,10">
+                              Margin="0,0,0,10"
+                              IsChecked="{Binding IsFindMatchCase}">
                         <AccessText>Match _case</AccessText>
                     </CheckBox>
-                    <CheckBox Name="WrapAroundCheckBox">
+                    <CheckBox Name="WrapAroundCheckBox"
+                              IsChecked="{Binding IsFindWrapAround}">
                         <AccessText>W_rap around</AccessText>
                     </CheckBox>
                 </StackPanel>
                 <StackPanel Grid.Column="1">
-                    <TextBlock Margin="10,0,0,-5">Direction</TextBlock>
-                    <Border Height="35" 
-                            BorderThickness="1"
+                    <TextBlock Margin="10,0,0,-5"
+                               Panel.ZIndex="1">Direction</TextBlock>
+                    <Border Height="37" 
+                            BorderThickness="0.5"
                             BorderBrush="Silver">
                         <StackPanel Orientation="Horizontal">
-                            <RadioButton Margin="10">
+                            <RadioButton Margin="10"
+                                         GroupName="FindDirectionGroup"
+                                         IsChecked="{Binding IsFindDirectionUp}">
                                 <AccessText>_Up</AccessText>
                             </RadioButton>
-                            <RadioButton Margin="10">
+                            <RadioButton Margin="10"
+                                         GroupName="FindDirectionGroup"
+                                         IsChecked="{Binding IsFindDirectionUp, Converter={StaticResource InverseBoolConverter}}">
                                 <AccessText>_Down</AccessText>
                             </RadioButton>
                         </StackPanel>

@@ -3,6 +3,9 @@
     public class FindDialogViewModel : ActionDialogViewModelBase
     {
         private string _textSought;
+        private bool _isFindDirectionUp;
+        private bool _isFindMatchCase;
+        private bool _isFindWrapAround;
 
         public string TextSought
         {
@@ -16,5 +19,23 @@
 
         public override bool IsActionEnabled => 
             !string.IsNullOrEmpty(TextSought);
+
+        public bool IsFindDirectionUp
+        {
+            get => _isFindDirectionUp;
+            set => Set(ref _isFindDirectionUp, value);
+        }
+
+        public bool IsFindMatchCase
+        {
+            get => _isFindMatchCase;
+            set => Set(ref _isFindMatchCase, value);
+        }
+
+        public bool IsFindWrapAround
+        {
+            get => _isFindWrapAround;
+            set => Set(ref _isFindWrapAround, value);
+        }
     }
 }

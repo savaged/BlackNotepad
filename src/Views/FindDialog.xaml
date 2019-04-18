@@ -21,8 +21,9 @@
     <Window.Resources>
         <converters:InverseBoolConverter x:Key="InverseBoolConverter"/>
     </Window.Resources>
-    
-    <Grid Margin="5">
+
+    <Grid Margin="5" 
+          FocusManager.FocusedElement="{Binding ElementName=FindText}">
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="270"/>
             <ColumnDefinition/>

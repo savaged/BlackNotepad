@@ -23,7 +23,8 @@
         <converters:InverseBoolConverter x:Key="InverseBoolConverter"/>
     </Window.Resources>
     
-    <Grid Margin="5">
+    <Grid Margin="5"
+          FocusManager.FocusedElement="{Binding ElementName=FindText}">
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="270"/>
             <ColumnDefinition/>
@@ -89,16 +90,16 @@
                 <AccessText>_Find Next</AccessText>
             </Button>
             <Button Name="ReplaceButton"
-                    Margin="0"
+                    Margin="0,5,0,0"
                     Click="OnReplaceButtonClick"
                     IsEnabled="{Binding IsReplaceEnabled}">
                 <AccessText>_Replace</AccessText>
             </Button>
             <Button Name="ReplaceAllButton"
-                    Margin="0"
+                    Margin="0,5,0,0"
                     Click="OnReplaceAllButtonClick"
                     IsEnabled="{Binding IsReplaceEnabled}">
-                <AccessText>_Replace</AccessText>
+                <AccessText>Replace _All</AccessText>
             </Button>
             <!-- TODO Create a template that can be re-used for this bit -->
             <Button Margin="0,5,0,0"

@@ -27,7 +27,7 @@ namespace Savaged.BlackNotepad.ViewModels
         private readonly ReplaceDialogViewModel _replaceDialog;
         private FileModel _selectedItem;
         private string _selectedText;
-        private string _findText;
+        private string _textSought;
         private bool _isFontZoomMin;
         private bool _isFontZoomMax;
         private int _caretLine;
@@ -120,6 +120,9 @@ namespace Savaged.BlackNotepad.ViewModels
             _replaceDialog.ReplaceRaisedByDialog += OnReplaceRaisedByDialog;
             _replaceDialog.ReplaceAllRaisedByDialog += OnReplaceAllRaisedByDialog;
 
+            _findDialog.PropertyChanged += OnFindDialogPropertyChanged;
+            _replaceDialog.PropertyChanged += OnFindDialogPropertyChanged;
+
             SelectedItem.PropertyChanged += OnSelectedItemPropertyChanged;
         }
 
@@ -129,6 +132,8 @@ namespace Savaged.BlackNotepad.ViewModels
             _replaceDialog.ReplaceRaisedByDialog -= OnReplaceRaisedByDialog;
             _replaceDialog.FindNextRaisedByDialog -= OnFindNextRaisedByDialog;
             _findDialog.FindNextRaisedByDialog -= OnFindNextRaisedByDialog;
+            _replaceDialog.PropertyChanged -= OnFindDialogPropertyChanged;
+            _findDialog.PropertyChanged -= OnFindDialogPropertyChanged;
             SelectedItem.PropertyChanged -= OnSelectedItemPropertyChanged;
             base.Cleanup();
         }
@@ -174,10 +179,10 @@ namespace Savaged.BlackNotepad.ViewModels
             }
         }
 
-        public string FindText
+        public string TextSought
         {
-            get => _findText;
-            set => Set(ref _findText, value);
+            get => _textSought;
+            set => Set(ref _textSought, value);
         }
 
         public string SelectedText
@@ -247,7 +252,7 @@ namespace Savaged.BlackNotepad.ViewModels
         public bool CanExecuteZoomOut => CanExecute && !_isFontZoomMin;
 
         public bool CanExecuteFindNext => CanExecute &&
-            !string.IsNullOrEmpty(FindText);
+            !string.IsNullOrEmpty(TextSought);
 
         public bool CanExecuteReplace => CanExecute;
 
@@ -347,12 +352,7 @@ namespace Savaged.BlackNotepad.ViewModels
 
         private void OnFind()
         {
-            var result = _dialogService.ShowDialog(_findDialog);
-            if (result == true)
-            {
-                FindText = _findDialog.TextSought;
-                FindNext();
-            }
+            _dialogService.ShowDialog(_findDialog);
         }
 
         private void OnFindNext()
@@ -366,17 +366,13 @@ namespace Savaged.BlackNotepad.ViewModels
         }
 
         private void FindNext()
-        {
+        {            
             // TODO Need to write this
         }
 
         private void OnReplace()
         {
-            var result = _dialogService.ShowDialog(_replaceDialog);
-            if (result == true)
-            {
-                Replace();
-            }
+            _dialogService.ShowDialog(_replaceDialog);
         }
 
         private void OnReplaceRaisedByDialog()
@@ -391,12 +387,12 @@ namespace Savaged.BlackNotepad.ViewModels
 
         private void Replace()
         {
-            var replacementText = _replaceDialog.ReplacementText;
+            
         }
 
         private void ReplaceAll()
         {
-            var replacementText = _replaceDialog.ReplacementText;
+            
         }
 
         private void OnGoTo()
@@ -568,13 +564,28 @@ namespace Savaged.BlackNotepad.ViewModels
             return value;
         }
 
-        private void OnSelectedItemPropertyChanged(object sender, PropertyChangedEventArgs e)
+        private void OnSelectedItemPropertyChanged(
+            object sender, PropertyChangedEventArgs e)
         {
             switch (e.PropertyName)
             {
                 case nameof(SelectedItem.Content):
                     RaisePropertyChanged(nameof(IsUndoEnabled));
                     RaisePropertyChanged(nameof(IsSelectAllEnabled));
+                    break;
+            }
+        }
+
+        private void OnFindDialogPropertyChanged(
+            object sender, PropertyChangedEventArgs e)
+        {
+            switch (e.PropertyName)
+            {
+                case nameof(TextSought):
+                    if (sender is FindDialogViewModel vm)
+                    {
+                        TextSought = vm?.TextSought;
+                    }
                     break;
             }
         }

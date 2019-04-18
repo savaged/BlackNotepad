@@ -1,0 +1,19 @@
+﻿<UserControl x:Class="Savaged.BlackNotepad.Views.Controls.FindFiltersControl"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             mc:Ignorable="d" 
+             d:DesignHeight="42" d:DesignWidth="90">
+    <StackPanel>
+        <CheckBox Name="MatchCaseCheckBox"
+                  Margin="0,0,0,10"
+                  IsChecked="{Binding IsFindMatchCase}">
+            <AccessText>Match _case</AccessText>
+        </CheckBox>
+        <CheckBox Name="WrapAroundCheckBox"
+                  IsChecked="{Binding IsFindWrapAround}">
+            <AccessText>W_rap around</AccessText>
+        </CheckBox>
+    </StackPanel>
+</UserControl>

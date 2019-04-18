@@ -105,6 +105,18 @@
     <Compile Include="ViewModels\IDialogViewModel.cs" />
     <Compile Include="ViewModels\IExclusiveDialogViewModel.cs" />
     <Compile Include="ViewModels\MainViewModel.cs" />
+    <Page Include="Views\Controls\CancelButtonControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Controls\FindFiltersControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Controls\TextSoughtInputControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Views\ReplaceDialog.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -126,6 +138,15 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="ViewModels\ReplaceDialogViewModel.cs" />
+    <Compile Include="Views\Controls\CancelButtonControl.xaml.cs">
+      <DependentUpon>CancelButtonControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Controls\FindFiltersControl.xaml.cs">
+      <DependentUpon>FindFiltersControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Controls\TextSoughtInputControl.xaml.cs">
+      <DependentUpon>TextSoughtInputControl.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\Dialog.cs" />
     <Compile Include="Views\ReplaceDialog.xaml.cs">
       <DependentUpon>ReplaceDialog.xaml</DependentUpon>
@@ -169,8 +190,9 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <Page Include="Styles.xaml">
+    <Page Include="TemplatesAndStyles.xaml">
       <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
     </Page>
   </ItemGroup>
   <ItemGroup>

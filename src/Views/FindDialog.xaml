@@ -5,6 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Savaged.BlackNotepad.Views"
         xmlns:converters="clr-namespace:Savaged.BlackNotepad.Converters"
+        xmlns:controls="clr-namespace:Savaged.BlackNotepad.Views.Controls"
         mc:Ignorable="d"
         Title="Find" 
         Height="155" Width="375"
@@ -34,39 +35,13 @@
                 <RowDefinition/>
                 <RowDefinition/>
             </Grid.RowDefinitions>
-            <!-- TODO Create a template that can be re-used for this bit -->
-            <StackPanel Grid.Row="0" 
-                        Margin="0,5,0,0" 
-                        Orientation="Horizontal"
-                        Height="22"
-                        VerticalAlignment="Top">
-                <TextBlock Width="80">
-                <AccessText>Fi_nd what:</AccessText>
-                </TextBlock>
-                <Border BorderThickness="1"
-                        BorderBrush="SlateGray">
-                    <TextBox Name="FindText"
-                             Width="188"
-                             Text="{Binding TextSought, UpdateSourceTrigger=PropertyChanged}"/>
-                </Border>
-            </StackPanel>
+            <controls:TextSoughtInputControl Grid.Row="0"/>
             <Grid Grid.Row="1">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition/>
                     <ColumnDefinition/>
                 </Grid.ColumnDefinitions>
-                <!-- TODO Create a template that can be re-used for this bit -->
-                <StackPanel Grid.Column="0">
-                    <CheckBox Name="MatchCaseCheckBox"
-                              Margin="0,0,0,10"
-                              IsChecked="{Binding IsFindMatchCase}">
-                        <AccessText>Match _case</AccessText>
-                    </CheckBox>
-                    <CheckBox Name="WrapAroundCheckBox"
-                              IsChecked="{Binding IsFindWrapAround}">
-                        <AccessText>W_rap around</AccessText>
-                    </CheckBox>
-                </StackPanel>
+                <controls:FindFiltersControl Grid.Column="0"/>
                 <StackPanel Grid.Column="1">
                     <TextBlock Margin="10,0,0,-5"
                                Panel.ZIndex="1">Direction</TextBlock>
@@ -99,11 +74,7 @@
                     IsEnabled="{Binding IsActionEnabled}">
                 <AccessText>_Find Next</AccessText>
             </Button>
-            <!-- TODO Create a template that can be re-used for this bit -->
-            <Button Margin="0,5,0,0"
-                    Name="CancelButton"
-                    Content="Cancel" 
-                    Click="OnCancelButtonClick"/>
+            <controls:CancelButtonControl Margin="0,5,0,0"/>
         </StackPanel>
     </Grid>
 </local:Dialog>

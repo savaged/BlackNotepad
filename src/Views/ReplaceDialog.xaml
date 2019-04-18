@@ -5,6 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Savaged.BlackNotepad.Views"
         xmlns:converters="clr-namespace:Savaged.BlackNotepad.Converters"
+        xmlns:controls="clr-namespace:Savaged.BlackNotepad.Views.Controls"
         mc:Ignorable="d"
         Title="Find" 
         Height="185" Width="375"
@@ -36,21 +37,7 @@
                 <RowDefinition/>
             </Grid.RowDefinitions>
             <StackPanel Grid.Row="0">
-                <!-- TODO Create a template that can be re-used for this bit -->
-                <StackPanel Margin="0,5,0,0" 
-                            Orientation="Horizontal"
-                            Height="22"
-                            VerticalAlignment="Top">
-                    <TextBlock Width="80">
-                <AccessText>Fi_nd what:</AccessText>
-                    </TextBlock>
-                    <Border BorderThickness="1"
-                            BorderBrush="SlateGray">
-                        <TextBox Name="FindText"
-                                 Width="188"
-                                 Text="{Binding TextSought, UpdateSourceTrigger=PropertyChanged}"/>
-                    </Border>
-                </StackPanel>
+                <controls:TextSoughtInputControl/>
                 <StackPanel Margin="0,5,0,0"
                             Orientation="Horizontal"
                             Height="22"
@@ -58,26 +45,12 @@
                     <TextBlock Width="80">
                 <AccessText>Re_place with:</AccessText>
                     </TextBlock>
-                    <Border BorderThickness="1"
-                            BorderBrush="SlateGray">
-                        <TextBox Name="ReplaceText"
-                                 Width="188"
-                                 Text="{Binding ReplacementText, UpdateSourceTrigger=PropertyChanged}"/>
-                    </Border>
+                    <TextBox Name="ReplaceText"
+                             Width="188"
+                             Text="{Binding ReplacementText, UpdateSourceTrigger=PropertyChanged}"/>
                 </StackPanel>
             </StackPanel>
-            <!-- TODO Create a template that can be re-used for this bit -->
-            <StackPanel Grid.Row="1">
-                <CheckBox Name="MatchCaseCheckBox"
-                          Margin="0,0,0,10"
-                          IsChecked="{Binding IsFindMatchCase}">
-                    <AccessText>Match _case</AccessText>
-                </CheckBox>
-                <CheckBox Name="WrapAroundCheckBox"
-                          IsChecked="{Binding IsFindWrapAround}">
-                    <AccessText>W_rap around</AccessText>
-                </CheckBox>
-            </StackPanel>
+            <controls:FindFiltersControl Grid.Row="1"/>
         </Grid>
 
         <StackPanel Grid.Column="1"
@@ -101,11 +74,7 @@
                     IsEnabled="{Binding IsReplaceEnabled}">
                 <AccessText>Replace _All</AccessText>
             </Button>
-            <!-- TODO Create a template that can be re-used for this bit -->
-            <Button Margin="0,5,0,0"
-                    Name="CancelButton"
-                    Content="Cancel" 
-                    Click="OnCancelButtonClick"/>
+            <controls:CancelButtonControl Margin="0,5,0,0"/>
         </StackPanel>
     </Grid>
 </local:Dialog>

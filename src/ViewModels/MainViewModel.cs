@@ -387,12 +387,12 @@ namespace Savaged.BlackNotepad.ViewModels
 
         private void Replace()
         {
-            
+            // TODO Need to write this
         }
 
         private void ReplaceAll()
         {
-            
+            // TODO Need to write this
         }
 
         private void OnGoTo()
@@ -403,7 +403,7 @@ namespace Savaged.BlackNotepad.ViewModels
             var result = _dialogService.ShowDialog(vm);
             if (result == true)
             {
-                // got to vm.LineNumber
+                // TODO Need to write this: got to vm.LineNumber
             }
         }
 

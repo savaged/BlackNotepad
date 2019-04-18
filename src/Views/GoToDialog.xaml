@@ -4,6 +4,7 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Savaged.BlackNotepad.Views"
+        xmlns:controls="clr-namespace:Savaged.BlackNotepad.Views.Controls"
         mc:Ignorable="d"
         Title="Go To Line" 
         Height="135" Width="290"
@@ -27,13 +28,12 @@
         <StackPanel Orientation="Horizontal"
                     HorizontalAlignment="Right">
             <Button Name="GoToButton"
+                    Margin="10,10,0,0"
                     Content="Go To" 
                     IsDefault="True" 
                     Click="OnActionButtonClick"
                     IsEnabled="{Binding IsActionEnabled}"/>
-            <Button Name="CancelButton"
-                    Content="Cancel" 
-                    Click="OnCancelButtonClick"/>
+            <controls:CancelButtonControl Margin="10,10,0,0"/>
         </StackPanel>
     </StackPanel>
 </local:Dialog>

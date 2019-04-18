@@ -1,9 +1,6 @@
 ﻿using Savaged.BlackNotepad.ViewModels;
-using System.Collections.Generic;
 using System.ComponentModel;
 using System.Windows;
-using System.Drawing;
-using System;
 
 namespace Savaged.BlackNotepad.Views
 {
@@ -19,6 +16,12 @@ namespace Savaged.BlackNotepad.Views
         private void OnLoaded(object sender, RoutedEventArgs e)
         {
             _viewModel = DataContext as MainViewModel;
+            _viewModel.GoToRequested += OnGoToRequested;
+        }
+
+        private void OnGoToRequested(int position)
+        {
+            // TODO go to position in ContentText
         }
 
         private void OnContentTextSelectionChanged(object sender, RoutedEventArgs e)
@@ -45,6 +48,7 @@ namespace Savaged.BlackNotepad.Views
                 {
                     e.Cancel = true;
                 }
+                _viewModel.GoToRequested -= OnGoToRequested;
             }
         }
 

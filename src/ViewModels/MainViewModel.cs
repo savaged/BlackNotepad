@@ -276,6 +276,14 @@ namespace Savaged.BlackNotepad.ViewModels
         public bool IsSelectAllEnabled => !IsBusy &&
             SelectedItem.HasContent;
 
+        public Action<int> GoToRequested = delegate { };
+
+        private void RaiseGoToRequested(int position)
+        {
+            var handler = GoToRequested;
+            handler?.Invoke(position);
+        }
+
         private void StartLongOperation([CallerMemberName]string caller = "")
         {
             _busyRegister.Add(caller);
@@ -319,7 +327,8 @@ namespace Savaged.BlackNotepad.ViewModels
             {
                 StartLongOperation();
 
-                File.WriteAllText(SelectedItem.Location, SelectedItem.Content);
+                File.WriteAllText(
+                    SelectedItem.Location, SelectedItem.Content);
 
                 SelectedItem.IsDirty = false;
 
@@ -404,11 +413,31 @@ namespace Savaged.BlackNotepad.ViewModels
             var result = _dialogService.ShowDialog(vm);
             if (result == true)
             {
+                var lineEndingChar = '\r';
+                var skipsToNewLine = 1;
                 switch (SelectedItem.LineEnding)
                 {
                     case LineEndings.CRLF:
-                        // TODO find the vm.LineNumber times LineEnding is found
+                        skipsToNewLine++;
                         break;
+                    case LineEndings.LF:
+                        lineEndingChar = '\n';
+                        break;
+                }
+                var text = SelectedItem.Content;
+                var linesCount = 0;
+                for (int i = 0; i < text.Length; i++)
+                {
+                    if (text[i] == lineEndingChar)
+                    {
+                        linesCount++;
+                        if (vm.LineNumber == linesCount)
+                        {
+                            var lineStartPosition = i + skipsToNewLine;
+                            RaiseGoToRequested(lineStartPosition);
+                            break;
+                        }
+                    }
                 }
             }
         }

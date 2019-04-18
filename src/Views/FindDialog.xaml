@@ -22,9 +22,9 @@
         <converters:InverseBoolConverter x:Key="InverseBoolConverter"/>
     </Window.Resources>
     
-    <Grid Margin="10">
+    <Grid Margin="5">
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="255"/>
+            <ColumnDefinition Width="270"/>
             <ColumnDefinition/>
         </Grid.ColumnDefinitions>
 
@@ -33,17 +33,19 @@
                 <RowDefinition/>
                 <RowDefinition/>
             </Grid.RowDefinitions>
+            <!-- TODO Create a template that can be re-used for this bit -->
             <StackPanel Grid.Row="0" 
+                        Margin="0,5,0,0" 
                         Orientation="Horizontal"
                         Height="22"
                         VerticalAlignment="Top">
-                <TextBlock Width="60">
+                <TextBlock Width="80">
                 <AccessText>Fi_nd what:</AccessText>
                 </TextBlock>
                 <Border BorderThickness="1"
                         BorderBrush="SlateGray">
                     <TextBox Name="FindText"
-                             Width="193"
+                             Width="188"
                              Text="{Binding TextSought, UpdateSourceTrigger=PropertyChanged}"/>
                 </Border>
             </StackPanel>
@@ -52,6 +54,7 @@
                     <ColumnDefinition/>
                     <ColumnDefinition/>
                 </Grid.ColumnDefinitions>
+                <!-- TODO Create a template that can be re-used for this bit -->
                 <StackPanel Grid.Column="0">
                     <CheckBox Name="MatchCaseCheckBox"
                               Margin="0,0,0,10"
@@ -89,13 +92,15 @@
         <StackPanel Grid.Column="1"
                     HorizontalAlignment="Right">
             <Button Name="FindButton"
-                    Margin="10,0,0,0"
+                    Margin="0"
                     IsDefault="True" 
                     Click="OnActionButtonClick"
                     IsEnabled="{Binding IsActionEnabled}">
                 <AccessText>_Find Next</AccessText>
             </Button>
-            <Button Name="CancelButton"
+            <!-- TODO Create a template that can be re-used for this bit -->
+            <Button Margin="0,5,0,0"
+                    Name="CancelButton"
                     Content="Cancel" 
                     Click="OnCancelButtonClick"/>
         </StackPanel>

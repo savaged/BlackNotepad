@@ -1,0 +1,110 @@
+﻿<local:Dialog x:Class="Savaged.BlackNotepad.Views.ReplaceDialog"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Savaged.BlackNotepad.Views"
+        xmlns:converters="clr-namespace:Savaged.BlackNotepad.Converters"
+        mc:Ignorable="d"
+        Title="Find" 
+        Height="185" Width="375"
+        WindowStyle="ToolWindow"
+        ResizeMode="NoResize"
+        Background="DarkGray"
+        Loaded="OnLoaded">
+    <Window.CommandBindings>
+        <CommandBinding Command="Close" 
+                        Executed="OnCloseCommandExecuted" />
+    </Window.CommandBindings>
+    <Window.InputBindings>
+        <KeyBinding Command="Close" Key="Esc" />
+    </Window.InputBindings>
+    <Window.Resources>
+        <converters:InverseBoolConverter x:Key="InverseBoolConverter"/>
+    </Window.Resources>
+    
+    <Grid Margin="5">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="270"/>
+            <ColumnDefinition/>
+        </Grid.ColumnDefinitions>
+
+        <Grid Grid.Column="0">
+            <Grid.RowDefinitions>
+                <RowDefinition/>
+                <RowDefinition/>
+            </Grid.RowDefinitions>
+            <StackPanel Grid.Row="0">
+                <!-- TODO Create a template that can be re-used for this bit -->
+                <StackPanel Margin="0,5,0,0" 
+                            Orientation="Horizontal"
+                            Height="22"
+                            VerticalAlignment="Top">
+                    <TextBlock Width="80">
+                <AccessText>Fi_nd what:</AccessText>
+                    </TextBlock>
+                    <Border BorderThickness="1"
+                            BorderBrush="SlateGray">
+                        <TextBox Name="FindText"
+                                 Width="188"
+                                 Text="{Binding TextSought, UpdateSourceTrigger=PropertyChanged}"/>
+                    </Border>
+                </StackPanel>
+                <StackPanel Margin="0,5,0,0"
+                            Orientation="Horizontal"
+                            Height="22"
+                            VerticalAlignment="Top">
+                    <TextBlock Width="80">
+                <AccessText>Re_place with:</AccessText>
+                    </TextBlock>
+                    <Border BorderThickness="1"
+                            BorderBrush="SlateGray">
+                        <TextBox Name="ReplaceText"
+                                 Width="188"
+                                 Text="{Binding ReplacementText, UpdateSourceTrigger=PropertyChanged}"/>
+                    </Border>
+                </StackPanel>
+            </StackPanel>
+            <!-- TODO Create a template that can be re-used for this bit -->
+            <StackPanel Grid.Row="1">
+                <CheckBox Name="MatchCaseCheckBox"
+                          Margin="0,0,0,10"
+                          IsChecked="{Binding IsFindMatchCase}">
+                    <AccessText>Match _case</AccessText>
+                </CheckBox>
+                <CheckBox Name="WrapAroundCheckBox"
+                          IsChecked="{Binding IsFindWrapAround}">
+                    <AccessText>W_rap around</AccessText>
+                </CheckBox>
+            </StackPanel>
+        </Grid>
+
+        <StackPanel Grid.Column="1"
+                    HorizontalAlignment="Right">
+            <Button Name="FindButton"
+                    Margin="0"
+                    IsDefault="True" 
+                    Click="OnFindButtonClick"
+                    IsEnabled="{Binding IsActionEnabled}">
+                <AccessText>_Find Next</AccessText>
+            </Button>
+            <Button Name="ReplaceButton"
+                    Margin="0"
+                    Click="OnReplaceButtonClick"
+                    IsEnabled="{Binding IsReplaceEnabled}">
+                <AccessText>_Replace</AccessText>
+            </Button>
+            <Button Name="ReplaceAllButton"
+                    Margin="0"
+                    Click="OnReplaceAllButtonClick"
+                    IsEnabled="{Binding IsReplaceEnabled}">
+                <AccessText>_Replace</AccessText>
+            </Button>
+            <!-- TODO Create a template that can be re-used for this bit -->
+            <Button Margin="0,5,0,0"
+                    Name="CancelButton"
+                    Content="Cancel" 
+                    Click="OnCancelButtonClick"/>
+        </StackPanel>
+    </Grid>
+</local:Dialog>

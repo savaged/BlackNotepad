@@ -24,6 +24,7 @@ namespace Savaged.BlackNotepad.ViewModels
         private readonly IList<FontZoomModel> _fontZoomIndex;
         private readonly int _defaultZoom;
         private readonly FindDialogViewModel _findDialog;
+        private readonly ReplaceDialogViewModel _replaceDialog;
         private FileModel _selectedItem;
         private string _selectedText;
         private string _findText;
@@ -113,11 +114,16 @@ namespace Savaged.BlackNotepad.ViewModels
                 .GetDialogViewModel<FindDialogViewModel>();
             _findDialog.FindNextRaisedByDialog += OnFindNextRaisedByDialog;
 
+            _replaceDialog = _dialogService
+                .GetDialogViewModel<ReplaceDialogViewModel>();
+            _replaceDialog.FindNextRaisedByDialog += OnFindNextRaisedByDialog;
+
             SelectedItem.PropertyChanged += OnSelectedItemPropertyChanged;
         }
 
         public override void Cleanup()
         {
+            _replaceDialog.FindNextRaisedByDialog -= OnFindNextRaisedByDialog;
             _findDialog.FindNextRaisedByDialog -= OnFindNextRaisedByDialog;
             SelectedItem.PropertyChanged -= OnSelectedItemPropertyChanged;
             base.Cleanup();

@@ -21,7 +21,7 @@ namespace Savaged.BlackNotepad.Views
 
         private void OnGoToRequested(int position)
         {
-            // TODO go to position in ContentText
+            ContentText.CaretIndex = position;
         }
 
         private void OnContentTextSelectionChanged(object sender, RoutedEventArgs e)

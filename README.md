@@ -4,6 +4,8 @@ A black 'version' of the classic Microsoft Windows Notepad application because r
 
 ## TODO ##
 
+* Finish find and replace (including filters)
+* Dialogs should not be modal
 * Font colour and family menu check marks are not updated at load
 * Focus on search text box on find dialog show
 * Title not updating on Save

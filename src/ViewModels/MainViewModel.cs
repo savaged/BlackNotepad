@@ -450,25 +450,53 @@ namespace Savaged.BlackNotepad.ViewModels
 
         private void Replace()
         {
-            // TODO Need to write this
-        }
-
-        private void ReplaceAll()
-        {
-            var text = SelectedItem?.Content;
-            var replacement = _replaceDialog?.ReplacementText;
-            var sought = TextSought;
-            if (string.IsNullOrEmpty(text)
-                || string.IsNullOrEmpty(sought)
-                || string.IsNullOrEmpty(replacement))
+            if (_findDialog?.IsFindDirectionUp == true)
+            {
+                throw new NotSupportedException();
+            }
+            if (!ValidReplace())
             {
                 return;
             }
-            while (text.Contains(sought))
+            FindNext();
+
+            var text = SelectedItem?.Content;
+            var replacement = _replaceDialog?.ReplacementText;
+            var sought = TextSought;
+            // TODO limit text then re-use code in replace all
+            if (text.Contains(sought))
             {
                 text = text.Replace(sought, replacement);
             }
             SelectedItem.Content = text;
+        }
+
+        private void ReplaceAll()
+        {
+            if (!ValidReplace())
+            {
+                return;
+            }
+            var text = SelectedItem?.Content;
+            var replacement = _replaceDialog?.ReplacementText;
+            var sought = TextSought;
+            
+            if (text.Contains(sought))
+            {
+                text = text.Replace(sought, replacement);
+            }
+            SelectedItem.Content = text;
+        }
+
+        private bool ValidReplace()
+        {
+            if (string.IsNullOrEmpty(_replaceDialog?.ReplacementText)
+                || string.IsNullOrEmpty(SelectedItem?.Content)
+                || string.IsNullOrEmpty(TextSought))
+            {
+                return false;
+            }
+            return true;
         }
 
         private void OnGoTo()

@@ -395,13 +395,21 @@ namespace Savaged.BlackNotepad.ViewModels
             string textToSearch;
             if (isFindDirectionUp)
             {
+                if (IndexOfCaret == 0)
+                {
+                    return;
+                }
                 textToSearch = allText
                     .Substring(0, IndexOfCaret);
             }
             else
             {
-                textToSearch = allText
-                    .Substring(IndexOfCaret, allText.Length);
+                if (IndexOfCaret == allText.Length)
+                {
+                    return;
+                }
+                textToSearch = allText.Substring(
+                    IndexOfCaret, allText.Length - IndexOfCaret);
             }
             var indexOfTextFoundInTextToSearch =
                 textToSearch.IndexOf(TextSought);

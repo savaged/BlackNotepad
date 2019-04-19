@@ -455,7 +455,20 @@ namespace Savaged.BlackNotepad.ViewModels
 
         private void ReplaceAll()
         {
-            // TODO Need to write this
+            var text = SelectedItem?.Content;
+            var replacement = _replaceDialog?.ReplacementText;
+            var sought = TextSought;
+            if (string.IsNullOrEmpty(text)
+                || string.IsNullOrEmpty(sought)
+                || string.IsNullOrEmpty(replacement))
+            {
+                return;
+            }
+            while (text.Contains(sought))
+            {
+                text = text.Replace(sought, replacement);
+            }
+            SelectedItem.Content = text;
         }
 
         private void OnGoTo()

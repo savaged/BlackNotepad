@@ -11,6 +11,7 @@
         Loaded="OnLoaded"
         Closing="OnClosing">
     <Window.Resources>
+        <converters:CoordsToDisplayNameConverter x:Key="CoordsConverter"/>
         <converters:LineEndingEnumToDisplayNameConverter x:Key="LineEndingConverter"/>
         <converters:TrueFalseToWrapNoWrapConverter x:Key="BoolToWrappingConverter"/>
         <BooleanToVisibilityConverter x:Key="BoolToVisibilityConverter"/>
@@ -161,7 +162,7 @@
                 <TextBlock Text="{Binding SelectedItem.LineEnding, Converter={StaticResource LineEndingConverter}}"/>
             </StatusBarItem>
             <StatusBarItem Grid.Column="2">
-                <TextBlock Text="{Binding CaretPosition}"/>
+                <TextBlock Text="{Binding CaretPosition, Converter={StaticResource CoordsConverter}}"/>
             </StatusBarItem>
             <StatusBarItem Grid.Column="3">
                 <StackPanel Orientation="Horizontal">

@@ -3,7 +3,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Savaged.BlackNotepad.Converters;
 using Savaged.BlackNotepad.Lookups;
 
-namespace BlackNotepad.Test
+namespace BlackNotepad.Test.UnitTests
 {
     [TestClass]
     public class LineEndingEnumToDisplayNameConverterTests

@@ -76,6 +76,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Converters\CoordsToDisplayNameConverter.cs" />
     <Compile Include="Converters\InverseBoolConverter.cs" />
     <Compile Include="Converters\LineEndingEnumToDisplayNameConverter.cs" />
     <Compile Include="Converters\TrueFalseToWrapNoWrapConverter.cs" />

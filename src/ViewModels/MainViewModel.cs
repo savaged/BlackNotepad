@@ -217,7 +217,8 @@ namespace Savaged.BlackNotepad.ViewModels
             }
         }
 
-        public string CaretPosition => $"Ln {CaretLine}, Col {CaretColumn}";
+        public (int Column, int Line) CaretPosition =>
+            (CaretColumn, CaretLine);
 
         public RelayCommand NewCmd { get; }
         public RelayCommand OpenCmd { get; }

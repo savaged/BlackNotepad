@@ -12,7 +12,8 @@ namespace Savaged.BlackNotepad.Views.Controls
 
         protected void OnCancelButtonClick(object sender, RoutedEventArgs e)
         {
-            Window.GetWindow(this).DialogResult = false;
+            var dialog = Window.GetWindow(this);
+            dialog.DialogResult = false;
         }
     }
 }

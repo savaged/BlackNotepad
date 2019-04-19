@@ -39,6 +39,7 @@ namespace Savaged.BlackNotepad.Views
                     ContentText.GetCharacterIndexFromLineIndex(line);
                 _viewModel.CaretLine = line;
                 _viewModel.CaretColumn = column;
+                _viewModel.IndexOfCaret = selectionStart;
             }
         }
 

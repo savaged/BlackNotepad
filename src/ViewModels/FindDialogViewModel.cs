@@ -12,6 +12,13 @@ namespace Savaged.BlackNotepad.ViewModels
 
         public Action FindNextRaisedByDialog = delegate { };
 
+        public virtual void ResetFilters()
+        {
+            IsFindDirectionUp = false;
+            IsFindMatchCase = false;
+            IsFindWrapAround = false;
+        }
+
         public void RaiseFindNext()
         {
             var handler = FindNextRaisedByDialog;

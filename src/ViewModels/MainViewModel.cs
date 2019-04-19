@@ -33,6 +33,7 @@ namespace Savaged.BlackNotepad.ViewModels
         private bool _isFontZoomMax;
         private int _caretLine;
         private int _caretColumn;
+        private int _indexOfCaret;
 
         public MainViewModel(
             IDialogService dialogService,
@@ -217,6 +218,12 @@ namespace Savaged.BlackNotepad.ViewModels
             }
         }
 
+        public int IndexOfCaret
+        {
+            get => _indexOfCaret;
+            set => Set(ref _indexOfCaret, value);
+        }
+
         public (int Column, int Line) CaretPosition =>
             (CaretColumn, CaretLine);
 
@@ -363,7 +370,11 @@ namespace Savaged.BlackNotepad.ViewModels
 
         private void OnFind()
         {
-            _dialogService.ShowDialog(_findDialog);
+            var result = _dialogService.ShowDialog(_findDialog);
+            if (result != true)
+            {
+                _findDialog.ResetFilters();
+            }
         }
 
         private void OnFindNext()
@@ -377,13 +388,46 @@ namespace Savaged.BlackNotepad.ViewModels
         }
 
         private void FindNext()
-        {            
-            // TODO Need to write this
+        {
+            var allText = SelectedItem.Content;
+            var isFindDirectionUp =
+                _findDialog?.IsFindDirectionUp == true;
+            string textToSearch;
+            if (isFindDirectionUp)
+            {
+                textToSearch = allText
+                    .Substring(0, IndexOfCaret);
+            }
+            else
+            {
+                textToSearch = allText
+                    .Substring(IndexOfCaret, allText.Length);
+            }
+            var indexOfTextFoundInTextToSearch =
+                textToSearch.IndexOf(TextSought);
+
+            var lengthOfTextExcluded =
+                    allText.Length - textToSearch.Length;
+            int indexOfTextFound;
+            if (isFindDirectionUp)
+            {
+                indexOfTextFound = indexOfTextFoundInTextToSearch;
+            }
+            else
+            {
+                indexOfTextFound = lengthOfTextExcluded + 
+                    indexOfTextFoundInTextToSearch;
+            }
+            RaiseGoToRequested(indexOfTextFound);
         }
 
         private void OnReplace()
         {
-            _dialogService.ShowDialog(_replaceDialog);
+            var result = _dialogService.ShowDialog(_replaceDialog);
+            if (result != true)
+            {
+                _replaceDialog.ResetFilters();
+            }
         }
 
         private void OnReplaceRaisedByDialog()
@@ -434,7 +478,7 @@ namespace Savaged.BlackNotepad.ViewModels
                     {
                         linesCounted++;
                         if (vm.LineNumber == linesCounted)
-                        {;
+                        {
                             var lineStartPosition = 
                                 i + lineCharToInclude - charsInLine;
 

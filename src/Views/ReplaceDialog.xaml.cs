@@ -1,5 +1,6 @@
 ﻿using Savaged.BlackNotepad.ViewModels;
 using System.Windows;
+using System.Windows.Input;
 
 namespace Savaged.BlackNotepad.Views
 {
@@ -34,6 +35,13 @@ namespace Savaged.BlackNotepad.Views
         private void OnReplaceAllButtonClick(object sender, RoutedEventArgs e)
         {
             _viewModel?.RaiseReplaceAll();
+        }
+
+        protected override void OnCloseCommandExecuted(
+            object sender, ExecutedRoutedEventArgs e)
+        {
+            _viewModel?.ResetFilters();
+            base.OnCloseCommandExecuted(sender, e);
         }
     }
 }

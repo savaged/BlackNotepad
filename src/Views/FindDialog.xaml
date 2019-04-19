@@ -11,7 +11,8 @@
         Height="155" Width="375"
         WindowStyle="ToolWindow"
         ResizeMode="NoResize"
-        Background="DarkGray">
+        Background="DarkGray"
+        Loaded="OnLoaded">
     <Window.CommandBindings>
         <CommandBinding Command="Close" 
                         Executed="OnCloseCommandExecuted" />
@@ -23,8 +24,7 @@
         <converters:InverseBoolConverter x:Key="InverseBoolConverter"/>
     </Window.Resources>
 
-    <Grid Margin="5" 
-          FocusManager.FocusedElement="{Binding ElementName=FindText}">
+    <Grid Margin="5">
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="270"/>
             <ColumnDefinition/>

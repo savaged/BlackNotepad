@@ -15,7 +15,7 @@
         Loaded="OnLoaded">
     <Window.CommandBindings>
         <CommandBinding Command="Close" 
-                        Executed="OnCloseCommandExecuted" />
+                        Executed="OnCloseCommandExecuted"/>
     </Window.CommandBindings>
     <Window.InputBindings>
         <KeyBinding Command="Close" Key="Esc" />

@@ -12,16 +12,13 @@ namespace Savaged.BlackNotepad.Converters
             {
                 return !b;
             }
-            return value;
+            return null;
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            if (value is bool b)
-            {
-                return !b;
-            }
-            return value;
+            var result = (bool)Convert(value, targetType, parameter, culture);
+            return !result;
         }
     }
 }

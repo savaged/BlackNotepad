@@ -1,4 +1,5 @@
 ﻿using Savaged.BlackNotepad.ViewModels;
+using System.ComponentModel;
 using System.Windows;
 using System.Windows.Input;
 

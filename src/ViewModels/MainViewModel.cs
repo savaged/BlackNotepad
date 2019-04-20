@@ -460,15 +460,21 @@ namespace Savaged.BlackNotepad.ViewModels
             }
             FindNext();
 
-            var text = SelectedItem?.Content;
+            var allText = SelectedItem?.Content;
             var replacement = _replaceDialog?.ReplacementText;
             var sought = TextSought;
-            // TODO limit text then re-use code in replace all
-            if (text.Contains(sought))
+
+            if (allText.Contains(sought))
             {
-                text = text.Replace(sought, replacement);
+                var textPrior = allText
+                    .Substring(0, IndexOfCaret);
+
+                var textAfter = allText.Substring(
+                    IndexOfCaret + replacement.Length);
+
+                allText = $"{textPrior}{replacement}{textAfter}";
             }
-            SelectedItem.Content = text;
+            SelectedItem.Content = allText;
         }
 
         private void ReplaceAll()

@@ -36,7 +36,14 @@ namespace Savaged.BlackNotepad.Models
 
         public string Name
         {
-            get => _name;
+            get
+            {
+                if (string.IsNullOrEmpty(_name))
+                {
+                    Name = _NEW;
+                }
+                return _name;
+            }
             set
             {
                 Set(ref _name, value);

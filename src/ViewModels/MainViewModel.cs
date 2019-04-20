@@ -166,6 +166,7 @@ namespace Savaged.BlackNotepad.ViewModels
                 Save();
             }
             SelectedItem = new FileModel(location);
+            RaisePropertyChanged(nameof(Title));
         }
 
         public string Title => $"{SelectedItem?.Name} - Black Notepad";
@@ -334,6 +335,7 @@ namespace Savaged.BlackNotepad.ViewModels
                 {
                     IsDirty = false
                 };
+                RaisePropertyChanged(nameof(Title));
 
                 EndLongOpertation();
             }
@@ -354,6 +356,8 @@ namespace Savaged.BlackNotepad.ViewModels
 
                 SelectedItem.IsDirty = false;
 
+                RaisePropertyChanged(nameof(Title));
+
                 EndLongOpertation();
             }
             else
@@ -372,7 +376,7 @@ namespace Savaged.BlackNotepad.ViewModels
             if (result == true)
             {
                 SelectedItem.Location = _saveFileDialog.FileName;
-                OnSave();
+                Save();
             }
         }
 

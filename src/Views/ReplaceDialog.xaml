@@ -26,8 +26,7 @@
         <converters:InverseBoolConverter x:Key="InverseBoolConverter"/>
     </Window.Resources>
     
-    <Grid Margin="5"
-          FocusManager.FocusedElement="{Binding ElementName=FindText}">
+    <Grid Margin="5">
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="270"/>
             <ColumnDefinition/>
@@ -39,7 +38,7 @@
                 <RowDefinition/>
             </Grid.RowDefinitions>
             <StackPanel Grid.Row="0">
-                <controls:TextSoughtInputControl/>
+                <controls:TextSoughtInputControl x:Name="TextSoughtInput"/>
                 <StackPanel Margin="0,5,0,0"
                             Orientation="Horizontal"
                             Height="22"
@@ -76,7 +75,7 @@
                     IsEnabled="{Binding IsReplaceEnabled}">
                 <AccessText>Replace _All</AccessText>
             </Button>
-            <controls:CancelButtonControl Margin="0,5,0,0"/>
+            <controls:CancelButtonControl x:Name="CancelButton" Margin="0,5,0,0"/>
         </StackPanel>
     </Grid>
 </local:Dialog>

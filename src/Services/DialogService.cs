@@ -68,7 +68,11 @@ namespace Savaged.BlackNotepad.Services
 
         private void OnDialogDone(object sender, IDialogDoneEventArgs e)
         {
-            RaiseDialogDone(sender as Dialog, e);
+            if (sender is Dialog dialog)
+            {
+                RaiseDialogDone(dialog, e);
+                dialog.Hide();
+            }
         }
 
         public bool? ShowDialog(IDialogViewModel vm)

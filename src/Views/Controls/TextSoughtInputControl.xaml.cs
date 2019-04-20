@@ -1,4 +1,5 @@
-﻿using System.Windows.Controls;
+﻿using System.Windows;
+using System.Windows.Controls;
 
 namespace Savaged.BlackNotepad.Views.Controls
 {
@@ -7,6 +8,11 @@ namespace Savaged.BlackNotepad.Views.Controls
         public TextSoughtInputControl()
         {
             InitializeComponent();
+        }
+
+        private void OnLoaded(object sender, RoutedEventArgs e)
+        {
+            FindText.Focus();
         }
     }
 }

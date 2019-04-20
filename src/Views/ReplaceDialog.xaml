@@ -12,6 +12,7 @@
         WindowStyle="ToolWindow"
         ResizeMode="NoResize"
         Background="DarkGray"
+        Topmost="True"
         Loaded="OnLoaded">
     <Window.CommandBindings>
         <CommandBinding Command="Close" 

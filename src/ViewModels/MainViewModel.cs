@@ -291,12 +291,19 @@ namespace Savaged.BlackNotepad.ViewModels
         public bool IsSelectAllEnabled => !IsBusy &&
             SelectedItem.HasContent;
 
-        public Action<int> GoToRequested = delegate { };
+        public Action<int, int> GoToRequested = delegate { };
 
-        private void RaiseGoToRequested(int position)
+        public Action FocusRequested = delegate { };
+
+        private void RaiseGoToRequested(
+            int caretIndex, int selectionLength)
         {
-            var handler = GoToRequested;
-            handler?.Invoke(position);
+            GoToRequested?.Invoke(caretIndex, selectionLength);
+        }
+
+        private void RaiseFocusRequested()
+        {
+            FocusRequested?.Invoke();
         }
 
         private void StartLongOperation([CallerMemberName]string caller = "")
@@ -397,6 +404,7 @@ namespace Savaged.BlackNotepad.ViewModels
         private void OnFindNextRaisedByDialog()
         {
             FindNext();
+            RaiseFocusRequested();
         }
 
         private void FindNext()
@@ -438,7 +446,8 @@ namespace Savaged.BlackNotepad.ViewModels
                 indexOfTextFound = lengthOfTextExcluded + 
                     indexOfTextFoundInTextToSearch;
             }
-            RaiseGoToRequested(indexOfTextFound);
+            RaiseGoToRequested(
+                indexOfTextFound, TextSought.Length);
         }
 
         private void OnReplace()
@@ -449,11 +458,13 @@ namespace Savaged.BlackNotepad.ViewModels
         private void OnReplaceRaisedByDialog()
         {
             Replace();
+            RaiseFocusRequested();
         }
 
         private void OnReplaceAllRaisedByDialog()
         {
             ReplaceAll();
+            RaiseFocusRequested();
         }
 
         private void Replace()
@@ -545,7 +556,7 @@ namespace Savaged.BlackNotepad.ViewModels
                             var lineStartPosition = 
                                 i + lineCharToInclude - charsInLine;
 
-                            RaiseGoToRequested(lineStartPosition);
+                            RaiseGoToRequested(lineStartPosition, 0);
                             break;
                         }
                         charsInLine = 0;

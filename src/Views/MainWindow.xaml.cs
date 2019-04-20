@@ -17,14 +17,28 @@ namespace Savaged.BlackNotepad.Views
         {
             _viewModel = DataContext as MainViewModel;
             _viewModel.GoToRequested += OnGoToRequested;
+            _viewModel.FocusRequested += OnFocusRequested;
         }
 
-        private void OnGoToRequested(int position)
+        private void OnGoToRequested(int start, int selectionLength)
         {
-            if (position > 0)
+            if (start > 0)
             {
-                ContentText.CaretIndex = position;
+                if (selectionLength > 0)
+                {
+                    ContentText.Select(start, selectionLength);
+                }
+                else
+                {
+                    ContentText.CaretIndex = start;
+                }
+                Focus();
             }
+        }
+
+        private void OnFocusRequested()
+        {
+            Focus();
         }
 
         private void OnContentTextSelectionChanged(object sender, RoutedEventArgs e)

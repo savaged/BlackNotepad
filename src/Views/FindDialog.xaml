@@ -19,6 +19,8 @@
     </Window.CommandBindings>
     <Window.InputBindings>
         <KeyBinding Command="Close" Key="Esc" />
+        <KeyBinding Gesture="Ctrl+G" Command="{Binding GoToCmd}"/>
+        <KeyBinding Gesture="Ctrl+H" Command="{Binding ReplaceCmd}"/>
     </Window.InputBindings>
     <Window.Resources>
         <converters:InverseBoolConverter x:Key="InverseBoolConverter"/>

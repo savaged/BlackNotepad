@@ -1,4 +1,5 @@
-﻿using System;
+﻿using GalaSoft.MvvmLight.CommandWpf;
+using System;
 
 namespace Savaged.BlackNotepad.ViewModels
 {
@@ -8,6 +9,8 @@ namespace Savaged.BlackNotepad.ViewModels
 
         public Action ReplaceRaisedByDialog = delegate { };
         public Action ReplaceAllRaisedByDialog = delegate { };
+
+        public RelayCommand FindCmd { get; set; }
 
         public void RaiseReplace()
         {

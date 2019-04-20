@@ -1,4 +1,5 @@
-﻿using System;
+﻿using GalaSoft.MvvmLight.CommandWpf;
+using System;
 
 namespace Savaged.BlackNotepad.ViewModels
 {
@@ -12,6 +13,9 @@ namespace Savaged.BlackNotepad.ViewModels
 
         public Action FindNextRaisedByDialog = delegate { };
 
+        public RelayCommand ReplaceCmd { get; set; }
+        public RelayCommand GoToCmd { get; set; }
+
         public virtual void ResetFilters()
         {
             IsFindDirectionUp = false;
@@ -21,8 +25,7 @@ namespace Savaged.BlackNotepad.ViewModels
 
         public void RaiseFindNext()
         {
-            var handler = FindNextRaisedByDialog;
-            handler?.Invoke();
+            FindNextRaisedByDialog?.Invoke();
         }
 
         public string TextSought

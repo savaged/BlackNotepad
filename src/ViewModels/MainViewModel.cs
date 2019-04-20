@@ -117,12 +117,16 @@ namespace Savaged.BlackNotepad.ViewModels
             _findDialog = _dialogService
                 .GetDialogViewModel<FindDialogViewModel>();
             _findDialog.FindNextRaisedByDialog += OnFindNextRaisedByDialog;
+            _findDialog.ReplaceCmd = ReplaceCmd;
+            _findDialog.GoToCmd = GoToCmd;
 
             _replaceDialog = _dialogService
                 .GetDialogViewModel<ReplaceDialogViewModel>();
             _replaceDialog.FindNextRaisedByDialog += OnFindNextRaisedByDialog;
             _replaceDialog.ReplaceRaisedByDialog += OnReplaceRaisedByDialog;
             _replaceDialog.ReplaceAllRaisedByDialog += OnReplaceAllRaisedByDialog;
+            _replaceDialog.FindCmd = FindCmd;
+            _replaceDialog.GoToCmd = GoToCmd;
 
             _findDialog.PropertyChanged += OnFindDialogPropertyChanged;
             _replaceDialog.PropertyChanged += OnFindDialogPropertyChanged;

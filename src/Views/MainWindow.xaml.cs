@@ -53,6 +53,7 @@ namespace Savaged.BlackNotepad.Views
                     e.Cancel = true;
                 }
                 _viewModel.GoToRequested -= OnGoToRequested;
+                Application.Current.Shutdown();
             }
         }
 

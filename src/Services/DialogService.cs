@@ -37,9 +37,12 @@ namespace Savaged.BlackNotepad.Services
         private void OnVisibleExclusiveDialogClosing(
             object sender, CancelEventArgs e)
         {
-            __visibleExclusiveDialog.Closing -=
-                OnVisibleExclusiveDialogClosing;
-            __visibleExclusiveDialog = null;
+            if (__visibleExclusiveDialog != null)
+            {
+                __visibleExclusiveDialog.Closing -=
+                    OnVisibleExclusiveDialogClosing;
+                __visibleExclusiveDialog = null;
+            }
         }
 
         public T GetDialogViewModel<T>() 

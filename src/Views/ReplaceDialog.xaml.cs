@@ -40,7 +40,6 @@ namespace Savaged.BlackNotepad.Views
         protected override void OnCloseCommandExecuted(
             object sender, ExecutedRoutedEventArgs e)
         {
-            _viewModel?.ResetFilters();
             base.OnCloseCommandExecuted(sender, e);
         }
     }

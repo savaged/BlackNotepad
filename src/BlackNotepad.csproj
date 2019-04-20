@@ -152,6 +152,8 @@
     </Compile>
     <Compile Include="Views\Dialog.cs" />
     <Compile Include="Views\DialogDoneEventArgs.cs" />
+    <Compile Include="ViewsInterfaces\IDialogDoneEventArgs.cs" />
+    <Compile Include="ViewsInterfaces\IDialog.cs" />
     <Compile Include="Views\ReplaceDialog.xaml.cs">
       <DependentUpon>ReplaceDialog.xaml</DependentUpon>
     </Compile>

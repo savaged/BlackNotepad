@@ -1,5 +1,6 @@
 ﻿using GalaSoft.MvvmLight.Ioc;
 using Microsoft.Win32;
+using Savaged.BlackNotepad.ViewsInterfaces;
 using Savaged.BlackNotepad.ViewModels;
 using Savaged.BlackNotepad.Views;
 using System;
@@ -12,6 +13,15 @@ namespace Savaged.BlackNotepad.Services
     public class DialogService : IDialogService
     {
         private Dialog __visibleExclusiveDialog;
+
+        public event EventHandler<IDialogDoneEventArgs> DialogDone =
+            delegate { };
+
+        private void RaiseDialogDone(
+            Dialog sender, IDialogDoneEventArgs e)
+        {
+            DialogDone?.Invoke(sender, e);
+        }
 
         private Dialog VisibleExclusiveDialog
         {
@@ -48,7 +58,14 @@ namespace Savaged.BlackNotepad.Services
         public void Show(IDialogViewModel vm)
         {
             var dialog = GetDialog(vm);
+            dialog.DialogDone -= OnDialogDone;
+            dialog.DialogDone += OnDialogDone;
             dialog.Show();
+        }
+
+        private void OnDialogDone(object sender, IDialogDoneEventArgs e)
+        {
+            RaiseDialogDone(sender as Dialog, e);
         }
 
         public bool? ShowDialog(IDialogViewModel vm)

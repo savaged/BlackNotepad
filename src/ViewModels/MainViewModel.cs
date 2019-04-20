@@ -1,6 +1,7 @@
 ﻿using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.CommandWpf;
 using Microsoft.Win32;
+using Savaged.BlackNotepad.ViewsInterfaces;
 using Savaged.BlackNotepad.Lookups;
 using Savaged.BlackNotepad.Models;
 using Savaged.BlackNotepad.Services;
@@ -64,6 +65,7 @@ namespace Savaged.BlackNotepad.ViewModels
             }
 
             _dialogService = dialogService;
+            _dialogService.DialogDone += OnDialogDone;
 
             const string filter = "Text Documents|*.txt";
             _openFileDialog = _dialogService.GetDialog<OpenFileDialog>();
@@ -130,6 +132,7 @@ namespace Savaged.BlackNotepad.ViewModels
 
         public override void Cleanup()
         {
+            _dialogService.DialogDone -= OnDialogDone;
             _replaceDialog.ReplaceAllRaisedByDialog -= OnReplaceAllRaisedByDialog;
             _replaceDialog.ReplaceRaisedByDialog -= OnReplaceRaisedByDialog;
             _replaceDialog.FindNextRaisedByDialog -= OnFindNextRaisedByDialog;
@@ -368,14 +371,18 @@ namespace Savaged.BlackNotepad.ViewModels
             Application.Current.Shutdown();
         }
 
+        private void OnDialogDone(object sender, IDialogDoneEventArgs e)
+        {
+            if (sender is IDialog dialog
+                && dialog.DataContext is FindDialogViewModel vm)
+            {
+                vm?.ResetFilters();
+            }
+        }
+
         private void OnFind()
         {
-            _dialogService.Show(_findDialog);
-            // TODO get same as below from another method or event
-            //if (result != true)
-            //{
-            //    _replaceDialog.ResetFilters();
-            //}          
+            _dialogService.Show(_findDialog);    
         }
 
         private void OnFindNext()
@@ -433,11 +440,6 @@ namespace Savaged.BlackNotepad.ViewModels
         private void OnReplace()
         {
             _dialogService.Show(_replaceDialog);
-            // TODO get same as below from another method or event
-            //if (result != true)
-            //{
-            //    _replaceDialog.ResetFilters();
-            //}
         }
 
         private void OnReplaceRaisedByDialog()

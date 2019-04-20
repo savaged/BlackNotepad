@@ -1,6 +1,9 @@
-﻿using System.Windows;
+﻿using System;
+using System.Windows;
 using Microsoft.Win32;
+using Savaged.BlackNotepad.ViewsInterfaces;
 using Savaged.BlackNotepad.ViewModels;
+using Savaged.BlackNotepad.Views;
 
 namespace Savaged.BlackNotepad.Services
 {
@@ -20,5 +23,7 @@ namespace Savaged.BlackNotepad.Services
             string title,
             bool yesNoButtons = false,
             bool yesNoCancelButtons = false);
+
+        event EventHandler<IDialogDoneEventArgs> DialogDone;
     }
 }

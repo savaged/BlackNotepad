@@ -1,20 +1,20 @@
-﻿using System;
+﻿using Savaged.BlackNotepad.ViewsInterfaces;
+using System;
 using System.Windows;
 using System.Windows.Input;
 
 namespace Savaged.BlackNotepad.Views
 {
-    public partial class Dialog : Window
+    public partial class Dialog : Window, IDialog
     {
-        public event EventHandler<DialogDoneEventArgs> DialogDone =
-            delegate { };
-
         public bool IsModal { get; set; }
 
-        protected void RaiseDialogDone(DialogDoneEventArgs e)
+        public event EventHandler<IDialogDoneEventArgs> DialogDone =
+            delegate { };
+
+        public void RaiseDialogDone(IDialogDoneEventArgs e)
         {
-            var handler = DialogDone;
-            handler?.Invoke(this, e);
+            DialogDone?.Invoke(this, e);
         }
 
         protected virtual void OnCloseCommandExecuted(

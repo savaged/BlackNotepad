@@ -370,11 +370,12 @@ namespace Savaged.BlackNotepad.ViewModels
 
         private void OnFind()
         {
-            var result = _dialogService.ShowDialog(_findDialog);
-            if (result != true)
-            {
-                _findDialog.ResetFilters();
-            }
+            _dialogService.Show(_findDialog);
+            // TODO get same as below from another method or event
+            //if (result != true)
+            //{
+            //    _replaceDialog.ResetFilters();
+            //}          
         }
 
         private void OnFindNext()
@@ -431,11 +432,12 @@ namespace Savaged.BlackNotepad.ViewModels
 
         private void OnReplace()
         {
-            var result = _dialogService.ShowDialog(_replaceDialog);
-            if (result != true)
-            {
-                _replaceDialog.ResetFilters();
-            }
+            _dialogService.Show(_replaceDialog);
+            // TODO get same as below from another method or event
+            //if (result != true)
+            //{
+            //    _replaceDialog.ResetFilters();
+            //}
         }
 
         private void OnReplaceRaisedByDialog()

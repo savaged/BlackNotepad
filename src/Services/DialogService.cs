@@ -45,29 +45,17 @@ namespace Savaged.BlackNotepad.Services
             return value;
         }
 
+        public void Show(IDialogViewModel vm)
+        {
+            var dialog = GetDialog(vm);
+            dialog.Show();
+        }
+
         public bool? ShowDialog(IDialogViewModel vm)
         {
-            var vmName = vm.GetType().Name;
-            var dialogName = vmName
-                .Substring(0, vmName.IndexOf("ViewModel"));
-
-            var dialog = GetDialog(dialogName);
-            dialog.DataContext = vm;
-            
-            if (vm is IExclusiveDialogViewModel)
-            {   
-                if (VisibleExclusiveDialog is null)
-                {
-                    VisibleExclusiveDialog = dialog;
-                }
-                else if (VisibleExclusiveDialog != dialog)
-                {
-                    VisibleExclusiveDialog.Close();
-                    VisibleExclusiveDialog = dialog;
-                }
-            }
-            bool? result;
-            result = dialog.ShowDialog();
+            var dialog = GetDialog(vm);
+            dialog.IsModal = true;
+            var result = dialog.ShowDialog();
             return result;
         }
 
@@ -88,6 +76,30 @@ namespace Savaged.BlackNotepad.Services
             }
             var result = MessageBox.Show(msg, title, btns);
             var value = result == MessageBoxResult.Yes;
+            return value;
+        }
+
+        private Dialog GetDialog(IDialogViewModel vm)
+        {
+            var vmName = vm.GetType().Name;
+            var dialogName = vmName
+                .Substring(0, vmName.IndexOf("ViewModel"));
+
+            var value = GetDialog(dialogName);
+            value.DataContext = vm;
+
+            if (vm is IExclusiveDialogViewModel)
+            {
+                if (VisibleExclusiveDialog is null)
+                {
+                    VisibleExclusiveDialog = value;
+                }
+                else if (VisibleExclusiveDialog != value)
+                {
+                    VisibleExclusiveDialog.Hide();
+                    VisibleExclusiveDialog = value;
+                }
+            }
             return value;
         }
 

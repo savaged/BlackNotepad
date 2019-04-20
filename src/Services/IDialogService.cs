@@ -11,6 +11,8 @@ namespace Savaged.BlackNotepad.Services
         T GetDialogViewModel<T>() 
             where T : IDialogViewModel;
 
+        void Show(IDialogViewModel vm);
+
         bool? ShowDialog(IDialogViewModel vm);
 
         bool? ShowDialog(

@@ -18,8 +18,7 @@ namespace Savaged.BlackNotepad.Views
         {
             _viewModel = DataContext as MainViewModel;
             _viewModel.GoToRequested += OnGoToRequested;
-            _viewModel.FocusRequested += OnFocusRequested;
-            _viewModel.PropertyChanged += OnViewModelPropertyChanged;            
+            _viewModel.FocusRequested += OnFocusRequested;         
         }
 
         private void OnGoToRequested(int start, int selectionLength)
@@ -41,14 +40,6 @@ namespace Savaged.BlackNotepad.Views
         private void OnFocusRequested()
         {
             Focus();
-        }
-
-        private void OnViewModelPropertyChanged(object sender, PropertyChangedEventArgs e)
-        {
-            if (e.PropertyName == nameof(_viewModel.IndexOfCaret))
-            {
-                ContentText.CaretIndex = _viewModel.IndexOfCaret;
-            }
         }
 
         private void OnContentTextSelectionChanged(object sender, RoutedEventArgs e)
@@ -78,7 +69,6 @@ namespace Savaged.BlackNotepad.Views
                 }
                 _viewModel.GoToRequested -= OnGoToRequested;
                 _viewModel.FocusRequested -= OnFocusRequested;
-                _viewModel.PropertyChanged -= OnViewModelPropertyChanged;
                 Application.Current.Shutdown();
             }
         }

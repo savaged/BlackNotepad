@@ -16,13 +16,6 @@ namespace Savaged.BlackNotepad.ViewModels
         public RelayCommand ReplaceCmd { get; set; }
         public RelayCommand GoToCmd { get; set; }
 
-        public virtual void ResetFilters()
-        {
-            IsFindDirectionUp = false;
-            IsFindMatchCase = false;
-            IsFindWrapAround = false;
-        }
-
         public void RaiseFindNext()
         {
             FindNextRaisedByDialog?.Invoke(

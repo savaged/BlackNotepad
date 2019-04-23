@@ -396,11 +396,11 @@ namespace Savaged.BlackNotepad.ViewModels
 
         private void OnDialogDone(object sender, IDialogDoneEventArgs e)
         {
-            if (sender is IDialog dialog
-                && dialog.DataContext is FindDialogViewModel vm)
-            {
-                vm?.ResetFilters();
-            }
+            //if (sender is IDialog dialog
+            //    && dialog.DataContext is FindDialogViewModel vm)
+            //{
+            //    vm?.ResetFilters();
+            //}
         }
 
         private void OnFind()
@@ -431,6 +431,11 @@ namespace Savaged.BlackNotepad.ViewModels
 
             var allText = _isFindMatchCase ?
                 SelectedItem.Content : SelectedItem.Content?.ToLower();
+
+            if (!allText.Contains(textSought))
+            {
+                return;
+            }
 
             var isFindDirectionUp =
                 _findDialog?.IsFindDirectionUp == true;
@@ -589,7 +594,9 @@ namespace Savaged.BlackNotepad.ViewModels
                     allText = $"{textPrior}{replacement}{textAfter}";
                 }
                 SelectedItem.Content = allText;
-                IndexOfCaret = textPrior.Length + replacement.Length;
+
+                RaiseGoToRequested(
+                    textPrior.Length + replacement.Length, 0);
 
                 _isReadyForReplacement = false;
             }

@@ -82,8 +82,10 @@ namespace Savaged.BlackNotepad.ViewModels
             ViewState = _viewStateService.Open();
 
             FontColours = fontColourLookupService.GetIndex();
+            ApplySelectedOnFontColour();
 
             FontFamilyNames = fontFamilyLookupService.GetIndex();
+            ApplySelectedOnFontFamily();
 
             _fontZoomIndex = fontZoomLookupService.GetIndex();
             _defaultZoom = fontZoomLookupService.GetDefault().Zoom;
@@ -801,16 +803,17 @@ namespace Savaged.BlackNotepad.ViewModels
 
         private void ApplySelectedOnFontColour()
         {
-            ApplySelectedOnList(FontColours);
+            ApplySelectedOnList(
+                FontColours, ViewState.SelectedFontColour);
             RaisePropertyChanged(nameof(FontColours));
         }
 
-        private void ApplySelectedOnList<T>(IList<T> list)
+        private void ApplySelectedOnList<T>(IList<T> list, T selection)
             where T : ISelectionModel
         {
             foreach (var item in list)
             {
-                if (item.Equals(ViewState.SelectedFontColour))
+                if (item.Equals(selection))
                 {
                     item.IsSelected = true;
                 }
@@ -829,7 +832,8 @@ namespace Savaged.BlackNotepad.ViewModels
 
         private void ApplySelectedOnFontFamily()
         {
-            ApplySelectedOnList(FontFamilyNames);
+            ApplySelectedOnList(
+                FontFamilyNames, ViewState.SelectedFontFamily);
             RaisePropertyChanged(nameof(FontFamilyNames));
         }
 

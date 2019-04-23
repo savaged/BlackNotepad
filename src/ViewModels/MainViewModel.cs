@@ -244,7 +244,6 @@ namespace Savaged.BlackNotepad.ViewModels
         public RelayCommand FindNextCmd { get; }
         public RelayCommand ReplaceCmd { get; }
         public RelayCommand GoToCmd { get; }
-        public RelayCommand<int> GoToLineCmd { get; }
         public RelayCommand TimeDateCmd { get; }
         public RelayCommand WordWrapCmd { get; }
         public RelayCommand ZoomInCmd { get; }
@@ -552,7 +551,8 @@ namespace Savaged.BlackNotepad.ViewModels
                 for (int i = 0; i < text.Length; i++)
                 {
                     charsInLine++;
-                    if (text[i] == lineEndingChar)
+                    if (text[i] == lineEndingChar
+                        || i == text.Length - 1)
                     {
                         linesCounted++;
                         if (vm.LineNumber == linesCounted)

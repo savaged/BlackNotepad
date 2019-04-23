@@ -507,9 +507,12 @@ namespace Savaged.BlackNotepad.ViewModels
                 indexOfTextFound = lengthOfTextExcluded + 
                     indexOfTextFoundInTextToSearch;
             }
-            _findNextCount++;
-            RaiseGoToRequested(
-                indexOfTextFound, textSought.Length);
+            if (indexOfTextFound > 0)
+            {
+                _findNextCount++;
+                RaiseGoToRequested(
+                    indexOfTextFound, textSought.Length);
+            }
         }
 
         private void OnEsc()
@@ -555,29 +558,35 @@ namespace Savaged.BlackNotepad.ViewModels
                 return;
             }
             FindNext();
+            var isReplacementLocated = _findNextCount > 0;
 
-            var allText = _isFindMatchCase ? 
-                SelectedItem.Content : SelectedItem.Content?.ToLower();
-
-            var replacement = _replaceDialog?.ReplacementText;
-
-            var sought = _isFindMatchCase ?
-                TextSought : TextSought?.ToLower();
-
-            if (allText.Contains(sought))
+            if (isReplacementLocated)
             {
-                var textPrior = SelectedItem.Content?
-                    .Substring(0, IndexOfCaret);
+                var allText = _isFindMatchCase ?
+                    SelectedItem.Content : SelectedItem.Content?.ToLower();
 
-                var endOfTextAfter =
-                    IndexOfCaret + replacement.Length;
+                var replacement = _replaceDialog?.ReplacementText;
 
-                var textAfter = SelectedItem.Content?
-                    .Substring(endOfTextAfter);
+                var sought = _isFindMatchCase ?
+                    TextSought : TextSought?.ToLower();
 
-                allText = $"{textPrior}{replacement}{textAfter}";
+                var textPrior = string.Empty;
+                if (allText.Contains(sought))
+                {
+                    textPrior = SelectedItem.Content?
+                        .Substring(0, IndexOfCaret);
+
+                    var endOfTextAfter =
+                        IndexOfCaret + replacement.Length;
+
+                    var textAfter = SelectedItem.Content?
+                        .Substring(endOfTextAfter);
+
+                    allText = $"{textPrior}{replacement}{textAfter}";
+                }
+                SelectedItem.Content = allText;
+                IndexOfCaret = textPrior.Length + replacement.Length;
             }
-            SelectedItem.Content = allText;
         }
 
         private void ReplaceAll()

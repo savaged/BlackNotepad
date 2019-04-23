@@ -24,7 +24,7 @@
         <KeyBinding Gesture="Ctrl+F" Command="{Binding FindCmd}"/>
     </Window.InputBindings>
     <Window.Resources>
-        <converters:InverseBoolConverter x:Key="InverseBoolConverter"/>
+        <converters:BoolToRadioButtonCheckedConverter x:Key="InverseBoolConverter"/>
     </Window.Resources>
     
     <Grid Margin="5">

@@ -3,6 +3,7 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:sys="clr-namespace:System;assembly=mscorlib"
         xmlns:local="clr-namespace:Savaged.BlackNotepad.Views"
         xmlns:converters="clr-namespace:Savaged.BlackNotepad.Converters"
         xmlns:controls="clr-namespace:Savaged.BlackNotepad.Views.Controls"
@@ -24,7 +25,9 @@
         <KeyBinding Gesture="Ctrl+H" Command="{Binding ReplaceCmd}"/>
     </Window.InputBindings>
     <Window.Resources>
-        <converters:InverseBoolConverter x:Key="InverseBoolConverter"/>
+        <converters:BoolToRadioButtonCheckedConverter x:Key="CheckedConverter"/>
+        <sys:Boolean x:Key="True">True</sys:Boolean>
+        <sys:Boolean x:Key="False">False</sys:Boolean>
     </Window.Resources>
 
     <Grid Margin="5">
@@ -54,12 +57,16 @@
                         <StackPanel Orientation="Horizontal">
                             <RadioButton Margin="10"
                                          GroupName="FindDirectionGroup"
-                                         IsChecked="{Binding IsFindDirectionUp}">
+                                         IsChecked="{Binding IsFindDirectionUp, 
+                                                    Converter={StaticResource CheckedConverter}, 
+                                                    ConverterParameter={StaticResource True}}">
                                 <AccessText>_Up</AccessText>
                             </RadioButton>
                             <RadioButton Margin="10"
                                          GroupName="FindDirectionGroup"
-                                         IsChecked="{Binding IsFindDirectionUp, Converter={StaticResource InverseBoolConverter}}">
+                                         IsChecked="{Binding IsFindDirectionUp, 
+                                                    Converter={StaticResource CheckedConverter}, 
+                                                    ConverterParameter={StaticResource False}}">
                                 <AccessText>_Down</AccessText>
                             </RadioButton>
                         </StackPanel>

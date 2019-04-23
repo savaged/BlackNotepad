@@ -4,21 +4,16 @@ using System.Windows.Data;
 
 namespace Savaged.BlackNotepad.Converters
 {
-    class InverseBoolConverter : IValueConverter
+    class BoolToRadioButtonCheckedConverter : IValueConverter
     {
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            if (value is bool b)
-            {
-                return !b;
-            }
-            return null;
+            return value.Equals(parameter);
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            var result = (bool)Convert(value, targetType, parameter, culture);
-            return !result;
+            return value.Equals(true) ? parameter : Binding.DoNothing;
         }
     }
 }

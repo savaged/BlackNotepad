@@ -796,26 +796,40 @@ namespace Savaged.BlackNotepad.ViewModels
         private void OnFontColour(FontColourModel selected)
         {
             ViewState.SelectedFontColour = selected;
-            foreach (var fontColour in FontColours)
+            ApplySelectedOnFontColour();
+        }
+
+        private void ApplySelectedOnFontColour()
+        {
+            ApplySelectedOnList(FontColours);
+            RaisePropertyChanged(nameof(FontColours));
+        }
+
+        private void ApplySelectedOnList<T>(IList<T> list)
+            where T : ISelectionModel
+        {
+            foreach (var item in list)
             {
-                if (fontColour.Key != ViewState.SelectedFontColour.Key)
+                if (item.Equals(ViewState.SelectedFontColour))
                 {
-                    fontColour.IsSelected = false;
+                    item.IsSelected = true;
+                }
+                else
+                {
+                    item.IsSelected = false;
                 }
             }
-            RaisePropertyChanged(nameof(FontColours));
         }
 
         private void OnFontFamily(FontFamilyModel selected)
         {
             ViewState.SelectedFontFamily = selected;
-            foreach (var fontFamily in FontFamilyNames)
-            {
-                if (fontFamily.Key != ViewState.SelectedFontFamily.Key)
-                {
-                    fontFamily.IsSelected = false;
-                }
-            }
+            ApplySelectedOnFontFamily();
+        }
+
+        private void ApplySelectedOnFontFamily()
+        {
+            ApplySelectedOnList(FontFamilyNames);
             RaisePropertyChanged(nameof(FontFamilyNames));
         }
 

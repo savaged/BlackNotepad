@@ -38,6 +38,7 @@ namespace Savaged.BlackNotepad.ViewModels
         private int _findNextCount;
         private bool _isFindWrapAround;
         private bool _isFindMatchCase;
+        private bool _isReadyForReplacement;
 
         public MainViewModel(
             IDialogService dialogService,
@@ -525,6 +526,7 @@ namespace Savaged.BlackNotepad.ViewModels
         {
             _dialogService.Show(_replaceDialog);
             _findNextCount = 0;
+            _isReadyForReplacement = false;
         }
 
         private void OnReplaceRaisedByDialog(
@@ -557,10 +559,12 @@ namespace Savaged.BlackNotepad.ViewModels
             {
                 return;
             }
-            FindNext();
-            var isReplacementLocated = _findNextCount > 0;
-
-            if (isReplacementLocated)
+            if (!_isReadyForReplacement)
+            {
+                FindNext();
+                _isReadyForReplacement = _findNextCount > 0;
+            }
+            else
             {
                 var allText = _isFindMatchCase ?
                     SelectedItem.Content : SelectedItem.Content?.ToLower();
@@ -586,6 +590,8 @@ namespace Savaged.BlackNotepad.ViewModels
                 }
                 SelectedItem.Content = allText;
                 IndexOfCaret = textPrior.Length + replacement.Length;
+
+                _isReadyForReplacement = false;
             }
         }
 

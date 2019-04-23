@@ -46,9 +46,12 @@ namespace BlackNotepad.Test.FeatureTests
             mockDialogService.Setup(
                 s => s.GetFileDialog<SaveFileDialog>())
                 .Returns(It.IsAny<SaveFileDialog>());
+
             mockDialogService.Setup(
-                s => s.GetDialogViewModel<GoToDialogViewModel>())
+                s => s.GetDialogViewModel<IGoToDialogViewModel>())
                 .Returns(new GoToDialogViewModel());
+
+            // TODO mock each view model
 
             _dialogService = mockDialogService.Object;
 

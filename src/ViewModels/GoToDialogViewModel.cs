@@ -1,7 +1,7 @@
 ﻿namespace Savaged.BlackNotepad.ViewModels
 {
-    public class GoToDialogViewModel 
-        : ActionDialogViewModelBase, IExclusiveDialogViewModel
+    public class GoToDialogViewModel
+        : ActionDialogViewModelBase, IGoToDialogViewModel
     {
         private int _lineNumber;
 

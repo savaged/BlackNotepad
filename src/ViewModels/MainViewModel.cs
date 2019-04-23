@@ -72,11 +72,17 @@ namespace Savaged.BlackNotepad.ViewModels
             _dialogService.DialogDone += OnDialogDone;
 
             const string filter = "Text Documents|*.txt";
-            _openFileDialog = _dialogService.GetDialog<OpenFileDialog>();
-            _openFileDialog.Filter = filter;
+            _openFileDialog = _dialogService.GetFileDialog<OpenFileDialog>();
+            if (_openFileDialog != null)
+            {
+                _openFileDialog.Filter = filter;
+            }
 
-            _saveFileDialog = _dialogService.GetDialog<SaveFileDialog>();
-            _saveFileDialog.Filter = filter;
+            _saveFileDialog = _dialogService.GetFileDialog<SaveFileDialog>();
+            if (_saveFileDialog != null)
+            {
+                _saveFileDialog.Filter = filter;
+            }
 
             _viewStateService = viewStateService;
             ViewState = _viewStateService.Open();
@@ -95,7 +101,8 @@ namespace Savaged.BlackNotepad.ViewModels
                 ViewState.SelectedFontZoom.Key == _fontZoomIndex.Last().Key;
 
             _busyRegister = new List<string>();
-            _selectedItem = new FileModel();
+
+            SelectedItem = new FileModel();
 
             NewCmd = new RelayCommand(OnNew, () => CanExecute);
             OpenCmd = new RelayCommand(OnOpen, () => CanExecuteOpen);
@@ -123,35 +130,25 @@ namespace Savaged.BlackNotepad.ViewModels
 
             _findDialog = _dialogService
                 .GetDialogViewModel<FindDialogViewModel>();
-            _findDialog.FindNextRaisedByDialog += OnFindNextRaisedByDialog;
-            _findDialog.ReplaceCmd = ReplaceCmd;
-            _findDialog.GoToCmd = GoToCmd;
+            if (_findDialog != null)
+            {
+                _findDialog.FindNextRaisedByDialog += OnFindNextRaisedByDialog;
+                _findDialog.ReplaceCmd = ReplaceCmd;
+                _findDialog.GoToCmd = GoToCmd;
+                _findDialog.PropertyChanged += OnFindDialogPropertyChanged;
+            }           
 
             _replaceDialog = _dialogService
                 .GetDialogViewModel<ReplaceDialogViewModel>();
-            _replaceDialog.FindNextRaisedByDialog += OnFindNextRaisedByDialog;
-            _replaceDialog.ReplaceRaisedByDialog += OnReplaceRaisedByDialog;
-            _replaceDialog.ReplaceAllRaisedByDialog += OnReplaceAllRaisedByDialog;
-            _replaceDialog.FindCmd = FindCmd;
-            _replaceDialog.GoToCmd = GoToCmd;
-
-            _findDialog.PropertyChanged += OnFindDialogPropertyChanged;
-            _replaceDialog.PropertyChanged += OnFindDialogPropertyChanged;
-
-            SelectedItem.PropertyChanged += OnSelectedItemPropertyChanged;
-        }
-
-        public override void Cleanup()
-        {
-            _dialogService.DialogDone -= OnDialogDone;
-            _replaceDialog.ReplaceAllRaisedByDialog -= OnReplaceAllRaisedByDialog;
-            _replaceDialog.ReplaceRaisedByDialog -= OnReplaceRaisedByDialog;
-            _replaceDialog.FindNextRaisedByDialog -= OnFindNextRaisedByDialog;
-            _findDialog.FindNextRaisedByDialog -= OnFindNextRaisedByDialog;
-            _replaceDialog.PropertyChanged -= OnFindDialogPropertyChanged;
-            _findDialog.PropertyChanged -= OnFindDialogPropertyChanged;
-            SelectedItem.PropertyChanged -= OnSelectedItemPropertyChanged;
-            base.Cleanup();
+            if (_replaceDialog != null)
+            {
+                _replaceDialog.FindNextRaisedByDialog += OnFindNextRaisedByDialog;
+                _replaceDialog.ReplaceRaisedByDialog += OnReplaceRaisedByDialog;
+                _replaceDialog.ReplaceAllRaisedByDialog += OnReplaceAllRaisedByDialog;
+                _replaceDialog.FindCmd = FindCmd;
+                _replaceDialog.GoToCmd = GoToCmd;
+                _replaceDialog.PropertyChanged += OnFindDialogPropertyChanged;
+            }
         }
 
         public bool OnClosing()
@@ -191,8 +188,21 @@ namespace Savaged.BlackNotepad.ViewModels
             get => _selectedItem;
             set
             {
+                if (_selectedItem != null)
+                {
+                    SelectedItem.PropertyChanged -=
+                            OnSelectedItemPropertyChanged;
+                }
+
                 Set(ref _selectedItem, value);
-                RaisePropertyChanged(nameof(Title));
+
+                if (value != null)
+                {
+                    SelectedItem.PropertyChanged += 
+                        OnSelectedItemPropertyChanged;
+
+                    RaisePropertyChanged(nameof(Title));
+                }
             }
         }
 

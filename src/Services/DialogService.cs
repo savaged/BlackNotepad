@@ -52,7 +52,7 @@ namespace Savaged.BlackNotepad.Services
             return value;
         }
 
-        public T GetDialog<T>() where T : CommonDialog
+        public T GetFileDialog<T>() where T : FileDialog
         {
             var value = SimpleIoc.Default.GetInstance<T>();
             return value;

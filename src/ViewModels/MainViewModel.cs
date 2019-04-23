@@ -36,6 +36,8 @@ namespace Savaged.BlackNotepad.ViewModels
         private int _caretColumn;
         private int _indexOfCaret;
         private int _findNextCount;
+        private bool _isFindWrapAround;
+        private bool _isFindMatchCase;
 
         public MainViewModel(
             IDialogService dialogService,
@@ -99,6 +101,7 @@ namespace Savaged.BlackNotepad.ViewModels
             ExitCmd = new RelayCommand(OnExit, () => CanExecute);
             FindCmd = new RelayCommand(OnFind, () => CanExecute);
             FindNextCmd = new RelayCommand(OnFindNext, () => CanExecuteFindNext);
+            EscCmd = new RelayCommand(OnEsc, () => CanExecuteEsc);
             ReplaceCmd = new RelayCommand(OnReplace, () => CanExecuteReplace);
             GoToCmd = new RelayCommand(OnGoTo, () => CanExecute);
             TimeDateCmd = new RelayCommand(OnTimeDate, () => CanExecute);
@@ -243,6 +246,7 @@ namespace Savaged.BlackNotepad.ViewModels
         public RelayCommand ExitCmd { get; }
         public RelayCommand FindCmd { get; }
         public RelayCommand FindNextCmd { get; }
+        public RelayCommand EscCmd { get; }
         public RelayCommand ReplaceCmd { get; }
         public RelayCommand GoToCmd { get; }
         public RelayCommand TimeDateCmd { get; }
@@ -270,6 +274,9 @@ namespace Savaged.BlackNotepad.ViewModels
 
         public bool CanExecuteFindNext => CanExecute &&
             !string.IsNullOrEmpty(TextSought);
+
+        public bool CanExecuteEsc => CanExecute &&
+            _findNextCount > 0;
 
         public bool CanExecuteReplace => CanExecute;
 
@@ -406,15 +413,24 @@ namespace Savaged.BlackNotepad.ViewModels
             FindNext();
         }
 
-        private void OnFindNextRaisedByDialog()
+        private void OnFindNextRaisedByDialog(
+            bool isFindWrapAround, bool isFindMatchCase)
         {
+            _isFindWrapAround = isFindWrapAround;
+            _isFindMatchCase = isFindMatchCase;
+
             FindNext();
             RaiseFocusRequested();
         }
 
         private void FindNext()
         {
-            var allText = SelectedItem.Content;
+            var textSought = _isFindMatchCase ?
+                TextSought : TextSought?.ToLower();
+
+            var allText = _isFindMatchCase ?
+                SelectedItem.Content : SelectedItem.Content?.ToLower();
+
             var isFindDirectionUp =
                 _findDialog?.IsFindDirectionUp == true;
             string textToSearch;
@@ -424,8 +440,16 @@ namespace Savaged.BlackNotepad.ViewModels
             {
                 if (IndexOfCaret == 0)
                 {
-                    // TODO Wrap-around logic here
-                    return;
+                    if (_isFindWrapAround)
+                    {
+                        IndexOfCaret = allText.Length;
+                        FindNext();
+                        return;
+                    }
+                    else
+                    {
+                        return;
+                    }
                 }
                 endOfTextToSearch = IndexOfCaret;
 
@@ -434,15 +458,23 @@ namespace Savaged.BlackNotepad.ViewModels
             }
             else
             {
-                if (IndexOfCaret == allText.Length)
+                if (IndexOfCaret >= allText.LastIndexOf(textSought))
                 {
-                    // TODO Wrap-around logic here
-                    return;
+                    if (_isFindWrapAround)
+                    {
+                        IndexOfCaret = 0;
+                        FindNext();
+                        return;
+                    }
+                    else
+                    {
+                        return;
+                    }
                 }
                 if (_findNextCount > 0)
                 {
                     startOfTextToSearch = 
-                        IndexOfCaret + TextSought.Length;
+                        IndexOfCaret + textSought.Length;
                 }
                 else
                 {
@@ -463,21 +495,27 @@ namespace Savaged.BlackNotepad.ViewModels
             if (isFindDirectionUp)
             {
                 indexOfTextFoundInTextToSearch =
-                    textToSearch.LastIndexOf(TextSought);
+                    textToSearch.LastIndexOf(textSought);
 
                 indexOfTextFound = indexOfTextFoundInTextToSearch;
             }
             else
             {
                 indexOfTextFoundInTextToSearch =
-                    textToSearch.IndexOf(TextSought);
+                    textToSearch.IndexOf(textSought);
 
                 indexOfTextFound = lengthOfTextExcluded + 
                     indexOfTextFoundInTextToSearch;
             }
             _findNextCount++;
             RaiseGoToRequested(
-                indexOfTextFound, TextSought.Length);
+                indexOfTextFound, textSought.Length);
+        }
+
+        private void OnEsc()
+        {
+            TextSought = string.Empty;
+            FindNext();
         }
 
         private void OnReplace()
@@ -486,14 +524,22 @@ namespace Savaged.BlackNotepad.ViewModels
             _findNextCount = 0;
         }
 
-        private void OnReplaceRaisedByDialog()
+        private void OnReplaceRaisedByDialog(
+            bool isFindWrapAround, bool isFindMatchCase)
         {
+            _isFindWrapAround = isFindWrapAround;
+            _isFindMatchCase = isFindMatchCase;
+
             Replace();
             RaiseFocusRequested();
         }
 
-        private void OnReplaceAllRaisedByDialog()
+        private void OnReplaceAllRaisedByDialog(
+            bool isFindWrapAround, bool isFindMatchCase)
         {
+            _isFindWrapAround = isFindWrapAround;
+            _isFindMatchCase = isFindMatchCase;
+
             ReplaceAll();
             RaiseFocusRequested();
         }
@@ -510,17 +556,24 @@ namespace Savaged.BlackNotepad.ViewModels
             }
             FindNext();
 
-            var allText = SelectedItem?.Content;
+            var allText = _isFindMatchCase ? 
+                SelectedItem.Content : SelectedItem.Content?.ToLower();
+
             var replacement = _replaceDialog?.ReplacementText;
-            var sought = TextSought;
+
+            var sought = _isFindMatchCase ?
+                TextSought : TextSought?.ToLower();
 
             if (allText.Contains(sought))
             {
-                var textPrior = allText
+                var textPrior = SelectedItem.Content?
                     .Substring(0, IndexOfCaret);
 
-                var textAfter = allText.Substring(
-                    IndexOfCaret + replacement.Length);
+                var endOfTextAfter =
+                    IndexOfCaret + replacement.Length;
+
+                var textAfter = SelectedItem.Content?
+                    .Substring(endOfTextAfter);
 
                 allText = $"{textPrior}{replacement}{textAfter}";
             }
@@ -533,13 +586,17 @@ namespace Savaged.BlackNotepad.ViewModels
             {
                 return;
             }
-            var text = SelectedItem?.Content;
+            var text = _isFindMatchCase ? 
+                SelectedItem.Content : SelectedItem.Content?.ToLower();
+
             var replacement = _replaceDialog?.ReplacementText;
-            var sought = TextSought;
-            
+
+            var sought = _isFindMatchCase ?
+                TextSought : TextSought?.ToLower();
+
             if (text.Contains(sought))
             {
-                text = text.Replace(sought, replacement);
+                text = text.Replace(TextSought, replacement);
             }
             SelectedItem.Content = text;
         }

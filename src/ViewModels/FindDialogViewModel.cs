@@ -11,7 +11,7 @@ namespace Savaged.BlackNotepad.ViewModels
         private bool _isFindMatchCase;
         private bool _isFindWrapAround;
 
-        public Action FindNextRaisedByDialog = delegate { };
+        public Action<bool, bool> FindNextRaisedByDialog = delegate { };
 
         public RelayCommand ReplaceCmd { get; set; }
         public RelayCommand GoToCmd { get; set; }
@@ -25,7 +25,8 @@ namespace Savaged.BlackNotepad.ViewModels
 
         public void RaiseFindNext()
         {
-            FindNextRaisedByDialog?.Invoke();
+            FindNextRaisedByDialog?.Invoke(
+                IsFindWrapAround, IsFindMatchCase);
         }
 
         public string TextSought

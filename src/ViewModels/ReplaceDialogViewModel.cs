@@ -7,21 +7,21 @@ namespace Savaged.BlackNotepad.ViewModels
     {
         private string _replacementText;
 
-        public Action ReplaceRaisedByDialog = delegate { };
-        public Action ReplaceAllRaisedByDialog = delegate { };
+        public Action<bool, bool> ReplaceRaisedByDialog = delegate { };
+        public Action<bool, bool> ReplaceAllRaisedByDialog = delegate { };
 
         public RelayCommand FindCmd { get; set; }
 
         public void RaiseReplace()
         {
             var handler = ReplaceRaisedByDialog;
-            handler?.Invoke();
+            handler?.Invoke(IsFindWrapAround, IsFindMatchCase);
         }
 
         public void RaiseReplaceAll()
         {
             var handler = ReplaceAllRaisedByDialog;
-            handler?.Invoke();
+            handler?.Invoke(IsFindWrapAround, IsFindMatchCase);
         }
 
         public string ReplacementText

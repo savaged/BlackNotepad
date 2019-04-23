@@ -23,6 +23,7 @@
         <KeyBinding Gesture="Ctrl+G" Command="{Binding GoToCmd}"/>
         <KeyBinding Gesture="Ctrl+F" Command="{Binding FindCmd}"/>
         <KeyBinding Key="F3" Command="{Binding FindNextCmd}"/>
+        <KeyBinding Key="Esc" Command="{Binding EscCmd}"/>
         <KeyBinding Gesture="Ctrl+H" Command="{Binding ReplaceCmd}"/>
         <KeyBinding Key="F5" Command="{Binding TimeDateCmd}"/>
         <KeyBinding Gesture="Ctrl+Plus" Command="{Binding ZoomInCmd}"/>

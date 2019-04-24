@@ -1,4 +1,7 @@
-﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+﻿using System;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Moq;
+using Savaged.BlackNotepad.ViewModels;
 
 namespace BlackNotepad.Test.FeatureTests
 {
@@ -11,10 +14,27 @@ namespace BlackNotepad.Test.FeatureTests
             MainVm.SelectedItem.Content =
                 "nnnnxxnn\r\nnnnxxnnn\r\nnnnxxn";
 
-            MainVm.GoToCmd.Execute(2);
+            MainVm.GoToRequested += OnGoToRequested;
 
-            Assert.AreEqual(2, MainVm.CaretLine);
-            Assert.AreEqual(1, MainVm.CaretColumn);
+            var mockGoToVm = new Mock<IGoToDialogViewModel>();
+            mockGoToVm.SetupGet(vm => vm.LineNumber).Returns(2);
+
+            MockDialogService.Setup(
+                s => s.GetDialogViewModel<IGoToDialogViewModel>())
+                .Returns(mockGoToVm.Object);
+
+            MainVm.GoToCmd.Execute(null);
+        }
+
+        [TestCleanup]
+        public void TearDown()
+        {
+            MainVm.GoToRequested -= OnGoToRequested;
+        }
+
+        private void OnGoToRequested(int start, int selectionLength)
+        {
+            Assert.AreEqual(2, start);
         }
     }
 }

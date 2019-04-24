@@ -1,6 +1,7 @@
 ﻿namespace Savaged.BlackNotepad.ViewModels
 {
-    public interface IActionDialogViewModel
+    public interface IActionDialogViewModel 
+        : IDialogViewModel
     {
         bool IsActionEnabled { get; }
     }

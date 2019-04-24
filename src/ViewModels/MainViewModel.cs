@@ -649,7 +649,7 @@ namespace Savaged.BlackNotepad.ViewModels
         private void OnGoTo()
         {
             var vm = _dialogService
-                .GetDialogViewModel<GoToDialogViewModel>();
+                .GetDialogViewModel<IGoToDialogViewModel>();
             vm.LineNumber = CaretLine;
             var result = _dialogService.ShowDialog(vm);
             if (result == true)

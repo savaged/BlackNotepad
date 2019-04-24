@@ -1,6 +1,7 @@
 ﻿namespace Savaged.BlackNotepad.ViewModels
 {
-    public interface IExclusiveDialogViewModel
+    public interface IExclusiveDialogViewModel 
+        : IDialogViewModel
     {
     }
 }

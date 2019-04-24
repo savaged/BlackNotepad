@@ -18,6 +18,8 @@ namespace BlackNotepad.Test.FeatureTests
         private IFontFamilyLookupService _fontFamilyLookupService;
         private IFontZoomLookupService _fontZoomLookupService;
 
+        protected Mock<IDialogService> MockDialogService;
+
         /// <summary>
         /// NOTE: 
         /// Uses ref to presentationframework.dll for common dialogs
@@ -40,28 +42,28 @@ namespace BlackNotepad.Test.FeatureTests
             _viewStateService = mockViewStateService.Object;
 
 
-            var mockDialogService = new Mock<IDialogService>();
-            mockDialogService.Setup(
+            MockDialogService = new Mock<IDialogService>();
+            MockDialogService.Setup(
                 s => s.GetFileDialog<OpenFileDialog>())
                 .Returns(It.IsAny<OpenFileDialog>());
-            mockDialogService.Setup(
+            MockDialogService.Setup(
                 s => s.GetFileDialog<SaveFileDialog>())
                 .Returns(It.IsAny<SaveFileDialog>());
 
 
             var goToVm = new GoToDialogViewModel();
 
-            mockDialogService.Setup(
+            MockDialogService.Setup(
                 s => s.GetDialogViewModel<IGoToDialogViewModel>())
                 .Returns(goToVm);
 
-            mockDialogService.Setup(
+            MockDialogService.Setup(
                 s => s.ShowDialog(goToVm)).Returns(true);
 
 
             // TODO mock each view model
 
-            _dialogService = mockDialogService.Object;
+            _dialogService = MockDialogService.Object;
 
             MainVm = new MainViewModel(
                 _dialogService,

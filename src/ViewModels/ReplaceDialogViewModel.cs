@@ -3,25 +3,31 @@ using System;
 
 namespace Savaged.BlackNotepad.ViewModels
 {
-    public class ReplaceDialogViewModel : FindDialogViewModel
+    public class ReplaceDialogViewModel 
+        : FindDialogViewModel, IReplaceDialogViewModel
     {
         private string _replacementText;
 
-        public Action<bool, bool> ReplaceRaisedByDialog = delegate { };
-        public Action<bool, bool> ReplaceAllRaisedByDialog = delegate { };
+        public event EventHandler<FindNextEventArgs> 
+            ReplaceRaisedByDialog = delegate { };
+
+        public event EventHandler<FindNextEventArgs> 
+            ReplaceAllRaisedByDialog = delegate { };
 
         public RelayCommand FindCmd { get; set; }
 
         public void RaiseReplace()
         {
-            var handler = ReplaceRaisedByDialog;
-            handler?.Invoke(IsFindWrapAround, IsFindMatchCase);
+            ReplaceRaisedByDialog?.Invoke(
+                this,
+                new FindNextEventArgs(IsFindWrapAround, IsFindMatchCase));
         }
 
         public void RaiseReplaceAll()
         {
-            var handler = ReplaceAllRaisedByDialog;
-            handler?.Invoke(IsFindWrapAround, IsFindMatchCase);
+            ReplaceAllRaisedByDialog?.Invoke(
+                this,
+                new FindNextEventArgs(IsFindWrapAround, IsFindMatchCase));
         }
 
         public string ReplacementText

@@ -25,8 +25,8 @@ namespace Savaged.BlackNotepad.ViewModels
         private readonly IViewStateService _viewStateService;
         private readonly IList<FontZoomModel> _fontZoomIndex;
         private readonly int _defaultZoom;
-        private readonly FindDialogViewModel _findDialog;
-        private readonly ReplaceDialogViewModel _replaceDialog;
+        private readonly IFindDialogViewModel _findDialog;
+        private readonly IReplaceDialogViewModel _replaceDialog;
         private FileModel _selectedItem;
         private string _selectedText;
         private string _textSought;
@@ -129,17 +129,18 @@ namespace Savaged.BlackNotepad.ViewModels
                 OnFontFamily, (b) => CanExecute);
 
             _findDialog = _dialogService
-                .GetDialogViewModel<FindDialogViewModel>();
+                .GetDialogViewModel<IFindDialogViewModel>();
             if (_findDialog != null)
             {
-                _findDialog.FindNextRaisedByDialog += OnFindNextRaisedByDialog;
+                _findDialog.FindNextRaisedByDialog +=
+                    OnFindNextRaisedByDialog;
                 _findDialog.ReplaceCmd = ReplaceCmd;
                 _findDialog.GoToCmd = GoToCmd;
                 _findDialog.PropertyChanged += OnFindDialogPropertyChanged;
             }           
 
             _replaceDialog = _dialogService
-                .GetDialogViewModel<ReplaceDialogViewModel>();
+                .GetDialogViewModel<IReplaceDialogViewModel>();
             if (_replaceDialog != null)
             {
                 _replaceDialog.FindNextRaisedByDialog += OnFindNextRaisedByDialog;
@@ -427,10 +428,10 @@ namespace Savaged.BlackNotepad.ViewModels
         }
 
         private void OnFindNextRaisedByDialog(
-            bool isFindWrapAround, bool isFindMatchCase)
+            object sender, FindNextEventArgs e)
         {
-            _isFindWrapAround = isFindWrapAround;
-            _isFindMatchCase = isFindMatchCase;
+            _isFindWrapAround = e.IsFindWrapAround;
+            _isFindMatchCase = e.IsFindMatchCase;
 
             FindNext();
             RaiseFocusRequested();
@@ -547,20 +548,20 @@ namespace Savaged.BlackNotepad.ViewModels
         }
 
         private void OnReplaceRaisedByDialog(
-            bool isFindWrapAround, bool isFindMatchCase)
+            object sender, FindNextEventArgs e)
         {
-            _isFindWrapAround = isFindWrapAround;
-            _isFindMatchCase = isFindMatchCase;
+            _isFindWrapAround = e.IsFindWrapAround;
+            _isFindMatchCase = e.IsFindMatchCase;
 
             Replace();
             RaiseFocusRequested();
         }
 
         private void OnReplaceAllRaisedByDialog(
-            bool isFindWrapAround, bool isFindMatchCase)
+            object sender, FindNextEventArgs e)
         {
-            _isFindWrapAround = isFindWrapAround;
-            _isFindMatchCase = isFindMatchCase;
+            _isFindWrapAround = e.IsFindWrapAround;
+            _isFindMatchCase = e.IsFindMatchCase;
 
             ReplaceAll();
             RaiseFocusRequested();

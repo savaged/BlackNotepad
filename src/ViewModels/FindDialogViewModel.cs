@@ -3,23 +3,24 @@ using System;
 
 namespace Savaged.BlackNotepad.ViewModels
 {
-    public class FindDialogViewModel 
-        : ActionDialogViewModelBase, IExclusiveDialogViewModel
+    public class FindDialogViewModel
+        : ActionDialogViewModelBase, IFindDialogViewModel
     {
         private string _textSought;
         private bool _isFindDirectionUp;
         private bool _isFindMatchCase;
         private bool _isFindWrapAround;
 
-        public Action<bool, bool> FindNextRaisedByDialog = delegate { };
+        public event EventHandler<FindNextEventArgs> 
+            FindNextRaisedByDialog = delegate { };
 
         public RelayCommand ReplaceCmd { get; set; }
         public RelayCommand GoToCmd { get; set; }
 
         public void RaiseFindNext()
         {
-            FindNextRaisedByDialog?.Invoke(
-                IsFindWrapAround, IsFindMatchCase);
+            FindNextRaisedByDialog?.Invoke(this, new FindNextEventArgs(
+                IsFindWrapAround, IsFindMatchCase));
         }
 
         public string TextSought

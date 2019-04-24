@@ -13,12 +13,20 @@ namespace BlackNotepad.Test.ViewModelTests
         protected const string DefaultContent =
             "nnnnxxnn\r\n\nnnnxxnnn\r\n\nnnnxxn";
         protected const int DefaultLineToGoTo = 2;
+        protected const string DefaultTextSought = "xx";
 
         private IDialogService _dialogService;
         private IViewStateService _viewStateService;
         private IFontColourLookupService _fontColourLookupService;
         private IFontFamilyLookupService _fontFamilyLookupService;
         private IFontZoomLookupService _fontZoomLookupService;
+
+        protected int GoToCaretIndex { get; private set; }
+
+        protected Mock<IDialogService> MockDialogService
+        { get; private set; }
+
+        protected MainViewModel MainVm { get; private set; }
 
         /// <summary>
         /// NOTE: 
@@ -61,8 +69,9 @@ namespace BlackNotepad.Test.ViewModelTests
 
             var findVm = new FindDialogViewModel();
             MockDialogService.Setup(
-                s => s.GetDialogViewModel<FindDialogViewModel>())
+                s => s.GetDialogViewModel<IFindDialogViewModel>())
                 .Returns(findVm);
+
 
             var replaceVm = new ReplaceDialogViewModel();
             MockDialogService.Setup(
@@ -80,10 +89,21 @@ namespace BlackNotepad.Test.ViewModelTests
                 _fontColourLookupService,
                 _fontFamilyLookupService,
                 _fontZoomLookupService);
+
+            MainVm.SelectedItem.Content = DefaultContent;
+
+            MainVm.GoToRequested += OnGoToRequested;            
         }
 
-        protected Mock<IDialogService> MockDialogService
-        { get; private set; }
-        protected MainViewModel MainVm { get; private set; }
+        [TestCleanup]
+        public void TearDown()
+        {
+            MainVm.GoToRequested -= OnGoToRequested;
+        }
+
+        private void OnGoToRequested(int start, int selectionLength)
+        {
+            GoToCaretIndex = start;
+        }
     }
 }

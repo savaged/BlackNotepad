@@ -104,11 +104,14 @@
     <Compile Include="ViewModels\DialogViewModelBase.cs" />
     <Compile Include="ViewModels\ActionDialogViewModelBase.cs" />
     <Compile Include="ViewModels\FindDialogViewModel.cs" />
+    <Compile Include="ViewModels\FindNextEventArgs.cs" />
     <Compile Include="ViewModels\GoToDialogViewModel.cs" />
     <Compile Include="ViewModels\IActionDialogViewModel.cs" />
     <Compile Include="ViewModels\IDialogViewModel.cs" />
     <Compile Include="ViewModels\IExclusiveDialogViewModel.cs" />
+    <Compile Include="ViewModels\IFindDialogViewModel.cs" />
     <Compile Include="ViewModels\IGoToDialogViewModel.cs" />
+    <Compile Include="ViewModels\IReplaceDialogViewModel.cs" />
     <Compile Include="ViewModels\MainViewModel.cs" />
     <Page Include="Views\Controls\CancelButtonControl.xaml">
       <SubType>Designer</SubType>

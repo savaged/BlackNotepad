@@ -78,6 +78,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ViewModelTests\FindTests.cs" />
     <Compile Include="ViewModelTests\GoToTests.cs" />
     <Compile Include="ViewModelTests\TestBase.cs" />
     <Compile Include="UnitTests\CoordsToDisplayNameConverterTests.cs" />
@@ -93,6 +94,9 @@
       <Project>{13552780-24ac-414f-99fb-bd2e3c368446}</Project>
       <Name>BlackNotepad</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="ViewModelTests\README.md" />
   </ItemGroup>
   <Import Project="$(VSToolsPath)\TeamTest\Microsoft.TestTools.targets" Condition="Exists('$(VSToolsPath)\TeamTest\Microsoft.TestTools.targets')" />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

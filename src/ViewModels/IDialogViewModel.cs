@@ -1,6 +1,8 @@
-﻿namespace Savaged.BlackNotepad.ViewModels
+﻿using System.ComponentModel;
+
+namespace Savaged.BlackNotepad.ViewModels
 {
-    public interface IDialogViewModel
+    public interface IDialogViewModel : INotifyPropertyChanged
     {
     }
 }

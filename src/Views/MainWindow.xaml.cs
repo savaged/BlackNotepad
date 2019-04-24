@@ -41,14 +41,16 @@ namespace Savaged.BlackNotepad.Views
             Focus();
         }
 
-        private void OnContentTextSelectionChanged(object sender, RoutedEventArgs e)
+        private void OnContentTextSelectionChanged(
+            object sender, RoutedEventArgs e)
         {
             if (_viewModel != null)
             {
                 _viewModel.SelectedText = ContentText.SelectedText;
 
                 var selectionStart = ContentText.SelectionStart;
-                var line = ContentText.GetLineIndexFromCharacterIndex(selectionStart);
+                var line = ContentText
+                    .GetLineIndexFromCharacterIndex(selectionStart);
                 var column = selectionStart - 
                     ContentText.GetCharacterIndexFromLineIndex(line);
                 _viewModel.CaretLine = line;

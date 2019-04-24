@@ -108,7 +108,6 @@
     <Compile Include="ViewModels\IActionDialogViewModel.cs" />
     <Compile Include="ViewModels\IDialogViewModel.cs" />
     <Compile Include="ViewModels\IExclusiveDialogViewModel.cs" />
-    <Compile Include="ViewModels\IGoToDialogViewModel.cs" />
     <Compile Include="ViewModels\MainViewModel.cs" />
     <Page Include="Views\Controls\CancelButtonControl.xaml">
       <SubType>Designer</SubType>
@@ -143,6 +142,7 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="ViewModels\ReplaceDialogViewModel.cs" />
+    <Compile Include="ViewsInterfaces\IModalDialog.cs" />
     <Compile Include="Views\Controls\CancelButtonControl.xaml.cs">
       <DependentUpon>CancelButtonControl.xaml</DependentUpon>
     </Compile>

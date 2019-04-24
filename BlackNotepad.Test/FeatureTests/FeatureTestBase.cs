@@ -5,6 +5,7 @@ using Moq;
 using Savaged.BlackNotepad.Models;
 using Savaged.BlackNotepad.Services;
 using Savaged.BlackNotepad.ViewModels;
+using Savaged.BlackNotepad.ViewsInterfaces;
 
 namespace BlackNotepad.Test.FeatureTests
 {
@@ -47,9 +48,16 @@ namespace BlackNotepad.Test.FeatureTests
                 s => s.GetFileDialog<SaveFileDialog>())
                 .Returns(It.IsAny<SaveFileDialog>());
 
+
+            var goToVm = new GoToDialogViewModel();
+
             mockDialogService.Setup(
                 s => s.GetDialogViewModel<IGoToDialogViewModel>())
-                .Returns(new GoToDialogViewModel());
+                .Returns(goToVm);
+
+            mockDialogService.Setup(
+                s => s.ShowDialog(goToVm)).Returns(true);
+
 
             // TODO mock each view model
 

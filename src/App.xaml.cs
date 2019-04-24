@@ -21,8 +21,7 @@ namespace Savaged.BlackNotepad
             SimpleIoc.Default.Register<IViewStateService, ViewStateService>();
 
 
-            SimpleIoc.Default
-                .Register<IGoToDialogViewModel, GoToDialogViewModel>();
+            SimpleIoc.Default.Register<GoToDialogViewModel>();
             SimpleIoc.Default.Register<FindDialogViewModel>();
             SimpleIoc.Default.Register<ReplaceDialogViewModel>();
             SimpleIoc.Default.Register<OpenFileDialog>();

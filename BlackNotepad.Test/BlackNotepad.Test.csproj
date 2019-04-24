@@ -78,8 +78,8 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="FeatureTests\GoToTests.cs" />
-    <Compile Include="FeatureTests\FeatureTestBase.cs" />
+    <Compile Include="ViewModelTests\GoToTests.cs" />
+    <Compile Include="ViewModelTests\TestBase.cs" />
     <Compile Include="UnitTests\CoordsToDisplayNameConverterTests.cs" />
     <Compile Include="UnitTests\LineEndingEnumToDisplayNameConverterTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

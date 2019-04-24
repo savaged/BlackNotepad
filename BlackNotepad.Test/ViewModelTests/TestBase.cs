@@ -1,31 +1,31 @@
-﻿using System;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Microsoft.Win32;
 using Moq;
 using Savaged.BlackNotepad.Models;
 using Savaged.BlackNotepad.Services;
 using Savaged.BlackNotepad.ViewModels;
-using Savaged.BlackNotepad.ViewsInterfaces;
 
-namespace BlackNotepad.Test.FeatureTests
+namespace BlackNotepad.Test.ViewModelTests
 {
     [TestClass]
-    public abstract class FeatureTestBase
+    public abstract class TestBase
     {
+        protected const string DefaultContent =
+            "nnnnxxnn\r\n\nnnnxxnnn\r\n\nnnnxxn";
+        protected const int DefaultLineToGoTo = 2;
+
         private IDialogService _dialogService;
         private IViewStateService _viewStateService;
         private IFontColourLookupService _fontColourLookupService;
         private IFontFamilyLookupService _fontFamilyLookupService;
         private IFontZoomLookupService _fontZoomLookupService;
 
-        protected Mock<IDialogService> MockDialogService;
-
         /// <summary>
         /// NOTE: 
         /// Uses ref to presentationframework.dll for common dialogs
         /// </summary>
         [TestInitialize]
-        public void Setup()
+        public void Init()
         {
             _fontZoomLookupService = new FontZoomLookupService();
             _fontFamilyLookupService = new FontFamilyLookupService();
@@ -51,17 +51,26 @@ namespace BlackNotepad.Test.FeatureTests
                 .Returns(It.IsAny<SaveFileDialog>());
 
 
-            var goToVm = new GoToDialogViewModel();
+            var mockGoToVm = new Mock<IGoToDialogViewModel>();
+            mockGoToVm.SetupGet(vm => vm.LineNumber)
+                .Returns(DefaultLineToGoTo);
 
             MockDialogService.Setup(
                 s => s.GetDialogViewModel<IGoToDialogViewModel>())
-                .Returns(goToVm);
+                .Returns(mockGoToVm.Object);
+
+            var findVm = new FindDialogViewModel();
+            MockDialogService.Setup(
+                s => s.GetDialogViewModel<FindDialogViewModel>())
+                .Returns(findVm);
+
+            var replaceVm = new ReplaceDialogViewModel();
+            MockDialogService.Setup(
+                s => s.GetDialogViewModel<ReplaceDialogViewModel>())
+                .Returns(replaceVm);
 
             MockDialogService.Setup(
-                s => s.ShowDialog(goToVm)).Returns(true);
-
-
-            // TODO mock each view model
+                s => s.ShowDialog(mockGoToVm.Object)).Returns(true);
 
             _dialogService = MockDialogService.Object;
 
@@ -73,6 +82,8 @@ namespace BlackNotepad.Test.FeatureTests
                 _fontZoomLookupService);
         }
 
+        protected Mock<IDialogService> MockDialogService
+        { get; private set; }
         protected MainViewModel MainVm { get; private set; }
     }
 }

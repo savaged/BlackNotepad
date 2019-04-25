@@ -118,7 +118,7 @@ namespace Savaged.BlackNotepad.ViewModels
             SaveCmd = new RelayCommand(OnSave, () => CanExecute);
             SaveAsCmd = new RelayCommand(OnSaveAs, () => CanExecute);
             ExitCmd = new RelayCommand(OnExit, () => CanExecute);
-            FindCmd = new RelayCommand(OnFind, () => CanExecute);
+            FindCmd = new RelayCommand(OnFind, () => CanExecuteFindNext);
             FindNextCmd = new RelayCommand(OnFindNext, () => CanExecuteFindNext);
             EscCmd = new RelayCommand(OnEsc, () => CanExecuteEsc);
             ReplaceCmd = new RelayCommand(OnReplace, () => CanExecuteReplace);

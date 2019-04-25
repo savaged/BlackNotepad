@@ -18,7 +18,11 @@ namespace Savaged.BlackNotepad
             SimpleIoc.Default
                 .Register<IFontZoomLookupService, FontZoomLookupService>();
 
-            SimpleIoc.Default.Register<IViewStateService, ViewStateService>();
+            SimpleIoc.Default
+                .Register<IViewStateService, ViewStateService>();
+
+            SimpleIoc.Default
+                .Register<IFileModelService, FileModelService>();
 
 
             SimpleIoc.Default

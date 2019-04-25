@@ -19,6 +19,7 @@ namespace Savaged.BlackNotepad.ViewModels
     public class MainViewModel : ViewModelBase
     {
         private readonly IDialogService _dialogService;
+        private readonly IFileModelService _fileModelService;
         private readonly IList<string> _busyRegister;
         private readonly OpenFileDialog _openFileDialog;
         private readonly SaveFileDialog _saveFileDialog;
@@ -45,7 +46,8 @@ namespace Savaged.BlackNotepad.ViewModels
             IViewStateService viewStateService,
             IFontColourLookupService fontColourLookupService,
             IFontFamilyLookupService fontFamilyLookupService,
-            IFontZoomLookupService fontZoomLookupService)
+            IFontZoomLookupService fontZoomLookupService,
+            IFileModelService fileModelService)
         {
             if (dialogService is null)
             {
@@ -67,6 +69,12 @@ namespace Savaged.BlackNotepad.ViewModels
             {
                 throw new ArgumentNullException(nameof(fontZoomLookupService));
             }
+            if (fileModelService is null)
+            {
+                throw new ArgumentNullException(nameof(fileModelService));
+            }
+
+            _fileModelService = fileModelService;
 
             _dialogService = dialogService;
             _dialogService.DialogDone += OnDialogDone;
@@ -170,7 +178,7 @@ namespace Savaged.BlackNotepad.ViewModels
             {
                 Save();
             }
-            SelectedItem = new FileModel(location);
+            SelectedItem = _fileModelService.Load(location);
             RaisePropertyChanged(nameof(Title));
         }
 
@@ -352,10 +360,8 @@ namespace Savaged.BlackNotepad.ViewModels
             {
                 StartLongOperation();
 
-                SelectedItem = new FileModel(_openFileDialog.FileName)
-                {
-                    IsDirty = false
-                };
+                SelectedItem = _fileModelService.Load(_openFileDialog.FileName);
+
                 RaisePropertyChanged(nameof(Title));
 
                 EndLongOpertation();
@@ -372,10 +378,7 @@ namespace Savaged.BlackNotepad.ViewModels
             {
                 StartLongOperation();
 
-                File.WriteAllText(
-                    SelectedItem.Location, SelectedItem.Content);
-
-                SelectedItem.IsDirty = false;
+                _fileModelService.Save(SelectedItem);
 
                 RaisePropertyChanged(nameof(Title));
 

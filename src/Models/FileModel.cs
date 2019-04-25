@@ -25,13 +25,6 @@ namespace Savaged.BlackNotepad.Models
             LineEnding = LineEndings.CRLF;
         }
 
-        public FileModel(string location) 
-            : this()
-        {
-            Location = location;
-            ReadFile();
-        }
-
         public bool IsNew => Name == _NEW;
 
         public string Name
@@ -96,46 +89,6 @@ namespace Savaged.BlackNotepad.Models
         {
             get => _isDirty;
             set => Set(ref _isDirty, value);
-        }
-
-        private void ReadFile()
-        {
-            if (string.IsNullOrEmpty(Location) || string.IsNullOrWhiteSpace(Location))
-            {
-                return;
-            }
-            var contentBuilder = new StringBuilder();
-            var lineEnding = LineEndings._;
-            using (var sr = new StreamReader(Location))
-            {
-                var p = 0;
-                while (p != -1)
-                {
-                    var i = sr.Read();
-                    var c = (char)i;
-                    contentBuilder.Append(c);
-                    p = sr.Peek();
-
-                    if (lineEnding == LineEndings._)
-                    {
-                        if (i == '\r' && p == '\n')
-                        {
-                            lineEnding = LineEndings.CRLF;
-                        }
-                        else if (i == '\n' && p == -1)
-                        {
-                            lineEnding = LineEndings.LF;
-                        }
-                        else if (i == '\r' && p == -1)
-                        {
-                            lineEnding = LineEndings.CR;
-                        }
-                    }
-                }
-                sr.Close();
-            }
-            LineEnding = lineEnding;
-            Content = contentBuilder.ToString();
         }
     }
 }

@@ -89,8 +89,10 @@
     <Compile Include="Models\FontColourModel.cs" />
     <Compile Include="Models\ViewStateModel.cs" />
     <Compile Include="Services\DialogService.cs" />
+    <Compile Include="Services\FileModelService.cs" />
     <Compile Include="Services\FontZoomLookupService.cs" />
     <Compile Include="Services\IDialogService.cs" />
+    <Compile Include="Services\IFileModelService.cs" />
     <Compile Include="Services\IFontColourLookupService.cs" />
     <Compile Include="Services\IFontFamilyLookupService.cs" />
     <Compile Include="Services\IFontZoomLookupService.cs" />

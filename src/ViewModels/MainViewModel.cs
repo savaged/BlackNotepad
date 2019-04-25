@@ -13,6 +13,7 @@ using System.IO;
 using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Windows;
+using System.Threading.Tasks;
 
 namespace Savaged.BlackNotepad.ViewModels
 {
@@ -160,25 +161,24 @@ namespace Savaged.BlackNotepad.ViewModels
             }
         }
 
-        public bool OnClosing()
+        public async Task OnClosing()
         {
             var hasChangesToSave = SaveChangesConfirmation();
             if (hasChangesToSave)
             {
-                Save();
+                await Save();
             }
             _viewStateService.Save(ViewState);
-            return true;
         }
 
-        public void New(string location = null)
+        public async Task New(string location = null)
         {
             var hasChangesToSave = SaveChangesConfirmation();
             if (hasChangesToSave)
             {
-                Save();
+                await Save();
             }
-            SelectedItem = _fileModelService.Load(location);
+            SelectedItem = await _fileModelService.LoadAsync(location);
             RaisePropertyChanged(nameof(Title));
         }
 
@@ -348,19 +348,20 @@ namespace Savaged.BlackNotepad.ViewModels
             RaisePropertyChanged(nameof(IsBusy));
         }
 
-        private void OnNew()
+        private async void OnNew()
         {
-            New();
+            await New();
         }
 
-        private void OnOpen()
+        private async void OnOpen()
         {
             var result = _openFileDialog.ShowDialog();
             if (result == true)
             {
                 StartLongOperation();
 
-                SelectedItem = _fileModelService.Load(_openFileDialog.FileName);
+                SelectedItem = await _fileModelService
+                    .LoadAsync(_openFileDialog.FileName);
 
                 RaisePropertyChanged(nameof(Title));
 
@@ -368,17 +369,17 @@ namespace Savaged.BlackNotepad.ViewModels
             }
         }
 
-        private void OnSave()
+        private async void OnSave()
         {
-            Save();
+            await Save();
         }
-        private void Save()
+        private async Task Save()
         {
             if (!SelectedItem.IsNew)
             {
                 StartLongOperation();
 
-                _fileModelService.Save(SelectedItem);
+                await _fileModelService.SaveAsync(SelectedItem);
 
                 RaisePropertyChanged(nameof(Title));
 
@@ -386,27 +387,27 @@ namespace Savaged.BlackNotepad.ViewModels
             }
             else
             {
-                SaveAs();
+                await SaveAs();
             }
         }
 
-        private void OnSaveAs()
+        private async void OnSaveAs()
         {
-            SaveAs();
+            await SaveAs();
         }
-        private void SaveAs()
+        private async Task SaveAs()
         {
             var result = _saveFileDialog.ShowDialog();
             if (result == true)
             {
                 SelectedItem.Location = _saveFileDialog.FileName;
-                Save();
+                await Save();
             }
         }
 
-        private void OnExit()
+        private async void OnExit()
         {
-            OnClosing();
+            await OnClosing();
             Application.Current.Shutdown();
         }
 

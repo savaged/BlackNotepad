@@ -59,15 +59,13 @@ namespace Savaged.BlackNotepad.Views
             }
         }
 
-        private void OnClosing(object sender, CancelEventArgs e)
+        private async void OnClosing(object sender, CancelEventArgs e)
         {
             if (_viewModel != null)
             {
-                var result = _viewModel.OnClosing();
-                if (!result)
-                {
-                    e.Cancel = true;
-                }
+                await _viewModel.OnClosing();
+
+                e.Cancel = true;
                 _viewModel.GoToRequested -= OnGoToRequested;
                 _viewModel.FocusRequested -= OnFocusRequested;
                 Application.Current.Shutdown();
@@ -88,14 +86,17 @@ namespace Savaged.BlackNotepad.Views
             }
         }
 
-        private void OnContentTextPreviewDrop(object sender, DragEventArgs e)
+        private async void OnContentTextPreviewDrop(
+            object sender, DragEventArgs e)
         {
             if (_viewModel != null && _viewModel.CanExecuteDragDrop)
             {
                 if (e.Data.GetDataPresent(DataFormats.FileDrop))
                 {
-                    var fileLocation = (string[])e.Data.GetData(DataFormats.FileDrop);
-                    _viewModel.New(fileLocation[0]);
+                    var fileLocation = (string[])e.Data
+                        .GetData(DataFormats.FileDrop);
+
+                    await _viewModel.New(fileLocation[0]);
                     e.Handled = true;
                     return;
                 }

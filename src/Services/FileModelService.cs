@@ -2,43 +2,44 @@
 using Savaged.BlackNotepad.Models;
 using System.IO;
 using System.Text;
+using System.Threading.Tasks;
 
 namespace Savaged.BlackNotepad.Services
 {
     public class FileModelService : IFileModelService
     {
-        private FileModel _fileModel;
-
-        public FileModel Load(string location)
+        public async Task<FileModel> LoadAsync(string location)
         {
-            _fileModel = new FileModel
+            var fileModel = new FileModel
             {
                 Location = location
             };
-            // TODO make async
-            ReadFile();
+            await Task.Run(() => ReadFile(fileModel));
 
-            _fileModel.IsDirty = false;
-
-            return _fileModel;
+            return fileModel;
         }
 
-        public void Save(FileModel fileModel)
+        public async Task SaveAsync(FileModel fileModel)
+        {
+            await Task.Run(() => SaveFile(fileModel));
+        }
+
+        private void SaveFile(FileModel fileModel)
         {
             File.WriteAllText(fileModel.Location, fileModel.Content);
-            _fileModel.IsDirty = false;
+            fileModel.IsDirty = false;
         }
 
-        private void ReadFile()
+        private void ReadFile(FileModel fileModel)
         {
-            if (string.IsNullOrEmpty(_fileModel.Location)
-                || string.IsNullOrWhiteSpace(_fileModel.Location))
+            if (string.IsNullOrEmpty(fileModel.Location)
+                || string.IsNullOrWhiteSpace(fileModel.Location))
             {
                 return;
             }
             var contentBuilder = new StringBuilder();
             var lineEnding = LineEndings._;
-            using (var sr = new StreamReader(_fileModel.Location))
+            using (var sr = new StreamReader(fileModel.Location))
             {
                 var p = 0;
                 while (p != -1)
@@ -66,8 +67,9 @@ namespace Savaged.BlackNotepad.Services
                 }
                 sr.Close();
             }
-            _fileModel.LineEnding = lineEnding;
-            _fileModel.Content = contentBuilder.ToString();
+            fileModel.LineEnding = lineEnding;
+            fileModel.Content = contentBuilder.ToString();
+            fileModel.IsDirty = false;
         }
     }
 }

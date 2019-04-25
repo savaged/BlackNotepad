@@ -20,6 +20,7 @@ namespace BlackNotepad.Test.ViewModelTests
         private IFontColourLookupService _fontColourLookupService;
         private IFontFamilyLookupService _fontFamilyLookupService;
         private IFontZoomLookupService _fontZoomLookupService;
+        private IFileModelService _fileModelService;
 
         protected int GoToCaretIndex { get; private set; }
 
@@ -83,12 +84,17 @@ namespace BlackNotepad.Test.ViewModelTests
 
             _dialogService = MockDialogService.Object;
 
+            var mockFileModelService = new Mock<IFileModelService>();
+            // TODO mock Load and Save
+            _fileModelService = mockFileModelService.Object;
+
             MainVm = new MainViewModel(
                 _dialogService,
                 _viewStateService,
                 _fontColourLookupService,
                 _fontFamilyLookupService,
-                _fontZoomLookupService);
+                _fontZoomLookupService,
+                _fileModelService);
 
             MainVm.SelectedItem.Content = DefaultContent;
 

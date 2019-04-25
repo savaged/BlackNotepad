@@ -4,6 +4,5 @@ A black 'version' of the classic Microsoft Windows Notepad application because r
 
 ## TODO ##
 
-* Make potentially longer processes asynchronous
 * UI Tests
 * Need to prepare release to Windows Store

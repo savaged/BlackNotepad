@@ -76,7 +76,7 @@
                     IsEnabled="{Binding IsReplaceEnabled}">
                 <AccessText>Replace _All</AccessText>
             </Button>
-            <controls:CancelButtonControl x:Name="CancelButton" Margin="0,5,0,0"/>
+            <controls:CancelButtonControl x:Name="CancelButtonCtrl" Margin="0,5,0,0"/>
         </StackPanel>
     </Grid>
 </local:Dialog>

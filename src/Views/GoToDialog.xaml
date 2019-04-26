@@ -33,7 +33,7 @@
                     IsDefault="True" 
                     Click="OnActionButtonClick"
                     IsEnabled="{Binding IsActionEnabled}"/>
-            <controls:CancelButtonControl x:Name="CancelButton" Margin="10,10,0,0"/>
+            <controls:CancelButtonControl x:Name="CancelButtonCtrl" Margin="10,10,0,0"/>
         </StackPanel>
     </StackPanel>
 </local:Dialog>

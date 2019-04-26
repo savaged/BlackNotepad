@@ -63,9 +63,7 @@ namespace Savaged.BlackNotepad.Views
         {
             if (_viewModel != null)
             {
-                await _viewModel.OnClosing();
-
-                e.Cancel = true;
+                await _viewModel.OnClosing();                
                 _viewModel.GoToRequested -= OnGoToRequested;
                 _viewModel.FocusRequested -= OnFocusRequested;
                 Application.Current.Shutdown();

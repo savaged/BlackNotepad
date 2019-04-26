@@ -118,7 +118,7 @@ namespace Savaged.BlackNotepad.ViewModels
             SaveCmd = new RelayCommand(OnSave, () => CanExecute);
             SaveAsCmd = new RelayCommand(OnSaveAs, () => CanExecute);
             ExitCmd = new RelayCommand(OnExit, () => CanExecute);
-            FindCmd = new RelayCommand(OnFind, () => CanExecuteFindNext);
+            FindCmd = new RelayCommand(OnFind, () => CanExecuteFind);
             FindNextCmd = new RelayCommand(OnFindNext, () => CanExecuteFindNext);
             EscCmd = new RelayCommand(OnEsc, () => CanExecuteEsc);
             ReplaceCmd = new RelayCommand(OnReplace, () => CanExecuteReplace);
@@ -293,6 +293,9 @@ namespace Savaged.BlackNotepad.ViewModels
         public bool CanExecuteZoomIn => CanExecute && !_isFontZoomMax;
 
         public bool CanExecuteZoomOut => CanExecute && !_isFontZoomMin;
+
+        public bool CanExecuteFind => CanExecute &&
+            !string.IsNullOrEmpty(SelectedItem?.Content);
 
         public bool CanExecuteFindNext => CanExecute &&
             !string.IsNullOrEmpty(TextSought);

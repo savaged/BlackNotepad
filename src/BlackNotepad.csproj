@@ -54,10 +54,10 @@
     <ApplicationIcon>logo.ico</ApplicationIcon>
   </PropertyGroup>
   <PropertyGroup>
-    <ManifestCertificateThumbprint>E9A4BD1C669B18247B180C91DC13B4154588ED8E</ManifestCertificateThumbprint>
+    <ManifestCertificateThumbprint>12C3F4B64897EEB647661B47A621A1732BF900FC</ManifestCertificateThumbprint>
   </PropertyGroup>
   <PropertyGroup>
-    <ManifestKeyFile>BlackNotepad_TemporaryKey.pfx</ManifestKeyFile>
+    <ManifestKeyFile>BlackNotepad_2_TemporaryKey.pfx</ManifestKeyFile>
   </PropertyGroup>
   <PropertyGroup>
     <GenerateManifests>true</GenerateManifests>

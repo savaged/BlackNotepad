@@ -26,6 +26,9 @@
     <UpdatePeriodically>false</UpdatePeriodically>
     <UpdateRequired>false</UpdateRequired>
     <MapFileExtensions>true</MapFileExtensions>
+    <SupportUrl>https://savaged.github.io/BlackNotepad/</SupportUrl>
+    <ProductName>BlackNotepad</ProductName>
+    <PublisherName>savaged</PublisherName>
     <MinimumRequiredVersion>1.0.0.1</MinimumRequiredVersion>
     <ApplicationRevision>0</ApplicationRevision>
     <ApplicationVersion>1.0.1.0</ApplicationVersion>

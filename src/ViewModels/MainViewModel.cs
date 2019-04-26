@@ -165,25 +165,32 @@ namespace Savaged.BlackNotepad.ViewModels
             }
         }
 
-        public async Task OnClosing()
+        public async Task<bool> OnClosing()
         {
-            var hasChangesToSave = SaveChangesConfirmation();
-            if (hasChangesToSave)
+            _viewStateService.Save(ViewState);
+
+            var saveChanges = SaveChangesConfirmation();
+            if (saveChanges == true)
             {
                 await Save();
             }
-            _viewStateService.Save(ViewState);
+            else if (saveChanges is null)
+            {
+                return false;
+            }            
+            return true;
         }
 
-        public async Task New(string location = null)
+        public async Task Open(string location)
         {
-            var hasChangesToSave = SaveChangesConfirmation();
-            if (hasChangesToSave)
-            {
-                await Save();
-            }
-            SelectedItem = await _fileModelService.LoadAsync(location);
+            StartLongOperation();
+
+            SelectedItem = await _fileModelService
+                .LoadAsync(location);
+
             RaisePropertyChanged(nameof(Title));
+
+            EndLongOpertation();
         }
 
         public string Title => $"{SelectedItem?.Name} - Black Notepad";
@@ -363,19 +370,36 @@ namespace Savaged.BlackNotepad.ViewModels
             await New();
         }
 
+        private async Task New()
+        {
+            var saveChanges = SaveChangesConfirmation();
+            if (saveChanges == true)
+            {
+                await Save();
+            }
+            else if (saveChanges is null)
+            {
+                return;
+            }
+            SelectedItem = _fileModelService.New();
+            RaisePropertyChanged(nameof(Title));
+        }
+
         private async void OnOpen()
         {
+            var saveChanges = SaveChangesConfirmation();
+            if (saveChanges == true)
+            {
+                await Save();
+            }
+            else if (saveChanges is null)
+            {
+                return;
+            }
             var result = _openFileDialog.ShowDialog();
             if (result == true)
             {
-                StartLongOperation();
-
-                SelectedItem = await _fileModelService
-                    .LoadAsync(_openFileDialog.FileName);
-
-                RaisePropertyChanged(nameof(Title));
-
-                EndLongOpertation();
+                await Open(_openFileDialog.FileName);
             }
         }
 
@@ -875,16 +899,19 @@ namespace Savaged.BlackNotepad.ViewModels
             RaisePropertyChanged(nameof(FontFamilyNames));
         }
 
-        private bool SaveChangesConfirmation()
+        private bool? SaveChangesConfirmation()
         {
-            var value = false;
+            bool? value = null;
             if (SelectedItem.IsDirty)
             {
-                var result = _dialogService.ShowDialog(
+                value = _dialogService.ShowDialog(
                     $"Do you want to save changes to {SelectedItem.Name}?",
                     "Black Notepad",
                     yesNoCancelButtons: true);
-                value = result == true;
+            }
+            else
+            {
+                value = false;
             }
             return value;
         }

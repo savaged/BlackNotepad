@@ -99,8 +99,15 @@ namespace Savaged.BlackNotepad.Services
                 btns = MessageBoxButton.YesNoCancel;
             }
             var result = MessageBox.Show(msg, title, btns);
-            var value = result == MessageBoxResult.Yes;
-            return value;
+            if (result == MessageBoxResult.Yes)
+            {
+                return true;
+            }
+            if (result == MessageBoxResult.No)
+            {
+                return false;
+            }
+            return null;
         }
 
         private Dialog GetDialog(IDialogViewModel vm)

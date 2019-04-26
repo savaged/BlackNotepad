@@ -63,10 +63,17 @@ namespace Savaged.BlackNotepad.Views
         {
             if (_viewModel != null)
             {
-                await _viewModel.OnClosing();                
-                _viewModel.GoToRequested -= OnGoToRequested;
-                _viewModel.FocusRequested -= OnFocusRequested;
-                Application.Current.Shutdown();
+                var result = await _viewModel.OnClosing();                
+                if (result)
+                {
+                    _viewModel.GoToRequested -= OnGoToRequested;
+                    _viewModel.FocusRequested -= OnFocusRequested;
+                    Application.Current.Shutdown();
+                } 
+                else
+                {
+                    e.Cancel = true;
+                }
             }
         }
 
@@ -94,7 +101,7 @@ namespace Savaged.BlackNotepad.Views
                     var fileLocation = (string[])e.Data
                         .GetData(DataFormats.FileDrop);
 
-                    await _viewModel.New(fileLocation[0]);
+                    await _viewModel.Open(fileLocation[0]);
                     e.Handled = true;
                     return;
                 }

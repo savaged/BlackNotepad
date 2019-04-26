@@ -8,6 +8,11 @@ namespace Savaged.BlackNotepad.Services
 {
     public class FileModelService : IFileModelService
     {
+        public FileModel New()
+        {
+            return new FileModel();
+        }
+
         public async Task<FileModel> LoadAsync(string location)
         {
             var fileModel = new FileModel
@@ -15,7 +20,7 @@ namespace Savaged.BlackNotepad.Services
                 Location = location
             };
             await Task.Run(() => ReadFile(fileModel));
-
+            
             return fileModel;
         }
 

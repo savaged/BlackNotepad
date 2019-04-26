@@ -82,7 +82,7 @@ namespace Savaged.BlackNotepad.ViewModels
             _dialogService = dialogService;
             _dialogService.DialogDone += OnDialogDone;
 
-            const string filter = "Text Documents|*.txt";
+            const string filter = "Text Documents|*.txt|All files (*.*)|*.*";
             _openFileDialog = _dialogService.GetFileDialog<OpenFileDialog>();
             if (_openFileDialog != null)
             {

@@ -30,7 +30,7 @@
     <ProductName>BlackNotepad</ProductName>
     <PublisherName>savaged</PublisherName>
     <MinimumRequiredVersion>1.0.0.1</MinimumRequiredVersion>
-    <ApplicationRevision>2</ApplicationRevision>
+    <ApplicationRevision>3</ApplicationRevision>
     <ApplicationVersion>1.0.1.%2a</ApplicationVersion>
     <UseApplicationTrust>false</UseApplicationTrust>
     <PublishWizardCompleted>true</PublishWizardCompleted>
@@ -59,10 +59,10 @@
     <ApplicationIcon>logo.ico</ApplicationIcon>
   </PropertyGroup>
   <PropertyGroup>
-    <ManifestCertificateThumbprint>12C3F4B64897EEB647661B47A621A1732BF900FC</ManifestCertificateThumbprint>
+    <ManifestCertificateThumbprint>C83A4D94C1111933D7AA21E0D319ADE6F63F921C</ManifestCertificateThumbprint>
   </PropertyGroup>
   <PropertyGroup>
-    <ManifestKeyFile>BlackNotepad_2_TemporaryKey.pfx</ManifestKeyFile>
+    <ManifestKeyFile>BlackNotepad_TemporaryKey.pfx</ManifestKeyFile>
   </PropertyGroup>
   <PropertyGroup>
     <GenerateManifests>true</GenerateManifests>

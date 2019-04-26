@@ -6,3 +6,4 @@ A black 'version' of the classic Microsoft Windows Notepad application because r
 
 * UI Tests
 * Need to prepare release to Windows Store
+* Convert to .Net Core version

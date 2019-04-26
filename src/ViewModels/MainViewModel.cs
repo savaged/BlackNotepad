@@ -1,21 +1,21 @@
 ﻿using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.CommandWpf;
 using Microsoft.Win32;
-using Savaged.BlackNotepad.ViewsInterfaces;
+using Newtonsoft.Json;
 using Savaged.BlackNotepad.Lookups;
 using Savaged.BlackNotepad.Models;
 using Savaged.BlackNotepad.Services;
+using Savaged.BlackNotepad.ViewsInterfaces;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
-using System.Diagnostics;
-using System.IO;
-using System.Linq;
-using System.Runtime.CompilerServices;
-using System.Windows;
-using System.Threading.Tasks;
-using System.Reflection;
 using System.Deployment.Application;
+using System.Diagnostics;
+using System.Linq;
+using System.Reflection;
+using System.Runtime.CompilerServices;
+using System.Threading.Tasks;
+using System.Windows;
 
 namespace Savaged.BlackNotepad.ViewModels
 {
@@ -138,6 +138,8 @@ namespace Savaged.BlackNotepad.ViewModels
                 OnFontColour, (b) => CanExecute);
             FontFamilyCmd = new RelayCommand<FontFamilyModel>(
                 OnFontFamily, (b) => CanExecute);
+            PrettifyJsonCmd = new RelayCommand(
+                OnPrettifyJson, () => CanExecutePrettifyJson);
 
             _findDialog = _dialogService
                 .GetDialogViewModel<IFindDialogViewModel>();
@@ -283,6 +285,7 @@ namespace Savaged.BlackNotepad.ViewModels
         public RelayCommand AboutCmd { get; }
         public RelayCommand<FontColourModel> FontColourCmd { get; }
         public RelayCommand<FontFamilyModel> FontFamilyCmd { get; }
+        public RelayCommand PrettifyJsonCmd { get; }
 
         public bool CanExecute => !IsBusy;
 
@@ -311,6 +314,9 @@ namespace Savaged.BlackNotepad.ViewModels
 
         public bool CanExecuteDragDrop => CanExecute &&
             !SelectedItem.IsDirty;
+
+        public bool CanExecutePrettifyJson => CanExecute &&
+            SelectedItem.HasContent;
 
 
         public bool IsUndoEnabled => !IsBusy &&
@@ -906,6 +912,27 @@ namespace Savaged.BlackNotepad.ViewModels
                         TextSought = vm?.TextSought;
                     }
                     break;
+            }
+        }
+
+        private void OnPrettifyJson()
+        {
+            if (SelectedItem is null || !SelectedItem.HasContent)
+            {
+                return;
+            }
+            StartLongOperation();
+            try
+            {
+                dynamic parsed = JsonConvert
+                    .DeserializeObject(SelectedItem.Content);
+                SelectedItem.Content = JsonConvert
+                    .SerializeObject(parsed, Formatting.Indented);
+            }
+            catch { }
+            finally
+            {
+                EndLongOpertation();
             }
         }
     }

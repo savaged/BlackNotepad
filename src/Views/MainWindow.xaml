@@ -26,6 +26,7 @@
         <KeyBinding Key="Esc" Command="{Binding EscCmd}"/>
         <KeyBinding Gesture="Ctrl+H" Command="{Binding ReplaceCmd}"/>
         <KeyBinding Key="F5" Command="{Binding TimeDateCmd}"/>
+        <KeyBinding Key="F12" Command="{Binding PrettifyJsonCmd}"/>
         <KeyBinding Gesture="Ctrl+Plus" Command="{Binding ZoomInCmd}"/>
         <KeyBinding Gesture="Ctrl+Minus" Command="{Binding ZoomOutCmd}"/>
         <KeyBinding Gesture="Ctrl+0" Command="{Binding RestoreDefaultZoomCmd}"/>
@@ -104,6 +105,9 @@
                 <MenuItem Header="Time/_Date" 
                           Command="{Binding TimeDateCmd}" 
                           InputGestureText="F5"/>
+                <MenuItem Header="Prettify Json"
+                          Command="{Binding PrettifyJsonCmd}"
+                          InputGestureText="F12"/>
             </MenuItem>
             <MenuItem Header="F_ormat">
                 <MenuItem Header="_Word Wrap" 

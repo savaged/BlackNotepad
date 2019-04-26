@@ -284,8 +284,7 @@ namespace Savaged.BlackNotepad.ViewModels
 
         public bool CanExecute => !IsBusy;
 
-        public bool CanExecuteOpen => CanExecute &&
-            !SelectedItem.IsDirty;
+        public bool CanExecuteOpen => CanExecute;
 
         public bool CanExecuteSave => CanExecute &&
             SelectedItem.IsDirty;

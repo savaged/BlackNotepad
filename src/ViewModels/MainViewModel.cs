@@ -14,6 +14,8 @@ using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Windows;
 using System.Threading.Tasks;
+using System.Reflection;
+using System.Deployment.Application;
 
 namespace Savaged.BlackNotepad.ViewModels
 {
@@ -807,8 +809,21 @@ namespace Savaged.BlackNotepad.ViewModels
 
         private void OnAbout()
         {
+            var productVersion = string.Empty;
+            try
+            {
+                productVersion = ApplicationDeployment.CurrentDeployment
+                    .CurrentVersion.ToString();
+            }
+            catch (InvalidDeploymentException)
+            {
+                productVersion = Assembly.GetExecutingAssembly().GetName()
+                    .Version.ToString();
+            }
             _dialogService.ShowDialog(
-                "A black 'version' of the classic Microsoft Windows Notepad application", 
+                "A black 'version' of the classic Microsoft Windows " +
+                $"Notepad application{Environment.NewLine}" +
+                $"{Environment.NewLine}BlackNotepad v{productVersion}", 
                 "About");
         }
 

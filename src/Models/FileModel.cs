@@ -67,6 +67,10 @@ namespace Savaged.BlackNotepad.Models
                     {
                         IsDirty = true;
                     }
+                    if (string.IsNullOrEmpty(_content))
+                    {
+                        IsDirty = false;
+                    }
                 }
             }
         }

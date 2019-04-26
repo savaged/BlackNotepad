@@ -802,7 +802,7 @@ namespace Savaged.BlackNotepad.ViewModels
             StartLongOperation();
 
             Process.Start(
-                "https://www.microsoft.com/en-gb/search?q=BlackNotepad");
+                "https://savaged.github.io/BlackNotepad/");
 
             EndLongOpertation();
         }

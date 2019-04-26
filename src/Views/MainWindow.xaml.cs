@@ -96,7 +96,7 @@ namespace Savaged.BlackNotepad.Views
         {
             if (_viewModel != null && _viewModel.CanExecuteDragDrop)
             {
-                if (e.Data.GetDataPresent(DataFormats.FileDrop))
+                if (e.Data.GetDataPresent(DataFormats.FileDrop, true))
                 {
                     var fileLocation = (string[])e.Data
                         .GetData(DataFormats.FileDrop);

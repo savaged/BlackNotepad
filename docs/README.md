@@ -1,10 +1,10 @@
 # Black Notepad
 
-A black 'version' of the classic Microsoft Windows Notepad application because real Windows users work in the dark ;)
+A WPF appliction that should run on Windows 10 systems that have been updated to the most recent version. 
 
-It is a WPF appliction that should run on Windows 10 that have been updated to the most recent version. 
+It is a free open source project which means one can see under the covers, if so desired.
 
-It should be available via the Windows Store under "BlackNotepad".
+It can be built from source from the GitHub project site or more simply it should be available via the Windows Store under "BlackNotepad".
 
 ## Windows Store
 

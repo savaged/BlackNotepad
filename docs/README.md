@@ -4,7 +4,7 @@ A WPF appliction that should run on Windows 10 systems that have been updated to
 
 It is a free open source project which means one can see under the covers, if so desired.
 
-It can be built from source from the GitHub project site or more simply it should be available via the Windows Store under "BlackNotepad".
+It can be built from source from the GitHub project site or more simply it should be available via the Windows Store under `BlackNotepad`.
 
 ## Windows Store
 

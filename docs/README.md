@@ -2,11 +2,9 @@
 
 A WPF appliction that should run on Windows 10 systems that have been updated to the most recent version. 
 
-It is a free open source project which means one can see under the covers, if so desired.
+It is a free open source project which means one can see under the covers, if so desired. It is currently a work-in-progress. Suggestions for improvement for features, stability and programming technique is welcome. Please see [COPYING](COPYING) and [CODE_OF_CONDUCT](../CODE_OF_CONDUCT.md).
 
 It can be built from source from the GitHub project site or more simply it should be available via the Windows Store as `BlackNotepad`.
-
-It is currently a work-in-progress. Suggestions for improvement for features, stability and programming technique is welcome. Please see [COPYING](COPYING) and [CODE_OF_CONDUCT](../CODE_OF_CONDUCT.md).
 
 ## Windows Store
 

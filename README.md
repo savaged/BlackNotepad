@@ -12,7 +12,7 @@ It is currently a work-in-progress.
 
 ## Contribution
 
-Suggestions for improvement for features, stability and programming technique is welcome. Please see [COPYING](COPYING) and [CODE_OF_CONDUCT](CODE_OF_CONDUCT).
+Suggestions for improvement for features, stability and programming technique is welcome. Please see [COPYING](COPYING) and [CODE_OF_CONDUCT](CODE_OF_CONDUCT.md).
 
 ## Use
 

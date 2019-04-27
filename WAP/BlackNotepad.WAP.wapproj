@@ -97,53 +97,6 @@
     <AppxManifest Include="Package.appxmanifest">
       <SubType>Designer</SubType>
     </AppxManifest>
-    <None Include="Assets\LargeTile.scale-100.png" />
-    <None Include="Assets\LargeTile.scale-125.png" />
-    <None Include="Assets\LargeTile.scale-150.png" />
-    <None Include="Assets\LargeTile.scale-200.png" />
-    <None Include="Assets\LargeTile.scale-400.png" />
-    <None Include="Assets\LockScreenLogo.scale-200.png" />
-    <None Include="Assets\SmallTile.scale-100.png" />
-    <None Include="Assets\SmallTile.scale-125.png" />
-    <None Include="Assets\SmallTile.scale-150.png" />
-    <None Include="Assets\SmallTile.scale-200.png" />
-    <None Include="Assets\SmallTile.scale-400.png" />
-    <None Include="Assets\SplashScreen.scale-100.png" />
-    <None Include="Assets\SplashScreen.scale-125.png" />
-    <None Include="Assets\SplashScreen.scale-150.png" />
-    <None Include="Assets\SplashScreen.scale-200.png" />
-    <None Include="Assets\SplashScreen.scale-400.png" />
-    <None Include="Assets\Square150x150Logo.scale-100.png" />
-    <None Include="Assets\Square150x150Logo.scale-125.png" />
-    <None Include="Assets\Square150x150Logo.scale-150.png" />
-    <None Include="Assets\Square150x150Logo.scale-200.png" />
-    <None Include="Assets\Square150x150Logo.scale-400.png" />
-    <None Include="Assets\Square44x44Logo.altform-unplated_targetsize-16.png" />
-    <None Include="Assets\Square44x44Logo.altform-unplated_targetsize-256.png" />
-    <None Include="Assets\Square44x44Logo.altform-unplated_targetsize-32.png" />
-    <None Include="Assets\Square44x44Logo.altform-unplated_targetsize-48.png" />
-    <None Include="Assets\Square44x44Logo.scale-100.png" />
-    <None Include="Assets\Square44x44Logo.scale-125.png" />
-    <None Include="Assets\Square44x44Logo.scale-150.png" />
-    <None Include="Assets\Square44x44Logo.scale-200.png" />
-    <None Include="Assets\Square44x44Logo.scale-400.png" />
-    <None Include="Assets\Square44x44Logo.targetsize-16.png" />
-    <None Include="Assets\Square44x44Logo.targetsize-24.png" />
-    <None Include="Assets\Square44x44Logo.targetsize-24_altform-unplated.png" />
-    <None Include="Assets\Square44x44Logo.targetsize-256.png" />
-    <None Include="Assets\Square44x44Logo.targetsize-32.png" />
-    <None Include="Assets\Square44x44Logo.targetsize-48.png" />
-    <None Include="Assets\StoreLogo.backup.png" />
-    <None Include="Assets\StoreLogo.scale-100.png" />
-    <None Include="Assets\StoreLogo.scale-125.png" />
-    <None Include="Assets\StoreLogo.scale-150.png" />
-    <None Include="Assets\StoreLogo.scale-200.png" />
-    <None Include="Assets\StoreLogo.scale-400.png" />
-    <None Include="Assets\Wide310x150Logo.scale-100.png" />
-    <None Include="Assets\Wide310x150Logo.scale-125.png" />
-    <None Include="Assets\Wide310x150Logo.scale-150.png" />
-    <None Include="Assets\Wide310x150Logo.scale-200.png" />
-    <None Include="Assets\Wide310x150Logo.scale-400.png" />
     <None Include="BlackNotepad.WAP_TemporaryKey.pfx" />
   </ItemGroup>
   <ItemGroup>
@@ -154,6 +107,53 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="BlackNotepad.WAP_StoreKey.pfx" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Assets\LargeTile.scale-100.png" />
+    <Content Include="Assets\LargeTile.scale-125.png" />
+    <Content Include="Assets\LargeTile.scale-150.png" />
+    <Content Include="Assets\LargeTile.scale-200.png" />
+    <Content Include="Assets\LargeTile.scale-400.png" />
+    <Content Include="Assets\SmallTile.scale-100.png" />
+    <Content Include="Assets\SmallTile.scale-125.png" />
+    <Content Include="Assets\SmallTile.scale-150.png" />
+    <Content Include="Assets\SmallTile.scale-200.png" />
+    <Content Include="Assets\SmallTile.scale-400.png" />
+    <Content Include="Assets\SplashScreen.scale-100.png" />
+    <Content Include="Assets\SplashScreen.scale-125.png" />
+    <Content Include="Assets\SplashScreen.scale-150.png" />
+    <Content Include="Assets\SplashScreen.scale-200.png" />
+    <Content Include="Assets\SplashScreen.scale-400.png" />
+    <Content Include="Assets\Square150x150Logo.scale-100.png" />
+    <Content Include="Assets\Square150x150Logo.scale-125.png" />
+    <Content Include="Assets\Square150x150Logo.scale-150.png" />
+    <Content Include="Assets\Square150x150Logo.scale-200.png" />
+    <Content Include="Assets\Square150x150Logo.scale-400.png" />
+    <Content Include="Assets\Square44x44Logo.altform-unplated_targetsize-16.png" />
+    <Content Include="Assets\Square44x44Logo.altform-unplated_targetsize-24.png" />
+    <Content Include="Assets\Square44x44Logo.altform-unplated_targetsize-256.png" />
+    <Content Include="Assets\Square44x44Logo.altform-unplated_targetsize-32.png" />
+    <Content Include="Assets\Square44x44Logo.altform-unplated_targetsize-48.png" />
+    <Content Include="Assets\Square44x44Logo.scale-100.png" />
+    <Content Include="Assets\Square44x44Logo.scale-125.png" />
+    <Content Include="Assets\Square44x44Logo.scale-150.png" />
+    <Content Include="Assets\Square44x44Logo.scale-200.png" />
+    <Content Include="Assets\Square44x44Logo.scale-400.png" />
+    <Content Include="Assets\Square44x44Logo.targetsize-16.png" />
+    <Content Include="Assets\Square44x44Logo.targetsize-24.png" />
+    <Content Include="Assets\Square44x44Logo.targetsize-256.png" />
+    <Content Include="Assets\Square44x44Logo.targetsize-32.png" />
+    <Content Include="Assets\Square44x44Logo.targetsize-48.png" />
+    <Content Include="Assets\StoreLogo.scale-100.png" />
+    <Content Include="Assets\StoreLogo.scale-125.png" />
+    <Content Include="Assets\StoreLogo.scale-150.png" />
+    <Content Include="Assets\StoreLogo.scale-200.png" />
+    <Content Include="Assets\StoreLogo.scale-400.png" />
+    <Content Include="Assets\Wide310x150Logo.scale-100.png" />
+    <Content Include="Assets\Wide310x150Logo.scale-125.png" />
+    <Content Include="Assets\Wide310x150Logo.scale-150.png" />
+    <Content Include="Assets\Wide310x150Logo.scale-200.png" />
+    <Content Include="Assets\Wide310x150Logo.scale-400.png" />
   </ItemGroup>
   <Import Project="$(WapProjPath)\Microsoft.DesktopBridge.targets" />
 </Project>

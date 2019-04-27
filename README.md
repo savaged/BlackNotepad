@@ -1,6 +1,6 @@
 # Black Notepad
 
-A black 'version' of the classic Microsoft Windows Notepad application because real Windows users work in the dark ;)
+A black 'version' of the classic Microsoft Windows Notepad application because real Dark Theme Windows 10 users work in the dark ;)
 
 It should be available on the Windows Store due to the Windows Application Packaging bridge project. See:
  https://docs.microsoft.com/en-us/windows/uwp/porting/desktop-to-uwp-packaging-dot-net 

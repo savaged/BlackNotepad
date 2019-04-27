@@ -6,7 +6,7 @@
         xmlns:converters="clr-namespace:Savaged.BlackNotepad.Converters"
         mc:Ignorable="d"
         Title="{Binding Title}" 
-        Background="Black"
+        Background="{DynamicResource MainBackgroundBrush}"
         Height="600" Width="800"
         Loaded="OnLoaded"
         Closing="OnClosing">
@@ -145,7 +145,7 @@
         
         <StatusBar Name="FeedbackStatus" 
                    DockPanel.Dock="Bottom"
-                   Background="DarkGray"
+                   Background="{StaticResource StandOutBackgroundBrush}"
                    Visibility="{Binding ViewState.IsStatusBarVisible, Converter={StaticResource BoolToVisibilityConverter}}" >
             <StatusBar.ItemsPanel>
                 <ItemsPanelTemplate>
@@ -178,7 +178,7 @@
         </StatusBar>
         
         <TextBox Name="ContentText" 
-                 Background="Black" 
+                 Background="{DynamicResource MainBackgroundBrush}" 
                  AcceptsReturn="True" AcceptsTab="True"   
                  SelectionChanged="OnContentTextSelectionChanged"        
                  AllowDrop="True" 

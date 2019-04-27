@@ -11,7 +11,7 @@
         Height="185" Width="375"
         WindowStyle="ToolWindow"
         ResizeMode="NoResize"
-        Background="DarkGray"
+        Background="{DynamicResource StandOutBackgroundBrush}"
         Topmost="True"
         Loaded="OnLoaded">
     <Window.CommandBindings>

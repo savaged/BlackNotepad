@@ -16,3 +16,7 @@ Copyright (c) 2019 David Savage. Please see the contents of the file ['COPYING']
 BlackNotepad is free software: you can redistribute it and/or modify it under the terms of the GNU General Public License as published by the Free Software Foundation, either version 3 of the License, or (at your option) any later version.
 BlackNotepad is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.
 You should have received a copy of the GNU General Public License along with SixNations. If not, see http://www.gnu.org/licenses/.
+
+## Issues or Suggestions
+
+Please feel free to use [Issues](https://github.com/savaged/BlackNotepad/issues) but remember to stay within the [CODE_OF_CONDUCT](../CODE_OF_CONDUCT.md). 

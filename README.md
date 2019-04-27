@@ -8,12 +8,8 @@ It should be available on the Windows Store due to the Windows Application Packa
  https://dev.windows.com
 
 
-It is currently a work-in-progress.
+## Next
 
-## TODO
-
-* UI Tests
-* Need to prepare release to Windows Store
 * Convert to .Net Core version
 
 ## Contribution

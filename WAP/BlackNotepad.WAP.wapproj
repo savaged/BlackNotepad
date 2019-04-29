@@ -57,7 +57,7 @@
     <PackageCertificateKeyFile>BlackNotepad.WAP_StoreKey.pfx</PackageCertificateKeyFile>
     <EntryPointProjectUniqueName>..\src\BlackNotepad.csproj</EntryPointProjectUniqueName>
     <GenerateAppInstallerFile>False</GenerateAppInstallerFile>
-    <AppxAutoIncrementPackageRevision>True</AppxAutoIncrementPackageRevision>
+    <AppxAutoIncrementPackageRevision>False</AppxAutoIncrementPackageRevision>
     <AppxBundlePlatforms>neutral</AppxBundlePlatforms>
     <PackageCertificateThumbprint>860765803CAF47D38B64946D5D1C1129E48E9506</PackageCertificateThumbprint>
     <AppInstallerUpdateFrequency>1</AppInstallerUpdateFrequency>

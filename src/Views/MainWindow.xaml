@@ -179,6 +179,8 @@
         
         <TextBox Name="ContentText" 
                  Background="{DynamicResource MainBackgroundBrush}" 
+                 VerticalScrollBarVisibility="Auto"
+                 HorizontalScrollBarVisibility="Auto"
                  AcceptsReturn="True" AcceptsTab="True"   
                  SelectionChanged="OnContentTextSelectionChanged"        
                  AllowDrop="True" 

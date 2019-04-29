@@ -10,6 +10,7 @@ It should be available on the Windows Store due to the Windows Application Packa
 
 ## Next
 
+* Implement Null-Object pattern with base class static singleton `Null` property and remove null checking
 * Convert to .Net Core version
 
 ## Contribution

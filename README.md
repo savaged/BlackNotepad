@@ -7,12 +7,6 @@ It should be available on the Windows Store due to the Windows Application Packa
  and 
  https://dev.windows.com
 
-
-## Next
-
-* Implement Null-Object pattern with base class static singleton `Null` property and remove null checking
-* Convert to .Net Core version
-
 ## Contribution
 
 Suggestions for improvement for features, stability and programming technique is welcome. Please see [COPYING](COPYING) and [CODE_OF_CONDUCT](CODE_OF_CONDUCT.md).

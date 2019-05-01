@@ -8,7 +8,7 @@ It can be built from source from the GitHub project site or more simply it shoul
 
 ## Windows Store
 
-https://www.microsoft.com/en-gb/search?q=BlackNotepad
+[https://www.microsoft.com/en-gb/search?q=BlackNotepad](https://www.microsoft.com/en-gb/search?q=BlackNotepad)
 
 ## Use
 

@@ -19,8 +19,9 @@ namespace Savaged.BlackNotepad.ViewModels
 
         public void RaiseFindNext()
         {
-            FindNextRaisedByDialog?.Invoke(this, new FindNextEventArgs(
-                IsFindWrapAround, IsFindMatchCase));
+            FindNextRaisedByDialog?.Invoke(
+                this, new FindNextEventArgs(
+                    IsFindWrapAround, IsFindMatchCase));
         }
 
         public string TextSought

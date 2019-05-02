@@ -456,6 +456,10 @@ namespace Savaged.BlackNotepad.ViewModels
 
         private void OnFind()
         {
+            if (SelectedText != null)
+            {
+                _findDialog.TextSought = SelectedText;
+            }
             _dialogService.Show(_findDialog);
             _findNextCount = 0;
         }
@@ -580,6 +584,10 @@ namespace Savaged.BlackNotepad.ViewModels
 
         private void OnReplace()
         {
+            if (SelectedText != null)
+            {
+                _replaceDialog.TextSought = SelectedText;
+            }
             _dialogService.Show(_replaceDialog);
             _findNextCount = 0;
             _isReadyForReplacement = false;
@@ -623,7 +631,8 @@ namespace Savaged.BlackNotepad.ViewModels
             else
             {
                 var allText = _isFindMatchCase ?
-                    SelectedItem.Content : SelectedItem.Content?.ToLower();
+                    SelectedItem.Content : 
+                    SelectedItem.Content?.ToLower();
 
                 var replacement = _replaceDialog?.ReplacementText;
 

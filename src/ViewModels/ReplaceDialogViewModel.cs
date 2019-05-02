@@ -20,14 +20,16 @@ namespace Savaged.BlackNotepad.ViewModels
         {
             ReplaceRaisedByDialog?.Invoke(
                 this,
-                new FindNextEventArgs(IsFindWrapAround, IsFindMatchCase));
+                new FindNextEventArgs(
+                    IsFindWrapAround, IsFindMatchCase));
         }
 
         public void RaiseReplaceAll()
         {
             ReplaceAllRaisedByDialog?.Invoke(
                 this,
-                new FindNextEventArgs(IsFindWrapAround, IsFindMatchCase));
+                new FindNextEventArgs(
+                    IsFindWrapAround, IsFindMatchCase));
         }
 
         public string ReplacementText

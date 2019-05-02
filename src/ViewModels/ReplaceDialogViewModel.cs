@@ -41,6 +41,6 @@ namespace Savaged.BlackNotepad.ViewModels
         }
 
         public bool IsReplaceEnabled => IsActionEnabled &&
-            !string.IsNullOrEmpty(ReplacementText);
+            ReplacementText != null;
     }
 }

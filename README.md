@@ -1,4 +1,13 @@
-# Black Notepad
+<pre>
+
+ ____  _            _    _   _       _                       _
+| __ )| | __ _  ___| | _| \ | | ___ | |_ ___ _ __   __ _  __| |
+|  _ \| |/ _` |/ __| |/ /  \| |/ _ \| __/ _ \ '_ \ / _` |/ _` |
+| |_) | | (_| | (__|   <| |\  | (_) | ||  __/ |_) | (_| | (_| |
+|____/|_|\__,_|\___|_|\_\_| \_|\___/ \__\___| .__/ \__,_|\__,_|
+
+
+</pre>
 
 A black 'version' of the classic Microsoft Windows Notepad application because real Dark Theme Windows 10 users work in the dark ;)
 

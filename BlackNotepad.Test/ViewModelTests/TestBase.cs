@@ -107,7 +107,8 @@ namespace BlackNotepad.Test.ViewModelTests
             MainVm.GoToRequested -= OnGoToRequested;
         }
 
-        private void OnGoToRequested(int start, int selectionLength)
+        private void OnGoToRequested(
+            int start, int selectionLength, int line)
         {
             GoToCaretIndex = start;
         }

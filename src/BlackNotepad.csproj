@@ -116,6 +116,7 @@
     <Compile Include="Converters\BoolToRadioButtonCheckedConverter.cs" />
     <Compile Include="Converters\LineEndingEnumToDisplayNameConverter.cs" />
     <Compile Include="Converters\TrueFalseToWrapNoWrapConverter.cs" />
+    <Compile Include="Extensions\StringEx.cs" />
     <Compile Include="Lookups\LineEndings.cs" />
     <Compile Include="Models\FileModel.cs" />
     <Compile Include="Models\FontZoomModel.cs" />

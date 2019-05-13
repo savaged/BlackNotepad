@@ -20,7 +20,10 @@ namespace Savaged.BlackNotepad.Views
             _viewModel.FocusRequested += OnFocusRequested;         
         }
 
-        private void OnGoToRequested(int start, int selectionLength)
+        private void OnGoToRequested(
+            int start, 
+            int selectionLength,
+            int line)
         {
             if (start > 0)
             {
@@ -32,6 +35,7 @@ namespace Savaged.BlackNotepad.Views
                 {
                     ContentText.CaretIndex = start;
                 }
+                ContentText.ScrollToLine(line);
                 Focus();
             }
         }

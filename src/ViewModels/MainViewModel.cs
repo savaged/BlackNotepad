@@ -2,6 +2,7 @@
 using GalaSoft.MvvmLight.CommandWpf;
 using Microsoft.Win32;
 using Newtonsoft.Json;
+using Savaged.BlackNotepad.Extensions;
 using Savaged.BlackNotepad.Lookups;
 using Savaged.BlackNotepad.Models;
 using Savaged.BlackNotepad.Services;
@@ -338,14 +339,15 @@ namespace Savaged.BlackNotepad.ViewModels
         public bool IsSelectAllEnabled => !IsBusy &&
             SelectedItem.HasContent;
 
-        public Action<int, int> GoToRequested = delegate { };
+        public Action<int, int, int> GoToRequested = delegate { };
 
         public Action FocusRequested = delegate { };
 
         private void RaiseGoToRequested(
-            int caretIndex, int selectionLength)
+            int caretIndex, int selectionLength, int line)
         {
-            GoToRequested?.Invoke(caretIndex, selectionLength);
+            GoToRequested?
+                .Invoke(caretIndex, selectionLength, line);
         }
 
         private void RaiseFocusRequested()
@@ -353,13 +355,15 @@ namespace Savaged.BlackNotepad.ViewModels
             FocusRequested?.Invoke();
         }
 
-        private void StartLongOperation([CallerMemberName]string caller = "")
+        private void StartLongOperation(
+            [CallerMemberName]string caller = "")
         {
             _busyRegister.Add(caller);
             RaisePropertyChanged(nameof(IsBusy));
         }
 
-        private void EndLongOpertation([CallerMemberName]string caller = "")
+        private void EndLongOpertation(
+            [CallerMemberName]string caller = "")
         {
             _busyRegister.Remove(caller);
             RaisePropertyChanged(nameof(IsBusy));
@@ -572,7 +576,11 @@ namespace Savaged.BlackNotepad.ViewModels
             {
                 _findNextCount++;
                 RaiseGoToRequested(
-                    indexOfTextFound, textSought.Length);
+                    indexOfTextFound, 
+                    textSought.Length, 
+                    allText.LineOfIndexOrDefault(
+                        indexOfTextFound,
+                        SelectedItem.LineEnding));
             }
         }
 
@@ -655,8 +663,14 @@ namespace Savaged.BlackNotepad.ViewModels
                 }
                 SelectedItem.Content = allText;
 
+                var indexOfTextFound = textPrior.Length +
+                    replacement.Length;
+
                 RaiseGoToRequested(
-                    textPrior.Length + replacement.Length, 0);
+                    indexOfTextFound, 
+                    0, 
+                    allText.LineOfIndexOrDefault(
+                        indexOfTextFound, SelectedItem.LineEnding));
 
                 _isReadyForReplacement = false;
             }
@@ -702,36 +716,42 @@ namespace Savaged.BlackNotepad.ViewModels
             var result = _dialogService.ShowDialog(vm);
             if (result == true)
             {
-                var lineEndingChar = '\r';
-                if (SelectedItem.LineEnding == LineEndings.LF)
-                {
-                    lineEndingChar = '\n';
-                }
-                var lineCharToInclude = 0;
-                if (SelectedItem.LineEnding == LineEndings.CRLF)
-                {
-                    lineCharToInclude = 1;
-                }
-                var text = SelectedItem.Content;
-                var linesCounted = 0;
-                var charsInLine = 0;
-                for (int i = 0; i < text.Length; i++)
-                {
-                    charsInLine++;
-                    if (text[i] == lineEndingChar
-                        || i == text.Length - 1)
-                    {
-                        linesCounted++;
-                        if (vm.LineNumber == linesCounted)
-                        {
-                            var lineStartPosition = 
-                                i + lineCharToInclude - charsInLine;
+                GoTo(vm.LineNumber);
+            }
+        }
 
-                            RaiseGoToRequested(lineStartPosition, 0);
-                            break;
-                        }
-                        charsInLine = 0;
+        private void GoTo(int lineNumberSought)
+        {
+            var lineEndingChar = '\r';
+            if (SelectedItem.LineEnding == LineEndings.LF)
+            {
+                lineEndingChar = '\n';
+            }
+            var lineCharToInclude = 0;
+            if (SelectedItem.LineEnding == LineEndings.CRLF)
+            {
+                lineCharToInclude = 1;
+            }
+            var text = SelectedItem.Content;
+            var linesCounted = 0;
+            var charsInLine = 0;
+            for (int i = 0; i < text.Length; i++)
+            {
+                charsInLine++;
+                if (text[i] == lineEndingChar
+                    || i == text.Length - 1)
+                {
+                    linesCounted++;
+                    if (lineNumberSought == linesCounted)
+                    {
+                        var lineStartPosition =
+                            i + lineCharToInclude - charsInLine;
+
+                        RaiseGoToRequested(
+                            lineStartPosition, 0, lineNumberSought);
+                        break;
                     }
+                    charsInLine = 0;
                 }
             }
         }

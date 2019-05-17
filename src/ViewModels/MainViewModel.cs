@@ -173,7 +173,7 @@ namespace Savaged.BlackNotepad.ViewModels
             var saveChanges = SaveChangesConfirmation();
             if (saveChanges == true)
             {
-                await Save();
+                await SaveAsync();
             }
             else if (saveChanges is null)
             {
@@ -379,7 +379,7 @@ namespace Savaged.BlackNotepad.ViewModels
             var saveChanges = SaveChangesConfirmation();
             if (saveChanges == true)
             {
-                await Save();
+                await SaveAsync();
             }
             else if (saveChanges is null)
             {
@@ -394,7 +394,7 @@ namespace Savaged.BlackNotepad.ViewModels
             var saveChanges = SaveChangesConfirmation();
             if (saveChanges == true)
             {
-                await Save();
+                await SaveAsync();
             }
             else if (saveChanges is null)
             {
@@ -409,9 +409,9 @@ namespace Savaged.BlackNotepad.ViewModels
 
         private async void OnSave()
         {
-            await Save();
+            await SaveAsync();
         }
-        private async Task Save()
+        private async Task SaveAsync()
         {
             if (!SelectedItem.IsNew)
             {
@@ -425,21 +425,21 @@ namespace Savaged.BlackNotepad.ViewModels
             }
             else
             {
-                await SaveAs();
+                await SaveAsAsync();
             }
         }
 
         private async void OnSaveAs()
         {
-            await SaveAs();
+            await SaveAsAsync();
         }
-        private async Task SaveAs()
+        private async Task SaveAsAsync()
         {
             var result = _saveFileDialog.ShowDialog();
             if (result == true)
             {
                 SelectedItem.Location = _saveFileDialog.FileName;
-                await Save();
+                await SaveAsync();
             }
         }
 

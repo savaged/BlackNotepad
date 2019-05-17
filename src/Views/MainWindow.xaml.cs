@@ -7,7 +7,8 @@ namespace Savaged.BlackNotepad.Views
     public partial class MainWindow : Window
     {
         private MainViewModel _viewModel;
-        
+        private bool _isClosing;
+
         public MainWindow()
         {
             InitializeComponent();
@@ -65,20 +66,17 @@ namespace Savaged.BlackNotepad.Views
 
         private async void OnClosing(object sender, CancelEventArgs e)
         {
-            if (_viewModel != null)
+            if (_viewModel != null && !_isClosing)
             {
-                var result = await _viewModel.OnClosing();                
-                if (result)
+                _isClosing = await _viewModel.OnClosing();                
+                if (_isClosing)
                 {
                     _viewModel.GoToRequested -= OnGoToRequested;
                     _viewModel.FocusRequested -= OnFocusRequested;
                     Application.Current.Shutdown();
                 } 
-                else
-                {
-                    e.Cancel = true;
-                }
             }
+            e.Cancel = true;
         }
 
         private void OnContentTextPreviewDragOver(object sender, DragEventArgs e)

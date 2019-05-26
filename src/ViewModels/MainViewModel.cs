@@ -654,7 +654,7 @@ namespace Savaged.BlackNotepad.ViewModels
                         .Substring(0, IndexOfCaret);
 
                     var endOfTextAfter =
-                        IndexOfCaret + replacement.Length;
+                        IndexOfCaret + sought.Length;
 
                     var textAfter = SelectedItem.Content?
                         .Substring(endOfTextAfter);
@@ -699,7 +699,7 @@ namespace Savaged.BlackNotepad.ViewModels
 
         private bool ValidReplace()
         {
-            if (string.IsNullOrEmpty(_replaceDialog?.ReplacementText)
+            if (_replaceDialog?.ReplacementText == null
                 || string.IsNullOrEmpty(SelectedItem?.Content)
                 || string.IsNullOrEmpty(TextSought))
             {

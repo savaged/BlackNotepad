@@ -1,5 +1,6 @@
 ﻿using GalaSoft.MvvmLight.CommandWpf;
 using System;
+using System.ComponentModel;
 
 namespace Savaged.BlackNotepad.ViewModels
 {
@@ -7,6 +8,12 @@ namespace Savaged.BlackNotepad.ViewModels
         : FindDialogViewModel, IReplaceDialogViewModel
     {
         private string _replacementText;
+
+        public ReplaceDialogViewModel()
+        {
+            ReplacementText = string.Empty;
+            PropertyChanged += OnPropertyChanged;
+        }
 
         public event EventHandler<FindNextEventArgs> 
             ReplaceRaisedByDialog = delegate { };
@@ -44,5 +51,15 @@ namespace Savaged.BlackNotepad.ViewModels
 
         public bool IsReplaceEnabled => IsActionEnabled &&
             ReplacementText != null;
+
+        private void OnPropertyChanged(object sender, PropertyChangedEventArgs e)
+        {
+            if (e.PropertyName == nameof(IsActionEnabled))
+            {
+                RaisePropertyChanged(nameof(IsReplaceEnabled));
+            }
+        }
+
+
     }
 }

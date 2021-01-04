@@ -76,7 +76,7 @@ namespace BlackNotepad.Test.ViewModelTests
 
             var replaceVm = new ReplaceDialogViewModel();
             MockDialogService.Setup(
-                s => s.GetDialogViewModel<ReplaceDialogViewModel>())
+                s => s.GetDialogViewModel<IReplaceDialogViewModel>())
                 .Returns(replaceVm);
 
             MockDialogService.Setup(

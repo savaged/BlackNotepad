@@ -83,6 +83,7 @@
   <ItemGroup>
     <Compile Include="UITests\BasicTests.cs" />
     <Compile Include="UITests\UITestBase.cs" />
+    <Compile Include="ViewModelTests\ReplaceTests.cs" />
     <Compile Include="ViewModelTests\FindTests.cs" />
     <Compile Include="ViewModelTests\GoToTests.cs" />
     <Compile Include="ViewModelTests\TestBase.cs" />

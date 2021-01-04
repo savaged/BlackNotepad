@@ -11,9 +11,9 @@ namespace BlackNotepad.Test.ViewModelTests
     public abstract class TestBase
     {
         protected const string DefaultContent =
-            "nnnnxxnn\r\n\nnnnxxnnn\r\n\nnnnxxn";
+            "Nnnnxxnn\r\nNnnnXxnnn\r\nNnnnxxn";
         protected const int DefaultLineToGoTo = 2;
-        protected const string DefaultTextSought = "xx";
+        protected const string DefaultTextSought = "Xx";
 
         private IDialogService _dialogService;
         private IViewStateService _viewStateService;

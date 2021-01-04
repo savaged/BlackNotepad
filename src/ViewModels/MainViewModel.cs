@@ -15,6 +15,7 @@ using System.Diagnostics;
 using System.Linq;
 using System.Reflection;
 using System.Runtime.CompilerServices;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Windows;
 
@@ -682,17 +683,16 @@ namespace Savaged.BlackNotepad.ViewModels
             {
                 return;
             }
-            var text = _isFindMatchCase ? 
-                SelectedItem.Content : SelectedItem.Content?.ToLower();
-
+            var text = SelectedItem.Content;
             var replacement = _replaceDialog?.ReplacementText;
-
-            var sought = _isFindMatchCase ?
-                TextSought : TextSought?.ToLower();
-
-            if (text.Contains(sought))
+            if (_isFindMatchCase)
             {
-                text = text.Replace(TextSought, replacement);
+                text = Regex.Replace(
+                    text, TextSought, replacement, RegexOptions.IgnoreCase);
+            }
+            else
+            {
+                text = Regex.Replace(text, TextSought, replacement);
             }
             SelectedItem.Content = text;
         }

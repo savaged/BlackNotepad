@@ -24,5 +24,16 @@ namespace BlackNotepad.Test.ViewModelTests
 
             Assert.AreEqual(4, GoToCaretIndex, "Caret Index");
         }
+
+        [TestMethod]
+        public void TestCaseSensitiveFindOnMainViewModel()
+        {
+            MainVm.FindCmd.Execute(null);
+            _findVm.TextSought = DefaultTextSought;
+            _findVm.IsFindMatchCase = true;
+            _findVm.RaiseFindNext();
+
+            Assert.AreEqual(14, GoToCaretIndex, "Caret Index");
+        }
     }
 }

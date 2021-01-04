@@ -22,13 +22,26 @@ namespace BlackNotepad.Test.ViewModelTests
             MainVm.ReplaceCmd.Execute(null);
             _replace.TextSought = DefaultTextSought;
             _replace.ReplacementText = _replacementText;
-            // Emulate the dialog
+            // Emulate the find operation of the dialog
             _replace.RaiseReplace();
             // Now do the replacement
             _replace.RaiseReplace();
 
             var text = MainVm.SelectedItem.Content;
             Assert.IsTrue(text.Contains(_replacementText));
+        }
+
+        [TestMethod]
+        public void TestReplaceAllOnMainViewModel()
+        {
+            MainVm.ReplaceCmd.Execute(null);
+            _replace.TextSought = DefaultTextSought;
+            _replace.ReplacementText = _replacementText;
+            _replace.RaiseReplaceAll();
+
+            var text = MainVm.SelectedItem.Content;
+            Assert.IsTrue(text.Contains(_replacementText));
+            Assert.IsFalse(text.Contains(DefaultTextSought));
         }
     }
 }

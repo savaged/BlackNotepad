@@ -59,7 +59,7 @@
     <GenerateAppInstallerFile>False</GenerateAppInstallerFile>
     <AppxAutoIncrementPackageRevision>False</AppxAutoIncrementPackageRevision>
     <AppxBundlePlatforms>neutral</AppxBundlePlatforms>
-    <PackageCertificateThumbprint>860765803CAF47D38B64946D5D1C1129E48E9506</PackageCertificateThumbprint>
+    <PackageCertificateThumbprint>C328923DB391CB5FFA7E34190E4646AA313815C4</PackageCertificateThumbprint>
     <AppInstallerUpdateFrequency>1</AppInstallerUpdateFrequency>
     <AppInstallerCheckForUpdateFrequency>OnApplicationRun</AppInstallerCheckForUpdateFrequency>
   </PropertyGroup>
@@ -97,7 +97,6 @@
     <AppxManifest Include="Package.appxmanifest">
       <SubType>Designer</SubType>
     </AppxManifest>
-    <None Include="BlackNotepad.WAP_TemporaryKey.pfx" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\src\BlackNotepad.csproj" />
@@ -154,6 +153,7 @@
     <Content Include="Assets\Wide310x150Logo.scale-150.png" />
     <Content Include="Assets\Wide310x150Logo.scale-200.png" />
     <Content Include="Assets\Wide310x150Logo.scale-400.png" />
+    <None Include="BlackNotepad.WAP_TemporaryKey.pfx" />
   </ItemGroup>
   <Import Project="$(WapProjPath)\Microsoft.DesktopBridge.targets" />
 </Project>

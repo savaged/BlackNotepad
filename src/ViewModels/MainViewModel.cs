@@ -11,7 +11,6 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Deployment.Application;
-using System.Diagnostics;
 using System.Linq;
 using System.Reflection;
 using System.Runtime.CompilerServices;
@@ -860,8 +859,9 @@ namespace Savaged.BlackNotepad.ViewModels
         {
             StartLongOperation();
 
-            Process.Start(
-                "https://savaged.github.io/BlackNotepad/");
+            // No longer allowed by MS Store -> Process.Start("https://savaged.github.io/BlackNotepad/");
+            _dialogService.ShowDialog(
+                "Visit https://savaged.github.io/BlackNotepad/", "Help");
 
             EndLongOpertation();
         }
